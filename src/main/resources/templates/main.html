@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+            integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+            integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/style.css}">
+
+
+    <!-- icon -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+
+    <!-- font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+<nav class="bg-dark">
+    <div class="col-lg-8 m-auto text-center d-flex align-items-center justify-content-evenly">
+
+        <button type="button" class="btn btn-primary bg-white border border-white text-dark" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+            <i class="fa fa-list"></i>
+        </button>
+
+        <button class="btn btn-primary bg-white border border-white text-dark">
+            <i class="fa fa-heart"></i>
+        </button>
+        <button class="btn btn-dark">
+            <!-- <i class="fa fa-home"></i> -->
+            GIANTS
+        </button>
+        <button class="btn btn-primary bg-white border border-white text-dark" data-bs-toggle="modal"
+                data-bs-target="#exampleModal">
+            <i class="fa fa-search"></i>
+        </button>
+        <button class="btn btn-primary bg-white border border-white text-dark" data-bs-toggle="dropdown"
+                aria-expanded="false">
+            <i class="fa fa-user"></i>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">마이페이지</a></li>
+            <hr class="dropdown-divider">
+            <li><a class="dropdown-item" href="#">로그아웃</a></li>
+        </ul>
+    </div>
+</nav>
+
+
+<section>
+    <div class="main col-lg-8 bg-white m-auto h-100 p-3">
+
+        <!-- 여기서부터 쪼개면 됨 -->
+
+        <div class="row p-0 m-0">
+            <div class="col-md-12 py-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4><b>오늘의 증시</b></h4>
+                        <div style="background: #f3f3f3; height: 215px; width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row p-0 m-0">
+
+            <div class="col-md-6 mb-2">
+                <div class="card">
+                    <div class="card-body">
+
+                        <!-- SERCTION 1 -->
+                        <div style="font-size: .5rem !important;">
+
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h4><b>인기글</b></h4>
+                                <button type="button" class="btn btn-outline-primary p-1">
+                                    <i class="fa fa-plus p-1 m-0"></i> <span>더보기</span></button>
+                            </div>
+
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>작성자</th>
+                                    <th>제목</th>
+                                    <th>작성일시</th>
+                                    <th>좋아요</th>
+                                    <th>댓글수</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <!-- // SERCTION 1 -->
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-2">
+                <div class="card">
+                    <div class="card-body">
+
+                        <!-- SERCTION 1 -->
+                        <div style="font-size: .5rem !important;">
+
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h4><b>최근공시</b></h4>
+                                <button type="button" class="btn btn-outline-primary p-1">
+                                    <i class="fa fa-plus p-1 m-0"></i> <span>더보기</span></button>
+                            </div>
+
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>작성자</th>
+                                    <th>제목</th>
+                                    <th>작성일시</th>
+                                    <th>좋아요</th>
+                                    <th>댓글수</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <!-- // SERCTION 1 -->
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 여기서부터 쪼개면 됨 -->
+
+    </div>
+</section>
+
+
+<!-- SIDEBAR -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel"
+     style="visibility: hidden;" aria-modal="true" role="dialog">
+    <div class="offcanvas-header pb-0 pt-5">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">GIANTS</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="#" class="nav-link active" aria-current="page">
+                    <i class="fa fa-home"></i>&nbsp;&nbsp;
+                    <span>홈</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link link-dark">
+                    <i class="fa fa-paper-plane"></i>&nbsp;&nbsp;
+                    <span>Editor's Pick</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link link-dark">
+                    <i class="fa fa-star"></i>&nbsp;&nbsp;
+                    <span>인기글</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link link-dark">
+                    <i class="fa fa-list-alt"></i>&nbsp;&nbsp;
+                    <span>최근공시</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link link-dark">
+                    <i class="fa fa-user"></i>&nbsp;&nbsp;
+                    <span>마이페이지</span>
+                </a>
+            </li>
+        </ul>
+        <hr>
+    </div>
+</div>
+<!-- // SIDEBAR -->
+
+<!-- SEARCH MODAL -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel"><b>종목 검색</b></h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="recipient-name">
+                    </div>
+                </form>
+
+                <table class="table" id="searched">
+                    <tr>
+                        <td>한화에스비아이스팩</td>
+                    </tr>
+                    <tr>
+                        <td>한화플러스제1호스팩</td>
+                    </tr>
+                    <tr>
+                        <td>한화손해보험</td>
+                    </tr>
+                    <tr>
+                        <td>한화</td>
+                    </tr>
+                    <tr>
+                        <td>한화우</td>
+                    </tr>
+                    <tr>
+                        <td>한화3우B</td>
+                    </tr>
+                    <tr>
+                        <td>한화투자증권</td>
+                    </tr>
+                    <tr>
+                        <td>한화투자증권우</td>
+                    </tr>
+                    <tr>
+                        <td>대한화섬</td>
+                    </tr>
+                    <tr>
+                        <td>한화솔루션</td>
+                    </tr>
+                    <tr>
+                        <td>한화솔루션우</td>
+                    </tr>
+                    <tr>
+                        <td>한화에어로스페이스</td>
+                    </tr>
+                    <tr>
+                        <td>한화생명 코스피</td>
+                    </tr>
+                    <tr>
+                        <td>한화시스템</td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // SEARCH MODAL -->
+
+<footer>
+
+</footer>
+</body>
+
+</html>
