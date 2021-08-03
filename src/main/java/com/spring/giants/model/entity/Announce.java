@@ -1,2 +1,6 @@
-package com.spring.giants.model.entity;public class Announce {
+package com.spring.giants.model.entity;
+
+
+
+public class Announce {
 }

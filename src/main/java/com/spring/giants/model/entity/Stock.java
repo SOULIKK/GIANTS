@@ -1,2 +1,4 @@
-package com.spring.giants.model.entity;public class Stock {
+package com.spring.giants.model.entity;
+
+public class Stock {
 }
