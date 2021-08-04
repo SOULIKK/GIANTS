@@ -25,35 +25,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/**")
-                .permitAll()
+                .antMatchers("/", "/account/register", "/css/**", "/api/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/auth/login")
+                .loginPage("/account/login")
                 .permitAll()
                 .and()
                 .logout()
                 .permitAll();
     }
-
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .passwordEncoder(passwordEncoder())
-                .usersByUsernameQuery("SELECT username, password, enabled "
-                        + "FROM user "
-                        + "WHERE username = ?")
-                .authoritiesByUsernameQuery("SELECT u.username, r.name "
-                        + "FROM user_role ur INNER JOIN user u ON ur.user_id = u.id "
-                        + "INNER JOIN role r ON ur.role_id = r.id "
-                        + "WHERE u.username = ?");
+                .usersByUsernameQuery("select username, password, enabled "
+                        + "from user "
+                        + "where username = ?")
+                .authoritiesByUsernameQuery("select u.username, r.name "
+                        + "from user_role ur inner join user u on ur.user_id = u.id "
+                        + "inner join role r on ur.role_id = r.id "
+                        + "where u.username = ?");
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }

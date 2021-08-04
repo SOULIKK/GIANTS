@@ -28,10 +28,11 @@ public class User {
     @NotNull
     private int state;
 
+    @ManyToMany
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Role> roles = new ArrayList<>();
+
     @OneToMany(mappedBy = "user")
-    private List<Post> posts = new ArrayList<>();
-
-
-
+    private List<Board> boards = new ArrayList<>();
 
 }

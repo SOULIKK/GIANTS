@@ -1,16 +1,12 @@
 package com.spring.giants.model.entity;
 
 import lombok.Data;
-import lombok.Getter;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
-@Getter
+@Data
 public class Board {
 
     @Id
@@ -18,6 +14,13 @@ public class Board {
     private Long boardId;
 
     @NotNull
-    private String boardType;
+    @Size(min = 2, max = 150, message = "제목은 2글자 이상이어야 합니다.")
+    private String title;
 
+    @NotNull
+    private String content;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }
