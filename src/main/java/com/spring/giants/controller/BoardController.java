@@ -3,6 +3,7 @@ package com.spring.giants.controller;
 
 import com.spring.giants.model.entity.Board;
 import com.spring.giants.model.repository.BoardRepository;
+
 import com.spring.giants.service.BoardService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;

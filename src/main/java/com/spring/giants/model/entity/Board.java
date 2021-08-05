@@ -20,6 +20,11 @@ public class Board {
     @NotNull
     private String content;
 
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "stock_num")
+    private Stock stockNum;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

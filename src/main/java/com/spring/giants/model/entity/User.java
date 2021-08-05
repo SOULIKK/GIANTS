@@ -4,8 +4,6 @@ package com.spring.giants.model.entity;
 
 import lombok.Data;
 
-;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
