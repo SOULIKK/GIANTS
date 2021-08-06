@@ -38,14 +38,14 @@
     <h3 class="text-center pt-5">회원가입</h3>
     <br>
     <form action="" method="POST">
-      <div class="w-100 py-2">
-        <label for="username">E-mail</label>
-        <input class="form-control" type="email" id="username" name="username">
-        <button class="btn btn-primary w-100 mt-1" onclick="sendEmail()">인증메일 발송</button>
-      </div>
+<!--      <div class="w-100 py-2">-->
+<!--        <label for="username">E-mail</label>-->
+<!--        <input class="form-control" type="email" id="username" name="username">-->
+<!--        <button class="btn btn-primary w-100 mt-1" onclick="sendEmail()">인증메일 발송</button>-->
+<!--      </div>-->
       <div class="w-100 py-2">
         <label for="username">Password</label>
-        <input class="form-control" type="password" id="password" name="password">
+        <input class="form-control" type="text" id="username" name="username">
       </div>
       <div class="w-100 py-2">
         <label>Password 확인</label>
@@ -72,9 +72,6 @@
     alert('로그인 페이지로');
   }
 
-  function sendEmail() {
-    alert("인증메일 발송");
-  }
 </script>
 </body>
 
