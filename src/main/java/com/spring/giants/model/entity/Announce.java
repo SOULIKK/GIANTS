@@ -13,10 +13,8 @@ public class Announce {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long announce_id;
+    private Long announceId;
 
-    @NotNull
-    private String stockId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stockId")
