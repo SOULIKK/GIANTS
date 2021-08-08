@@ -29,6 +29,8 @@ public class AuthController {
     @PostMapping("/join")
     public String setJoin(User user) {
         userService.join(user);
-        return "redirect:/";
+        return "redirect:/auth/login";
     }
+
+
 }
