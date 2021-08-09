@@ -25,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/auth/join", "/css/**", "/api/**").permitAll()
+                .antMatchers("/", "/main", "/auth/join", "/css/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .passwordEncoder(passwordEncoder())
-                .usersByUsernameQuery("select username, password, state "
+                .usersByUsernameQuery("select username, password, enabled "
                         + "from user "
                         + "where username = ?")
                 .authoritiesByUsernameQuery("select u.username, r.name "
