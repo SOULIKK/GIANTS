@@ -22,13 +22,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/board")
 public class BoardController {
 
-
     final private BoardRepository boardRepository;
-    // final private BoardValidator boardValidator;
     final private BoardService boardService;
+    // final private BoardValidator boardValidator;
 
     @GetMapping("/list")
-    public String getList(Model model
+    public String getList(
+            Model model
             , @RequestParam(required = false, defaultValue = "") String search
             , @PageableDefault(size = 5) Pageable pageable) {
 
