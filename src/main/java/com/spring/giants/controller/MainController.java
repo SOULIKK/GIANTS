@@ -11,4 +11,9 @@ public class MainController {
     public String main() {
         return "main/main";
     }
+
+    @GetMapping("/main/search")
+    public String stockSearch() {
+        return "main/search";
+    }
 }

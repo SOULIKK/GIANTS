@@ -10,7 +10,7 @@ body {
 nav > div {
   height: 3rem;
 }
-nav button {
+nav button, nav a {
   border-radius: 50% !important;
 }
 
@@ -28,4 +28,9 @@ section {
 
 #searched tr td {
   padding: .2rem;
+}
+
+#ui-id-1 {
+  max-height: 400px;
+  overflow: hidden auto;
 }

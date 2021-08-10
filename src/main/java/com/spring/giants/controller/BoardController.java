@@ -2,19 +2,20 @@ package com.spring.giants.controller;
 
 
 import com.spring.giants.model.entity.Board;
+import com.spring.giants.model.entity.Stock;
 import com.spring.giants.model.repository.BoardRepository;
 
 import com.spring.giants.service.BoardService;
 import lombok.AllArgsConstructor;
+import lombok.experimental.PackagePrivate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.function.DoubleToIntFunction;
 
 
 @Controller
@@ -42,5 +43,26 @@ public class BoardController {
 
         return "board/list";
     }
+
+    @GetMapping("/write")
+    public String write() {
+        return "board/write";
+    }
+
+
+    @PostMapping("/list")
+    public String getListByStock(@RequestBody Stock stock) {
+        System.out.println(stock.getStockName());
+        return "board/list";
+    }
+
+    @GetMapping("/search")
+    public String searchedValue(@RequestParam String stockName) {
+        System.out.println(stockName);
+        return "board/list";
+    }
+
+
+
 
 }
