@@ -26,10 +26,16 @@ public class Board {
     @JoinColumn(name = "userId")
     private User user;
 
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "stockCode")
+    private Stock stock;
+
 
     public Board(BoardRequestDto boardRequestDto) {
         this.title = boardRequestDto.getTitle();
         this.content = boardRequestDto.getContent();
         this.user = boardRequestDto.getUser();
+        this.stock = boardRequestDto.getStock();
     }
 }

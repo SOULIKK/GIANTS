@@ -1,9 +1,12 @@
 package com.spring.giants.service;
 
 import com.spring.giants.model.dto.BoardRequestDto;
+import com.spring.giants.model.dto.StockResponseDto;
 import com.spring.giants.model.entity.Board;
+import com.spring.giants.model.entity.Stock;
 import com.spring.giants.model.entity.User;
 import com.spring.giants.model.repository.BoardRepository;
+import com.spring.giants.model.repository.StockRepository;
 import com.spring.giants.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +19,7 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
+    private final StockRepository stockRepository;
 
     @Transactional
     public void setBoard(String username, BoardRequestDto boardRequestDto) {
@@ -25,6 +29,14 @@ public class BoardService {
         Board board = new Board(boardRequestDto);
 
         boardRepository.save(board);
+    }
 
+    @Transactional
+    public StockResponseDto getStockCode(String stockName) {
+
+        Stock stock = stockRepository.findByStockName(stockName);
+        StockResponseDto stockResponseDto = new StockResponseDto(stock);
+
+        return stockResponseDto;
     }
 }

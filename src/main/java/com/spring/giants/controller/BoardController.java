@@ -2,6 +2,7 @@ package com.spring.giants.controller;
 
 
 import com.spring.giants.model.dto.BoardRequestDto;
+import com.spring.giants.model.dto.StockResponseDto;
 import com.spring.giants.model.entity.Board;
 import com.spring.giants.model.entity.Stock;
 import com.spring.giants.model.repository.BoardRepository;
@@ -62,9 +63,15 @@ public class BoardController {
 
 
     @GetMapping("/search")
-    public String searchedValue(@RequestParam String stockName) {
-        System.out.println(stockName);
-        return "board/list";
+//    @PostMapping("/search/{stockName}")
+//    public String searchedValue(@PathVariable String stockName, Model model) {
+    public String searchedValue(@RequestParam String stock, Model model) {
+        System.out.println(stock);
+        StockResponseDto stockResponseDto = boardService.getStockCode(stock);
+        model.addAttribute("stock", stockResponseDto);
+
+//        return "board/list/"+stockResponseDto.getStockCode();
+        return "main/stock";
     }
 
 }

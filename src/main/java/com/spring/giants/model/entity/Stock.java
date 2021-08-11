@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 public class Stock {
 
     @Id
-    private String stockId;
+    private int stockId;
 
     @NotNull
     private String stockName;

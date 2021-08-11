@@ -15,7 +15,6 @@
 <script th:inline="javascript">
 
     var stock_data = stocks;
-
     $(document).ready(function () {
         $("#search_input").autocomplete({
             minLength: 2,
@@ -24,7 +23,6 @@
                 return ui.item.value;
             }
         })
-        console.log(real_data);
     });
 </script>
 
@@ -40,7 +38,7 @@
             <form th:action="@{/board/search}" th:method="GET">
                 <div class="ui-widget d-flex">
 
-                    <input type="text" name="stockName" class="form-control" id="search_input">&nbsp;
+                    <input type="text" name="stock" class="form-control" id="search_input">&nbsp;
                     <button type="submit" class="btn btn-outline-primary px-2">
                         <i class="fa fa-search"></i>
                     </button>

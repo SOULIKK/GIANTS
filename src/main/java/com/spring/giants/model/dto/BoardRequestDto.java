@@ -1,5 +1,6 @@
 package com.spring.giants.model.dto;
 
+import com.spring.giants.model.entity.Stock;
 import com.spring.giants.model.entity.User;
 import lombok.*;
 
@@ -14,5 +15,6 @@ public class BoardRequestDto {
     private String title;
     private String content;
     private User user;
+    private Stock stock;
 
 }
