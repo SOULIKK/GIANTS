@@ -12,8 +12,19 @@ public class MainController {
         return "main/main";
     }
 
-    @GetMapping("/main/search")
+    @GetMapping("/search")
     public String stockSearch() {
         return "main/search";
     }
+
+    @GetMapping("/hot")
+    public String hot() {
+        return "main/hot";
+    }
+
+    @GetMapping("/pick")
+    public String pick() {
+        return "main/pick";
+    }
+
 }

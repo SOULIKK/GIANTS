@@ -1,6 +1,7 @@
 package com.spring.giants.controller;
 
 
+import com.spring.giants.model.dto.BoardRequestDto;
 import com.spring.giants.model.entity.Board;
 import com.spring.giants.model.entity.Stock;
 import com.spring.giants.model.repository.BoardRepository;
@@ -11,6 +12,7 @@ import lombok.experimental.PackagePrivate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -44,25 +46,25 @@ public class BoardController {
         return "board/list";
     }
 
+
     @GetMapping("/write")
     public String write() {
         return "board/write";
     }
 
 
-    @PostMapping("/list")
-    public String getListByStock(@RequestBody Stock stock) {
-        System.out.println(stock.getStockName());
+    @PostMapping("/write")
+    public String writeBoard(Authentication authentication, BoardRequestDto boardRequestDto) {
+        String username = authentication.getName();
+        boardService.setBoard(username, boardRequestDto);
         return "board/list";
     }
+
 
     @GetMapping("/search")
     public String searchedValue(@RequestParam String stockName) {
         System.out.println(stockName);
         return "board/list";
     }
-
-
-
 
 }

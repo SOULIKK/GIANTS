@@ -15,7 +15,12 @@ public class Stock {
     @Id
     private String stockId;
 
-
     @NotNull
     private String stockName;
+
+    @NotNull
+    private String stockCode;
+
+    @NotNull
+    private String market;
 }

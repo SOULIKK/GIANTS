@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class StockController {
 
 
-
-
+    @GetMapping("/")
+    public String stockMain() {
+        return "main/stock";
+    }
 }

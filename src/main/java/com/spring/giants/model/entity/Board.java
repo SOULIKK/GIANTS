@@ -1,5 +1,6 @@
 package com.spring.giants.model.entity;
 
+import com.spring.giants.model.dto.BoardRequestDto;
 import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -20,12 +21,15 @@ public class Board {
     @NotNull
     private String content;
 
-
-    @ManyToOne
-    @JoinColumn(name = "stockId")
-    private Stock stockId;
-
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "userId")
     private User user;
+
+
+    public Board(BoardRequestDto boardRequestDto) {
+        this.title = boardRequestDto.getTitle();
+        this.content = boardRequestDto.getContent();
+        this.user = boardRequestDto.getUser();
+    }
 }
