@@ -5,5 +5,5 @@
 
 ### Java
 ### Springboot
-### MySQL
+### MariaDB
 ### thymleaf
