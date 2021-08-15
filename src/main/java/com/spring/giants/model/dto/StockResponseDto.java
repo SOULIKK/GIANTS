@@ -12,15 +12,13 @@ import lombok.Setter;
 @Setter
 public class StockResponseDto {
 
-    private int stockId;
+    private String stockId;
     private String stockName;
-    private String stockCode;
     private String market;
 
     public StockResponseDto(Stock stock) {
         this.stockId = stock.getStockId();
         this.stockName = stock.getStockName();
-        this.stockCode = stock.getStockCode();
         this.market = stock.getMarket();
     }
 }

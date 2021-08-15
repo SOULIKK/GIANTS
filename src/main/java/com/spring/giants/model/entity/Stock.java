@@ -1,7 +1,6 @@
 package com.spring.giants.model.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,13 +12,10 @@ import javax.validation.constraints.NotNull;
 public class Stock {
 
     @Id
-    private int stockId;
+    private String stockId;
 
     @NotNull
     private String stockName;
-
-    @NotNull
-    private String stockCode;
 
     @NotNull
     private String market;

@@ -1,6 +1,7 @@
 package com.spring.giants.controller;
 
 
+import com.spring.giants.model.dto.BoardListResponseDto;
 import com.spring.giants.model.dto.BoardRequestDto;
 import com.spring.giants.model.dto.StockResponseDto;
 import com.spring.giants.model.entity.Board;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.function.DoubleToIntFunction;
 
 
@@ -28,7 +30,6 @@ public class BoardController {
 
     final private BoardRepository boardRepository;
     final private BoardService boardService;
-    // final private BoardValidator boardValidator;
 
     @GetMapping("/list")
     public String getList(
@@ -48,30 +49,33 @@ public class BoardController {
     }
 
 
-    @GetMapping("/write")
-    public String write() {
+    @PostMapping("/write")
+    public String write(String stock, Model model) {
+        model.addAttribute("stock", stock);
         return "board/write";
     }
 
 
-    @PostMapping("/write")
+    @PostMapping("/submit")
     public String writeBoard(Authentication authentication, BoardRequestDto boardRequestDto) {
         String username = authentication.getName();
+        System.out.println(boardRequestDto.getStockId());
         boardService.setBoard(username, boardRequestDto);
-        return "board/list";
+        return "board/stock";
     }
 
 
-    @GetMapping("/search")
-//    @PostMapping("/search/{stockName}")
-//    public String searchedValue(@PathVariable String stockName, Model model) {
-    public String searchedValue(@RequestParam String stock, Model model) {
+    @PostMapping("/stock")
+    public String getStockBoard(String stock, Model model) {
         System.out.println(stock);
-        StockResponseDto stockResponseDto = boardService.getStockCode(stock);
-        model.addAttribute("stock", stockResponseDto);
-
-//        return "board/list/"+stockResponseDto.getStockCode();
-        return "main/stock";
+//        List<BoardListResponseDto> boardListResponseDto = boardService.getBoardList(stock);
+//        BoardListResponseDto boardListResponseDto = boardService.getBoardList(stock);
+//        model.addAttribute("boards", boardListResponseDto);
+        model.addAttribute("stock", stock);
+        return "board/stock";
     }
+
+
+
 
 }

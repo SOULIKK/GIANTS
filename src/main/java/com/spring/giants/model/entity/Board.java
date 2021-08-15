@@ -27,15 +27,17 @@ public class Board {
     private User user;
 
     @NotNull
-    @ManyToOne
-    @JoinColumn(name = "stockCode")
-    private Stock stock;
+//    @ManyToOne
+//    @JoinColumn(name = "stockId")
+    private String stockId;
 
 
+//    public Board(BoardRequestDto boardRequestDto) {
     public Board(BoardRequestDto boardRequestDto) {
         this.title = boardRequestDto.getTitle();
         this.content = boardRequestDto.getContent();
         this.user = boardRequestDto.getUser();
-        this.stock = boardRequestDto.getStock();
+        this.stockId = boardRequestDto.getStockId();
     }
+
 }
