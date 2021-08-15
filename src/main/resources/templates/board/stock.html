@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head('main')">
+</head>
+
+<body>
+<nav class="bg-dark" th:replace="layout/layout :: menu('main')">
+</nav>
+
+<section>
+    <div class="main col-lg-8 bg-white m-auto h-100 p-3">
+<!--        <div th:text="${stock}">-->
+        <form th:action="@{/board/write}" th:method="POST">
+            <input type="hidden" name="stock" th:value="${stock}">
+            <button type="submit" class="btn btn-outline-success">
+                글 작성
+            </button>
+        </form>
+    </div>
+</section>
+
+<!-- SIDEBAR -->
+<div id="sidebar" th:replace="layout/layout :: sidebar('main')">
+</div>
+<!-- // SIDEBAR -->
+
+</body>
+
+</html>

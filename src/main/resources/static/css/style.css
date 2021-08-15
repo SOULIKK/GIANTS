@@ -7,6 +7,9 @@ body {
   padding: 0;
   margin: 0;
 }
+div::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
 nav > div {
   height: 3rem;
 }

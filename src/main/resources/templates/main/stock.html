@@ -8,65 +8,252 @@
 </nav>
 
 <section>
-    <div class="main col-lg-8 bg-white m-auto h-100 p-3">
+    <div class="main col-lg-8 bg-white m-auto h-100 p-3 overflow-auto">
         <h4>
             <span class="fw-bold text-primary" th:text="${stock.stockName}"></span>
-            <span th:text="${stock.stockCode}"></span>
+            <span th:text="${stock.stockId}"></span>
         </h4>
 
-        <div class="card">
-            <div class="card-body">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>1</th>
-                        <th>2</th>
-                        <th>3</th>
-                        <th>4</th>
-                        <th>5</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    </tbody>
-                </table>
+        <div class="row p-0 m-0">
+            <div class="col-md-12 pt-4 pb-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h4><b>기업개요</b></h4>
+                        <div style="background: #f3f3f3; height: 100px; width: 100%;"></div>
+                    </div>
+                </div>
             </div>
+        </div>
+
+        <div class="row p-0 m-0">
+            <div class="col-md-12 py-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4><b>재무정보</b></h4>
+                        <div style="background: #f3f3f3; height: 215px; width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row p-0 m-0">
+
+            <div class="col-md-6 mb-2">
+                <div class="card">
+                    <div class="card-body">
+
+                        <!-- SERCTION 1 -->
+                        <div style="font-size: .5rem !important;">
+
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h4><b>토론실</b></h4>
+                                <form th:action="@{/board/stock}" th:method="POST">
+<!--                                    <a type="button" class="btn btn-outline-primary p-1"-->
+<!--                                       th:href="@{/board/stock/(stockCode=${stock.stockCode})}">-->
+<!--                                        <i class="fa fa-plus p-1 m-0"></i> <span>더보기</span>-->
+<!--                                    </a>-->
+                                    <input type="hidden" name="stock" th:value="${stock.stockId}">
+                                    <button type="submit" class="btn btn-outline-primary p-1">
+                                        <i class="fa fa-plus p-1 m-0"></i> <span>더보기</span>
+                                    </button>
+                                </form>
+                            </div>
+
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>작성자</th>
+                                    <th>제목</th>
+                                    <th>작성일시</th>
+                                    <th>좋아요</th>
+                                    <th>댓글수</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <!-- // SERCTION 1 -->
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-2">
+                <div class="card">
+                    <div class="card-body">
+
+                        <!-- SERCTION 1 -->
+                        <div style="font-size: .5rem !important;">
+
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h4><b>공시</b></h4>
+                                <button type="button" class="btn btn-outline-primary p-1">
+                                    <i class="fa fa-plus p-1 m-0"></i> <span>더보기</span></button>
+                            </div>
+
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>작성자</th>
+                                    <th>제목</th>
+                                    <th>작성일시</th>
+                                    <th>좋아요</th>
+                                    <th>댓글수</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <!-- // SERCTION 1 -->
+
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </section>
