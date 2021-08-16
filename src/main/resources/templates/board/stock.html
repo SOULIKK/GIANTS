@@ -9,7 +9,24 @@
 
 <section>
     <div class="main col-lg-8 bg-white m-auto h-100 p-3">
-<!--        <div th:text="${stock}">-->
+        <!-- <div th:text="${stock}"> -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>작성자</th>
+                    <th>제목</th>
+                    <th>종목코드</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="board : ${boards}">
+                    <td th:text="${board.user.username}"></td>
+                    <td th:text="${board.content}"></td>
+                    <td th:text="${board.stockId}"></td>
+                </tr>
+            </tbody>
+        </table>
+
         <form th:action="@{/board/write}" th:method="POST">
             <input type="hidden" name="stock" th:value="${stock}">
             <button type="submit" class="btn btn-outline-success">

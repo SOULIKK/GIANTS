@@ -30,17 +30,17 @@ public class BoardService {
         boardRequestDto.setUser(user);
 //        Stock stock = stockRepository.findByStockId(stockId);
 //        boardRequestDto.setStock(stockId);
+
         Board board = new Board(boardRequestDto);
+//        System.out.println(board.getCreatedAt());
 
         boardRepository.save(board);
     }
 
-//    @Transactional
-//    public List<BoardListResponseDto> getBoardList(String stockId) {
-//        Stock stock = stockRepository.findByStockId(stockId);
-//        List<BoardListResponseDto> boardListResponseDto = (List<BoardListResponseDto>) boardRepository.findAllByStock(stock);
-//
-//        return boardListResponseDto;
-//    }
+
+    @Transactional
+    public List<BoardListResponseDto> getBoardList(String stockId) {
+        return boardRepository.findAllByStockId(stockId);
+    }
 
 }

@@ -2,13 +2,18 @@ package com.spring.giants.model.entity;
 
 import com.spring.giants.model.dto.BoardRequestDto;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 @Entity
-@Data
-public class Board {
+@Getter
+@NoArgsConstructor
+public class Board extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,13 +31,14 @@ public class Board {
     @JoinColumn(name = "userId")
     private User user;
 
-    @NotNull
+
 //    @ManyToOne
-//    @JoinColumn(name = "stockId")
+//    @JoinCol umn(name = "stockId")
+    @NotNull
     private String stockId;
 
 
-//    public Board(BoardRequestDto boardRequestDto) {
+
     public Board(BoardRequestDto boardRequestDto) {
         this.title = boardRequestDto.getTitle();
         this.content = boardRequestDto.getContent();

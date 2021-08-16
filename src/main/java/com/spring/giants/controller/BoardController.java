@@ -31,22 +31,22 @@ public class BoardController {
     final private BoardRepository boardRepository;
     final private BoardService boardService;
 
-    @GetMapping("/list")
-    public String getList(
-            Model model
-            , @RequestParam(required = false, defaultValue = "") String search
-            , @PageableDefault(size = 5) Pageable pageable) {
-
-        Page<Board> boards = boardRepository.findByTitleContainingOrContentContaining(search, search, pageable);
-
-        int firstPage = Math.max(1, boards.getPageable().getPageNumber() - 4);
-        int lastPage = Math.min(boards.getTotalPages(), boards.getPageable().getPageNumber() + 4);
-        model.addAttribute("firstPage", firstPage);
-        model.addAttribute("listPage", lastPage);
-        model.addAttribute("boards", boards);
-
-        return "board/list";
-    }
+//    @GetMapping("/list")
+//    public String getList(
+//            Model model
+//            , @RequestParam(required = false, defaultValue = "") String search
+//            , @PageableDefault(size = 5) Pageable pageable) {
+//
+//        Page<Board> boards = boardRepository.findByTitleContainingOrContentContaining(search, search, pageable);
+//
+//        int firstPage = Math.max(1, boards.getPageable().getPageNumber() - 4);
+//        int lastPage = Math.min(boards.getTotalPages(), boards.getPageable().getPageNumber() + 4);
+//        model.addAttribute("firstPage", firstPage);
+//        model.addAttribute("listPage", lastPage);
+//        model.addAttribute("boards", boards);
+//
+//        return "board/list";
+//    }
 
 
     @PostMapping("/write")
@@ -61,21 +61,18 @@ public class BoardController {
         String username = authentication.getName();
         System.out.println(boardRequestDto.getStockId());
         boardService.setBoard(username, boardRequestDto);
-        return "board/stock";
+        return "redirect:/stock";
     }
 
 
     @PostMapping("/stock")
     public String getStockBoard(String stock, Model model) {
         System.out.println(stock);
-//        List<BoardListResponseDto> boardListResponseDto = boardService.getBoardList(stock);
-//        BoardListResponseDto boardListResponseDto = boardService.getBoardList(stock);
-//        model.addAttribute("boards", boardListResponseDto);
+        List<BoardListResponseDto> boardListResponseDto = boardService.getBoardList(stock);
+        model.addAttribute("boards", boardListResponseDto);
+
         model.addAttribute("stock", stock);
         return "board/stock";
     }
-
-
-
 
 }
