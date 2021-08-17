@@ -27,8 +27,9 @@
             <tbody>
             <tr th:each="board : ${boards}">
                 <td th:text="${board.user.username}"></td>
-                <td th:text="${board.content}"></td>
-                <!--                    <td th:text="${board.stockId}"></td>-->
+                <td>
+                    <a th:text="${board.content}" th:href="@{/board/detail(b=${board.boardId})}"></a>
+                </td>
                 <td th:text="${board.createdAt}"></td>
             </tr>
             </tbody>
