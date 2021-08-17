@@ -1,9 +1,10 @@
 package com.spring.giants.service;
 
+import com.spring.giants.config.exception.ApiRequestException;
+import com.spring.giants.model.dto.BoardDetailResponseDto;
 import com.spring.giants.model.dto.BoardListResponseDto;
 import com.spring.giants.model.dto.BoardRequestDto;
 import com.spring.giants.model.entity.Board;
-import com.spring.giants.model.entity.Stock;
 import com.spring.giants.model.entity.User;
 import com.spring.giants.model.repository.BoardRepository;
 import com.spring.giants.model.repository.StockRepository;
@@ -24,23 +25,27 @@ public class BoardService {
     private final StockRepository stockRepository;
 
     @Transactional
-    public void setBoard(String username, BoardRequestDto boardRequestDto) {
+    public String setBoard(String username, BoardRequestDto boardRequestDto) {
 
         User user = userRepository.findByUsername(username);
         boardRequestDto.setUser(user);
-//        Stock stock = stockRepository.findByStockId(stockId);
-//        boardRequestDto.setStock(stockId);
-
         Board board = new Board(boardRequestDto);
-//        System.out.println(board.getCreatedAt());
 
-        boardRepository.save(board);
+        return boardRepository.save(board).getStockId();
     }
 
 
     @Transactional
     public List<BoardListResponseDto> getBoardList(String stockId) {
-        return boardRepository.findAllByStockId(stockId);
+        return boardRepository.findAllByStockIdOrderByCreatedAtDesc(stockId);
     }
+    @Transactional
+    public BoardDetailResponseDto getDetail(Long boardId) {
+        Board board = boardRepository.findById(boardId).orElseThrow(
+                () -> new ApiRequestException("해당 글이 존재하지 않습니다.")
+        );
 
+        BoardDetailResponseDto boardDetailResponseDto = new BoardDetailResponseDto(board);
+        return boardDetailResponseDto;
+    }
 }

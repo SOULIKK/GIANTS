@@ -1,6 +1,7 @@
 package com.spring.giants.controller;
 
 
+import com.spring.giants.model.dto.BoardDetailResponseDto;
 import com.spring.giants.model.dto.BoardListResponseDto;
 import com.spring.giants.model.dto.BoardRequestDto;
 import com.spring.giants.model.dto.StockResponseDto;
@@ -18,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.function.DoubleToIntFunction;
@@ -49,8 +51,10 @@ public class BoardController {
 //    }
 
 
-    @PostMapping("/write")
-    public String write(String stock, Model model) {
+//    @PostMapping("/write")
+    @GetMapping("/write")
+//    public String write(String stock, Model model) {
+    public String write(@RequestParam String stock, Model model) {
         model.addAttribute("stock", stock);
         return "board/write";
     }
@@ -60,19 +64,29 @@ public class BoardController {
     public String writeBoard(Authentication authentication, BoardRequestDto boardRequestDto) {
         String username = authentication.getName();
         System.out.println(boardRequestDto.getStockId());
-        boardService.setBoard(username, boardRequestDto);
-        return "redirect:/stock";
+        String stock = boardService.setBoard(username, boardRequestDto);
+
+        return "redirect:/board/list?stock="+stock;
     }
 
 
-    @PostMapping("/stock")
-    public String getStockBoard(String stock, Model model) {
+
+    @GetMapping("/list")
+    public String getStockBoard(@RequestParam String stock, Model model) {
         System.out.println(stock);
         List<BoardListResponseDto> boardListResponseDto = boardService.getBoardList(stock);
         model.addAttribute("boards", boardListResponseDto);
-
         model.addAttribute("stock", stock);
-        return "board/stock";
+        return "board/list";
+    }
+
+    @GetMapping("/detail")
+    public String getBoardDetail(@RequestParam Long b, Model model) {
+
+        BoardDetailResponseDto boardDetailResponseDto = boardService.getDetail(b);
+
+        model.addAttribute("board", boardDetailResponseDto);
+        return "board/detail";
     }
 
 }

@@ -11,6 +11,5 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     Page<Board> findByTitleContainingOrContentContaining(String search, String search1, Pageable pageable);
 
-
-    List<BoardListResponseDto> findAllByStockId(String stockId);
+    List<BoardListResponseDto> findAllByStockIdOrderByCreatedAtDesc(String stockId);
 }
