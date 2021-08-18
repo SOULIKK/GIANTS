@@ -26,6 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/", "/main", "/auth/join", "/css/**", "/js/**","/bs5/**", "/main/**").permitAll()
+                .antMatchers("/admin/**").access("hasRole('ADMIN')")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -43,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .usersByUsernameQuery("select username, password, enabled "
                         + "from user "
                         + "where username = ?")
-                .authoritiesByUsernameQuery("select u.username, r.name "
+                .authoritiesByUsernameQuery("select u.username as username, r.name as role "
                         + "from user_role ur inner join user u on ur.user_id = u.user_id "
                         + "inner join role r on ur.role_id = r.role_id "
                         + "where u.username = ?");
