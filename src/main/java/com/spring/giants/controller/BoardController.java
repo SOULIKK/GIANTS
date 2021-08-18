@@ -10,6 +10,7 @@ import com.spring.giants.model.entity.Stock;
 import com.spring.giants.model.repository.BoardRepository;
 
 import com.spring.giants.service.BoardService;
+import com.spring.giants.service.MainService;
 import lombok.AllArgsConstructor;
 import lombok.experimental.PackagePrivate;
 import org.springframework.data.domain.Page;
@@ -30,30 +31,36 @@ import java.util.function.DoubleToIntFunction;
 @RequestMapping("/board")
 public class BoardController {
 
-    final private BoardRepository boardRepository;
+
     final private BoardService boardService;
-
-//    @GetMapping("/list")
-//    public String getList(
-//            Model model
-//            , @RequestParam(required = false, defaultValue = "") String search
-//            , @PageableDefault(size = 5) Pageable pageable) {
-//
-//        Page<Board> boards = boardRepository.findByTitleContainingOrContentContaining(search, search, pageable);
-//
-//        int firstPage = Math.max(1, boards.getPageable().getPageNumber() - 4);
-//        int lastPage = Math.min(boards.getTotalPages(), boards.getPageable().getPageNumber() + 4);
-//        model.addAttribute("firstPage", firstPage);
-//        model.addAttribute("listPage", lastPage);
-//        model.addAttribute("boards", boards);
-//
-//        return "board/list";
-//    }
+    final private MainService mainService;
 
 
-//    @PostMapping("/write")
+    @GetMapping("/list")
+    public String getStockBoard(
+            @RequestParam String stock
+            , @RequestParam(required = false, defaultValue = "") String search
+            , @PageableDefault(size = 10) Pageable pageable
+            , Model model
+    ) {
+        String stockName = "";
+        StockResponseDto stockResponseDto = mainService.getStock(stockName, stock);
+
+        Page<BoardListResponseDto> boardListResponseDto = boardService.getBoardList(stockResponseDto.getStockId(), search, pageable);
+
+        int startPage = Math.max(1, boardListResponseDto.getPageable().getPageNumber() - 4);
+        int endPage = Math.min(boardListResponseDto.getTotalPages(), boardListResponseDto.getPageable().getPageNumber() + 4);
+
+        model.addAttribute("boards", boardListResponseDto);
+        model.addAttribute("stock", stockResponseDto);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
+        return "board/list";
+    }
+
+
     @GetMapping("/write")
-//    public String write(String stock, Model model) {
     public String write(@RequestParam String stock, Model model) {
         model.addAttribute("stock", stock);
         return "board/write";
@@ -71,14 +78,7 @@ public class BoardController {
 
 
 
-    @GetMapping("/list")
-    public String getStockBoard(@RequestParam String stock, Model model) {
-        System.out.println(stock);
-        List<BoardListResponseDto> boardListResponseDto = boardService.getBoardList(stock);
-        model.addAttribute("boards", boardListResponseDto);
-        model.addAttribute("stock", stock);
-        return "board/list";
-    }
+
 
     @GetMapping("/detail")
     public String getBoardDetail(@RequestParam Long b, Model model) {

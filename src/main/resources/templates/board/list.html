@@ -9,7 +9,27 @@
 
 <section>
     <div class="main col-lg-8 bg-white m-auto h-100 p-3 overflow-auto">
-        <!-- <div th:text="${stock}"> -->
+
+        <div class="d-flex justify-content-between py-3">
+
+            <h3 classt="pt-3 pb-1">
+                <span class="text-primary" th:text="${stock.stockName}"></span>&nbsp;
+                <span th:text="${stock.stockId}"></span>
+            </h3>
+
+            <form th:action="@{/board/list}" th:method="GET">
+                <div class="d-flex">
+                    <input type="hidden" name="stock" th:value="${stock.stockId}">
+                    <input class="form-control mr-1" type="text" name="search" th:value="${param.searchText}" style="width: 12rem !important;">
+                    <button type="submit" class="btn btn-outline-success">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </form>
+
+        </div>
+
+
         <table class="table">
             <colgroup>
                 <col width="20%">
@@ -20,29 +40,59 @@
             <tr>
                 <th>작성자</th>
                 <th>제목</th>
-                <!--                    <th>종목코드</th>-->
                 <th>작성일</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="board : ${boards}">
-                <td th:text="${board.user.username}"></td>
+                <td class="text-center" th:text="${board.user.username}"></td>
                 <td>
-                    <a th:text="${board.content}" th:href="@{/board/detail(b=${board.boardId})}"></a>
+                    <a th:text="${board.title}" th:href="@{/board/detail(b=${board.boardId})}"></a>
                 </td>
-                <td th:text="${board.createdAt}"></td>
+                <td class="text-center" th:text="${board.createdAt}"></td>
             </tr>
             </tbody>
         </table>
 
-        <form th:action="@{/board/write}" th:method="GET">
-            <input type="hidden" name="stock" th:value="${stock}">
-            <div class="text-end">
-                <button type="submit" class="btn btn-outline-success">
-                    글 작성
-                </button>
-            </div>
-        </form>
+        <div class="d-flex justify-content-between">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+
+                    <li class="page-item" th:classappend="${1 == boards.pageable.pageNumber + 1} ? 'disabled'">
+                        <a class="page-link" href="#" aria-label="Previous"
+                           th:href="@{/board/list(stock=${stock.stockId}, page=${boards.pageable.pageNumber - 1}, search=${param.search})}">
+                            <span aria-hidden="true"> < </span>
+                        </a>
+                    </li>
+
+                    <li class="page-item" th:classappend="${i == boards.pageable.pageNumber + 1} ? 'disabled'"
+                        th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                        <a class="page-link"
+                           th:href="@{/board/list(stock=${stock.stockId}, search=${param.search}, page=${i - 1})}">
+                            <span th:text="${i}"></span>
+                        </a>
+                    </li>
+
+                    <li class="page-item"
+                        th:classappend="${boards.totalPages == boards.pageable.pageNumber + 1} ? 'disabled'">
+                        <a class="page-link" href="#" aria-label="Next"
+                           th:href="@{/board/list(stock=${stock.stockId}, page=${boards.pageable.pageNumber + 1}, search=${param.search})}">
+                            <span aria-hidden="true"> > </span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <form th:action="@{/board/write}" th:method="GET">
+                <input type="hidden" name="stock" th:value="${stock.stockId}">
+                <div class="text-end">
+                    <button type="submit" class="btn btn-outline-success p-1">
+                        글 작성
+                    </button>
+                </div>
+            </form>
+        </div>
+
     </div>
 </section>
 
