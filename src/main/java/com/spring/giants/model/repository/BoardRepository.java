@@ -9,7 +9,9 @@ import java.util.List;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
-    Page<Board> findByTitleContainingOrContentContaining(String search, String search1, Pageable pageable);
+    // Page<Board> findByTitleContainingOrContentContaining(String search, String search1, Pageable pageable);
 
-    List<BoardListResponseDto> findAllByStockIdOrderByCreatedAtDesc(String stockId);
+    // List<BoardListResponseDto> findAllByStockIdOrderByCreatedAtDesc(String stockId);
+
+    Page<BoardListResponseDto> findAllByStockIdAndTitleContainingOrderByCreatedAtDesc(String stockId, String search, Pageable pageable);
 }

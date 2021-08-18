@@ -10,6 +10,8 @@ import com.spring.giants.model.repository.BoardRepository;
 import com.spring.giants.model.repository.StockRepository;
 import com.spring.giants.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,9 +38,11 @@ public class BoardService {
 
 
     @Transactional
-    public List<BoardListResponseDto> getBoardList(String stockId) {
-        return boardRepository.findAllByStockIdOrderByCreatedAtDesc(stockId);
+    public Page<BoardListResponseDto> getBoardList(String stockId, String search, Pageable pageable) {
+        return boardRepository.findAllByStockIdAndTitleContainingOrderByCreatedAtDesc(stockId, search, pageable);
     }
+
+
     @Transactional
     public BoardDetailResponseDto getDetail(Long boardId) {
         Board board = boardRepository.findById(boardId).orElseThrow(

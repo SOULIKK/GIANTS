@@ -8,4 +8,6 @@ public interface StockRepository extends JpaRepository<Stock, Integer> {
     Stock findByStockName(String stockName);
 
     Stock findByStockId(String stockId);
+
+    Stock findByStockNameOrStockId(String stockName, String stockId);
 }

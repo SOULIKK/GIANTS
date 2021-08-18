@@ -35,10 +35,10 @@
 
         <!-- 여기서부터 쪼개면 됨 -->
         <div class="row p-5">
-            <form th:action="@{/main/stock}" th:method="POST">
+            <form th:action="@{/main/stock}" th:method="GET">
                 <div class="ui-widget d-flex">
 
-                    <input type="text" name="stock" class="form-control" id="search_input">&nbsp;
+                    <input type="text" name="name" class="form-control" id="search_input">&nbsp;
                     <button type="submit" class="btn btn-outline-primary px-2">
                         <i class="fa fa-search"></i>
                     </button>

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @AllArgsConstructor
@@ -35,10 +36,11 @@ public class MainController {
         return "main/pick";
     }
 
-    @PostMapping("/main/stock")
-    public String searchedValue(String stock, Model model) {
-        System.out.println(stock);
-        StockResponseDto stockResponseDto = mainService.getStockId(stock);
+    @GetMapping("/main/stock")
+    public String searchedValue(@RequestParam String name, Model model) {
+
+        String id = "";
+        StockResponseDto stockResponseDto = mainService.getStock(name, id);
         model.addAttribute("stock", stockResponseDto);
         return "main/stock";
     }

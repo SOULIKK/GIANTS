@@ -13,14 +13,15 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MainService {
 
-    private final BoardRepository boardRepository;
     private final StockRepository stockRepository;
 
     @Transactional
-    public StockResponseDto getStockId(String stockName) {
-        Stock stock = stockRepository.findByStockName(stockName);
+    public StockResponseDto getStock(String stockName, String stockId) {
+
+        Stock stock = stockRepository.findByStockNameOrStockId(stockName, stockId);
         StockResponseDto stockResponseDto = new StockResponseDto(stock);
 
         return stockResponseDto;
     }
+
 }
