@@ -30,8 +30,16 @@
                     <i th:if="${isLiked.equals(true)}" class="fas fa-heart"></i>
                     <i th:if="${isLiked.equals(false)}" class="far fa-heart"></i>
                 </span>
-
             </a>
+<!--            <div th:text="${user}"></div>-->
+            <div th:if="${board.user.username} == ${user}">
+                <form th:action="@{/board/delete}" th:method="DELETE">
+                    <input type="hidden" name="boardId" th:value="${board.boardId}">
+                    <a type="submit" class="btn btn-secondary p-2">
+                        <i class="fa fa-trash"></i> 삭제
+                    </a>
+                </form>
+            </div>
         </div>
 
     </div>

@@ -86,6 +86,7 @@ public class BoardController {
         String username = authentication.getName();
         boolean isLiked = boardService.chkLike(username, b);
 
+        model.addAttribute("user", username);
         model.addAttribute("board", boardDetailResponseDto);
         model.addAttribute("isLiked", isLiked);
 
@@ -95,11 +96,13 @@ public class BoardController {
     @GetMapping("/like")
     public String like(@RequestParam Long b, Authentication authentication, Model model) {
         String username = authentication.getName();
-//        System.out.println("username ::::::::::::::::::::::::: "+username);
         boolean isLiked = boardService.setLike(username, b);
-//        System.out.println("isLiked :::::::::::::::::::::::::  "+isLiked);
         model.addAttribute("isLiked", isLiked);
         return "redirect:detail?b="+b;
     }
+
+    @DeleteMapping("/del")
+    public String delete()
+
 
 }
