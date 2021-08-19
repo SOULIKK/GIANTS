@@ -9,18 +9,31 @@
 
 <section>
     <div class="main col-lg-8 bg-white m-auto h-100 p-3 overflow-auto">
-        <h4 class="text-center py-4" th:text="${board.title}"></h4>
-        <br>
-        <div class="p-4">
+
+        <h3 class="text-center pt-5 pb-2 text-primary" th:text="${board.title}"></h3>
+
+        <div class="p-2">
             <span th:text="${#strings.replace(board.createdAt, 'T', '-')}"></span> &nbsp;&nbsp;
             <span th:text="${board.user.username}"></span>
         </div>
         <br>
         <div class="card">
-            <div class="card-body overflow-auto" style="height: 500px !important;">
+            <div class="card-body overflow-auto" style="min-height: 400px !important;">
                 <span th:text="${board.content}"></span>
             </div>
         </div>
+
+        <div class="p-2 d-flex justify-content-between">
+            <a th:href="@{/board/like(b=${board.boardId},)}">
+                <span>
+                    좋아요
+                    <i th:if="${isLiked.equals(true)}" class="fas fa-heart"></i>
+                    <i th:if="${isLiked.equals(false)}" class="far fa-heart"></i>
+                </span>
+
+            </a>
+        </div>
+
     </div>
 </section>
 
