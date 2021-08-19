@@ -101,8 +101,10 @@ public class BoardController {
         return "redirect:detail?b="+b;
     }
 
-    @DeleteMapping("/del")
-    public String delete()
+//    @DeleteMapping("/del")
+//    public String delete() {
+//        return "/";
+//    }
 
 
 }
