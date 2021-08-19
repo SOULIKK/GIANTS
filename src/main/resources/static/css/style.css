@@ -13,7 +13,7 @@ div::-webkit-scrollbar {
 nav > div {
   height: 3rem;
 }
-.nav button, .nav a {
+.nav-circle button, .nav-circle a {
   border-radius: 50% !important;
 }
 
