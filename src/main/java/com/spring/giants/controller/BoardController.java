@@ -6,6 +6,7 @@ import com.spring.giants.model.dto.BoardListResponseDto;
 import com.spring.giants.model.dto.BoardRequestDto;
 import com.spring.giants.model.dto.StockResponseDto;
 import com.spring.giants.model.entity.Board;
+import com.spring.giants.model.entity.Likes;
 import com.spring.giants.model.entity.Stock;
 import com.spring.giants.model.repository.BoardRepository;
 
@@ -78,15 +79,27 @@ public class BoardController {
 
 
 
-
-
     @GetMapping("/detail")
-    public String getBoardDetail(@RequestParam Long b, Model model) {
+    public String getBoardDetail(@RequestParam Long b,  Authentication authentication, Model model) {
 
         BoardDetailResponseDto boardDetailResponseDto = boardService.getDetail(b);
+        String username = authentication.getName();
+        boolean isLiked = boardService.chkLike(username, b);
 
         model.addAttribute("board", boardDetailResponseDto);
+        model.addAttribute("isLiked", isLiked);
+
         return "board/detail";
+    }
+
+    @GetMapping("/like")
+    public String like(@RequestParam Long b, Authentication authentication, Model model) {
+        String username = authentication.getName();
+//        System.out.println("username ::::::::::::::::::::::::: "+username);
+        boolean isLiked = boardService.setLike(username, b);
+//        System.out.println("isLiked :::::::::::::::::::::::::  "+isLiked);
+        model.addAttribute("isLiked", isLiked);
+        return "redirect:detail?b="+b;
     }
 
 }

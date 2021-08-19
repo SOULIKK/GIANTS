@@ -14,4 +14,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     // List<BoardListResponseDto> findAllByStockIdOrderByCreatedAtDesc(String stockId);
 
     Page<BoardListResponseDto> findAllByStockIdAndTitleContainingOrderByCreatedAtDesc(String stockId, String search, Pageable pageable);
+
+    Board findByBoardId(Long boardId);
 }

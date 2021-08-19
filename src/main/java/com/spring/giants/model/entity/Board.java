@@ -1,14 +1,14 @@
 package com.spring.giants.model.entity;
 
 import com.spring.giants.model.dto.BoardRequestDto;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
+
+
 
 @Entity
 @Getter
@@ -37,6 +37,8 @@ public class Board extends Timestamped {
     @NotNull
     private String stockId;
 
+//    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+//    Set<Likes> likes = new HashSet<>();
 
 
     public Board(BoardRequestDto boardRequestDto) {
