@@ -10,11 +10,17 @@
 <section>
     <div class="main col-lg-8 bg-white m-auto h-100 p-3 overflow-auto">
 
+<!--        <div>-->
+<!--            <a class="btn btn-outline-secondary" th:href="@{/board/list(stock=${stockId})}">-->
+<!--                <i class="fa fa-arrow-left"></i>-->
+<!--            </a>-->
+<!--        </div>-->
+
         <h3 class="text-center pt-5 pb-2 text-primary" th:text="${board.title}"></h3>
 
         <div class="p-2">
-            <span th:text="${#strings.replace(board.createdAt, 'T', '-')}"></span> &nbsp;&nbsp;
-            <span th:text="${board.user.username}"></span>
+            <span th:text="${#strings.replace(board.createdAt, 'T', '-')}"></span> &nbsp;
+            <span class="text-primary" th:text="${board.user.username}"></span>
         </div>
         <br>
         <div class="card">
@@ -24,20 +30,24 @@
         </div>
 
         <div class="p-2 d-flex justify-content-between">
-            <a th:href="@{/board/like(b=${board.boardId},)}">
-                <span>
-                    좋아요
-                    <i th:if="${isLiked.equals(true)}" class="fas fa-heart"></i>
-                    <i th:if="${isLiked.equals(false)}" class="far fa-heart"></i>
-                </span>
+
+            <a th:href="@{/board/like(s=${stockId}, b=${board.boardId})}">
+                <h4>
+                    <span class="text-dark">좋아요</span>
+                    <i th:if="${isLiked.equals(true)}" class="fas fa-heart text-danger"></i>
+                    <i th:if="${isLiked.equals(false)}" class="far fa-heart text-secondary"></i>
+                </h4>
             </a>
-<!--            <div th:text="${user}"></div>-->
+
             <div th:if="${board.user.username} == ${user}">
-                <form th:action="@{/board/delete}" th:method="DELETE">
+                <form th:action="@{/board/delete}" th:method="POST">
+
+                    <input type="hidden" name="stockId" th:value="${stockId}">
                     <input type="hidden" name="boardId" th:value="${board.boardId}">
-                    <a type="submit" class="btn btn-secondary p-2">
+
+                    <button type="submit" class="btn btn-secondary p-2">
                         <i class="fa fa-trash"></i> 삭제
-                    </a>
+                    </button>
                 </form>
             </div>
         </div>

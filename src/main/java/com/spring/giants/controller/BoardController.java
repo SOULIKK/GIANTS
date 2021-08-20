@@ -80,7 +80,7 @@ public class BoardController {
 
 
     @GetMapping("/detail")
-    public String getBoardDetail(@RequestParam Long b,  Authentication authentication, Model model) {
+    public String getBoardDetail(@RequestParam String s, @RequestParam Long b,  Authentication authentication, Model model) {
 
         BoardDetailResponseDto boardDetailResponseDto = boardService.getDetail(b);
         String username = authentication.getName();
@@ -89,22 +89,25 @@ public class BoardController {
         model.addAttribute("user", username);
         model.addAttribute("board", boardDetailResponseDto);
         model.addAttribute("isLiked", isLiked);
+        model.addAttribute("stockId", s);
 
         return "board/detail";
     }
 
     @GetMapping("/like")
-    public String like(@RequestParam Long b, Authentication authentication, Model model) {
+    public String like(@RequestParam String s, @RequestParam Long b, Authentication authentication, Model model) {
         String username = authentication.getName();
         boolean isLiked = boardService.setLike(username, b);
         model.addAttribute("isLiked", isLiked);
-        return "redirect:detail?b="+b;
+        return "redirect:detail?s="+s+"&b="+b;
     }
 
-//    @DeleteMapping("/del")
-//    public String delete() {
-//        return "/";
-//    }
+
+    @PostMapping("/delete")
+    public String delete(String stockId, Long boardId) {
+        boardService.delBoard(boardId);
+        return "redirect:list?stock="+stockId;
+    }
 
 
 }

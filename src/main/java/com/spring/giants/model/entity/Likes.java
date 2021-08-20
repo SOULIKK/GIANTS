@@ -14,7 +14,7 @@ import javax.persistence.Id;
 public class Likes {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long likeId;
 
     private Long userId;

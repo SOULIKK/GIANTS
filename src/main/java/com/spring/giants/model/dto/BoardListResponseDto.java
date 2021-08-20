@@ -21,6 +21,7 @@ public class BoardListResponseDto {
     private String stockId;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+    private int likes;
 
 
 
@@ -34,4 +35,5 @@ public class BoardListResponseDto {
         this.createdAt = board.getCreatedAt();
         this.modifiedAt = board.getModifiedAt();
     }
+
 }

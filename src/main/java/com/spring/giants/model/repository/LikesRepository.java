@@ -8,4 +8,6 @@ public interface LikesRepository extends JpaRepository<Likes, Long> {
     void deleteByUserIdAndBoardId(Long userId, Long boardId);
 
     Likes findByUserIdAndBoardId(Long userId, Long boardId);
+
+    void deleteByBoardId(Long boardId);
 }

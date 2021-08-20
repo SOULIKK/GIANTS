@@ -40,6 +40,7 @@ public class BoardService {
 
     @Transactional
     public Page<BoardListResponseDto> getBoardList(String stockId, String search, Pageable pageable) {
+        
         return boardRepository.findAllByStockIdAndTitleContainingOrderByCreatedAtDesc(stockId, search, pageable);
     }
 
@@ -70,8 +71,8 @@ public class BoardService {
             likesRepository.deleteByUserIdAndBoardId(userId, boardId);
             return false;
         }
-
     }
+
     @Transactional
     public boolean chkLike(String username, Long boardId) {
         User user = userRepository.findByUsername(username);
@@ -84,5 +85,9 @@ public class BoardService {
         }
     }
 
-
+    @Transactional
+    public void delBoard(Long boardId) {
+        boardRepository.deleteById(boardId);
+        likesRepository.deleteByBoardId(boardId);
+    }
 }

@@ -47,7 +47,7 @@
             <tr th:each="board : ${boards}">
                 <td class="text-center" th:text="${board.user.username}"></td>
                 <td>
-                    <a th:text="${board.title}" th:href="@{/board/detail(b=${board.boardId})}"></a>
+                    <a th:text="${board.title}" th:href="@{/board/detail(s=${stock.stockId}, b=${board.boardId})}"></a>
                 </td>
                 <td class="text-center" th:text="${board.createdAt}"></td>
             </tr>
