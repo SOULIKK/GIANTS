@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,13 +21,16 @@ public class BoardDetailResponseDto {
     private User user;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+    private List<CommentResponseDto> comments;
 
-    public BoardDetailResponseDto(Board board) {
+    public BoardDetailResponseDto(Board board, List<CommentResponseDto> comments) {
         this.boardId = board.getBoardId();
         this.title = board.getTitle();
         this.content=  board.getContent();
         this.user = board.getUser();
         this.createdAt = board.getCreatedAt();
         this.modifiedAt = board.getModifiedAt();
+        this.comments = comments;
     }
+
 }

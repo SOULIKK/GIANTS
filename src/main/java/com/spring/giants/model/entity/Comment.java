@@ -20,13 +20,13 @@ public class Comment extends Timestamped {
     private String content;
 
     @NotNull
-    @ManyToOne
-    @JoinTable(name = "userId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @NotNull
-    @ManyToOne
-    @JoinTable(name = "boardId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_id")
     private Board board;
 
 
