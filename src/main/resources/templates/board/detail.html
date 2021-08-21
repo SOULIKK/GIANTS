@@ -10,11 +10,11 @@
 <section>
     <div class="main col-lg-8 bg-white m-auto h-100 p-3 overflow-auto">
 
-<!--        <div>-->
-<!--            <a class="btn btn-outline-secondary" th:href="@{/board/list(stock=${stockId})}">-->
-<!--                <i class="fa fa-arrow-left"></i>-->
-<!--            </a>-->
-<!--        </div>-->
+        <!--        <div>-->
+        <!--            <a class="btn btn-outline-secondary" th:href="@{/board/list(stock=${stockId})}">-->
+        <!--                <i class="fa fa-arrow-left"></i>-->
+        <!--            </a>-->
+        <!--        </div>-->
 
         <h3 class="text-center pt-5 pb-2 text-primary" th:text="${board.title}"></h3>
 
@@ -50,6 +50,30 @@
                     </button>
                 </form>
             </div>
+        </div>
+        <div class="p-4" style="border-top: 1px solid #f3f3f3; border-bottom: 1px solid #f3f3f3;">
+            <span class="text-secondary">10개의 댓글</span>
+        </div>
+        <div class="mt-5 p-2">
+
+            <!-- comment form -->
+            <div class="p-2">
+                <form th:action="@{/board/comment}" th:method="POST">
+                    <textarea class="form-control" name="comment" row="4"></textarea>
+                </form>
+            </div>
+            <!-- comment form -->
+
+            <!-- comment list -->
+            <div class="p-2" style="border-bottom: 1px solid #f3f3f3;">
+                <h4>username</h4>
+                <h6 class="text-secondary">2021-08-21 21:02</h6>
+                <div class="pt-2">
+                    <span>좋은 의견 감사합니다</span>
+                </div>
+            </div>
+            <!-- comment list -->
+
         </div>
 
     </div>
