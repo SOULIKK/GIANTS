@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    List<CommentResponseDto> findAllByBoardOrderByCreatedAtDesc(Board board);
+    List<Comment> findAllByBoardOrderByCreatedAtDesc(Board board);
 }

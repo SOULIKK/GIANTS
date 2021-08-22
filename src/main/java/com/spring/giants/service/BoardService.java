@@ -4,10 +4,13 @@ import com.spring.giants.config.exception.ApiRequestException;
 import com.spring.giants.model.dto.BoardDetailResponseDto;
 import com.spring.giants.model.dto.BoardListResponseDto;
 import com.spring.giants.model.dto.BoardRequestDto;
+import com.spring.giants.model.dto.CommentResponseDto;
 import com.spring.giants.model.entity.Board;
+import com.spring.giants.model.entity.Comment;
 import com.spring.giants.model.entity.Likes;
 import com.spring.giants.model.entity.User;
 import com.spring.giants.model.repository.BoardRepository;
+import com.spring.giants.model.repository.CommentRepository;
 import com.spring.giants.model.repository.LikesRepository;
 import com.spring.giants.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +20,9 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class BoardService {
@@ -25,6 +31,7 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
     private final LikesRepository likesRepository;
+    private final CommentRepository commentRepository;
 
 
     @Transactional
@@ -40,7 +47,6 @@ public class BoardService {
 
     @Transactional
     public Page<BoardListResponseDto> getBoardList(String stockId, String search, Pageable pageable) {
-        
         return boardRepository.findAllByStockIdAndTitleContainingOrderByCreatedAtDesc(stockId, search, pageable);
     }
 
@@ -51,7 +57,14 @@ public class BoardService {
                 () -> new ApiRequestException("해당 글이 존재하지 않습니다.")
         );
 
-        BoardDetailResponseDto boardDetailResponseDto = new BoardDetailResponseDto(board);
+        List<Comment> commentList = commentRepository.findAllByBoardOrderByCreatedAtDesc(board);
+
+        List<CommentResponseDto> commentResponseDtoList = commentList.stream()
+                .map(CommentResponseDto::new)
+                .collect(Collectors.toList());
+
+
+        BoardDetailResponseDto boardDetailResponseDto = new BoardDetailResponseDto(board, commentResponseDtoList);
         return boardDetailResponseDto;
     }
 
