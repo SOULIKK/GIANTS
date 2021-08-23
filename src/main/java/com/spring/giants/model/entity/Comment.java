@@ -1,9 +1,11 @@
 package com.spring.giants.model.entity;
 
 
+import com.spring.giants.model.dto.CommentRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.activation.DataContentHandler;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -28,6 +30,12 @@ public class Comment extends Timestamped {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
+
+    public Comment(CommentRequestDto commentRequestDto, User user, Board board) {
+        this.content = commentRequestDto.getContent();
+        this.user = user;
+        this.board = board;
+    }
 
 
 }
