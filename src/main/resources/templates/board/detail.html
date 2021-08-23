@@ -53,23 +53,28 @@
         </div>
         <div class="p-4" style="border-top: 1px solid #f3f3f3; border-bottom: 1px solid #f3f3f3;">
             <span class="text-secondary">10개의 댓글</span>
+            <span th:text="${user}"></span>
         </div>
         <div class="mt-5 p-2">
 
             <!-- comment form -->
             <div class="p-2">
-                <form th:action="@{/board/comment}" th:method="POST">
-                    <textarea class="form-control" name="comment" row="4"></textarea>
+                <form th:action="@{/comment/create/{boardId}(boardId = ${board.boardId})}" th:method="POST">
+                    <textarea class="form-control" name="content" row="4"></textarea>
+<!--                    <input type="hidden" name="board" th:value="${board}">-->
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-outline-primary p-2">작성</button>
+                    </div>
                 </form>
             </div>
             <!-- comment form -->
 
             <!-- comment list -->
-            <div class="p-2" style="border-bottom: 1px solid #f3f3f3;">
-                <h4>username</h4>
-                <h6 class="text-secondary">2021-08-21 21:02</h6>
+            <div class="p-2" style="border-bottom: 1px solid #f3f3f3;" th:each="comment : ${board.comments}">
+                <h4 th:text="${comment.user.username}"></h4>
+                <h6 class="text-secondary" th:text="${comment.createdAt}" }></h6>
                 <div class="pt-2">
-                    <span>좋은 의견 감사합니다</span>
+                    <span th:text="${comment.content}"></span>
                 </div>
             </div>
             <!-- comment list -->
