@@ -9,123 +9,96 @@
 
 
 <section>
-  <div class="main col-lg-8  bg-white m-auto h-100 p-3">
+    <div class="main col-lg-8  bg-white m-auto h-100 p-3 overflow-auto">
 
-    <!-- 여기서부터 쪼개면 됨 -->
+        <!-- 여기서부터 쪼개면 됨 -->
 
 
-    <!-- tab -->
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-      <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                role="tab" aria-controls="home" aria-selected="true">작성글</button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
-                role="tab" aria-controls="profile" aria-selected="false">프로필</button>
-      </li>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-        <div class="row p-0 m-0">
+        <!-- tab -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
+                        role="tab" aria-controls="home" aria-selected="true">작성글
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
+                        role="tab" aria-controls="profile" aria-selected="false">프로필
+                </button>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="row p-0 m-0">
 
-          <div class="col-md-12 mb-2">
-            <div class="p-4">
+                    <div class="col-md-12 mb-2">
+                        <div class="p-4">
 
-              <!-- SERCTION 1 -->
-              <div style="font-size: .5rem !important;">
+                            <!-- SERCTION 1 -->
+                            <div style="font-size: .5rem !important;">
 
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <h4><b>작성글</b></h4>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h4><b>작성글</b></h4>
+                                </div>
+
+                                <!-- test -->
+                                <table class="table">
+                                    <thead class="text-center fw-bold">
+                                        <tr>
+                                            <th>제목</th>
+                                            <th>작성일시</th>
+                                            <th>좋아요</th>
+                                            <th>댓글수</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="userBoard : ${userBoards}">
+                                            <td th:text="${userBoard.title}"></td>
+                                            <td th:text="${userBoard.createdAt}"></td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <!-- // SERCTION 1 -->
+
+                        </div>
+                    </div>
                 </div>
-
-                <table class="table">
-                  <thead>
-                  <tr>
-                    <th>제목</th>
-                    <th>작성일시</th>
-                    <th>좋아요</th>
-                    <th>댓글수</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  </tbody>
-                </table>
-
-              </div>
-              <!-- // SERCTION 1 -->
-
             </div>
-          </div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="p-5">
+                    <h2 class="p-3">비밀번호 변경</h2>
+                    <form th:action="@{/user/pw}" th:method="POST">
+                        <input type="hidden" name="username" th:value="${userInfo.username}">
+                        <label>
+                            <span>새 비밀번호</span>
+                        </label>
+                        <div class="py-2">
+                            <input class="form-control" type="password" name="password">
+                        </div>
+                        <label>
+                            <span>비밀번호 확인</span>
+                        </label>
+                        <div class="py-2">
+                            <input class="form-control" type="password" name="chkPassword">
+                        </div>
+                        <br>
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-outline-success">
+                                저장
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">개인정보 수정</div>
+        <!-- tab -->
+
+        <!-- 여기서부터 쪼개면 됨 -->
+
     </div>
-    <!-- tab -->
-
-    <!-- 여기서부터 쪼개면 됨 -->
-
-  </div>
 </section>
 
 <!-- SIDEBAR -->

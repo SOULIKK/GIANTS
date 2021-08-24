@@ -7,6 +7,7 @@ import com.spring.giants.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +16,7 @@ public class UserService {
     final private UserRepository userRepository;
     final private PasswordEncoder passwordEncoder;
 
+    @Transactional
     public User join(User user) {
         String encodedPw = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPw);
@@ -26,4 +28,8 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    @Transactional
+    public User getUserInfo(String username) {
+        return userRepository.findByUsername(username);
+    }
 }
