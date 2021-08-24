@@ -13,9 +13,6 @@ div::-webkit-scrollbar {
 nav > div {
   height: 3rem;
 }
-.nav-circle button, .nav-circle a {
-  border-radius: 50% !important;
-}
 
 .offcanvas-start {
   top: 0;
