@@ -56,14 +56,8 @@
 
             <div class="p-2">
                 <span classt="pb-1">댓글 작성</span>
-                <form th:action="@{/comment/create/{boardId}(boardId = ${board.boardId})}" th:method="POST" th:object="*{board.comments}">
+                <form th:action="@{/comment/create/{boardId}(boardId = ${board.boardId})}" th:method="POST">
                     <textarea class="form-control" name="content" row="4"></textarea>
-
-                    <!-- -->
-<!--                    <input type="text" class="form-control" id="content"th:classappend="${#fields.hasErrors('content')} ? 'is-invalid'" th:field="*{}">-->
-<!--                    <div class="invalid-feedback" th:if="${#fields.hasErrors('content')}" th:errors="*{}">제목 에러 메시지-->
-<!--                    </div>-->
-                    <!-- -->
 
                     <div class="text-end py-2">
                         <button type="submit" class="btn btn-outline-success py-1 px-2"><span>저장</span></button>

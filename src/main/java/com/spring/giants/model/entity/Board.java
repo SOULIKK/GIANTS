@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
+import java.util.List;
 
 
 @Entity
@@ -20,10 +20,11 @@ public class Board extends Timestamped {
     private Long boardId;
 
     @NotNull
-    @Size(min = 2, max = 150, message = "제목은 2글자 이상이어야 합니다.")
+    @Size(min = 2, max = 150, message = "2 ~ 150자 길이의 제목을 입력할 수 있습니다.")
     private String title;
 
     @NotNull
+    @Size(min = 10, max = 2000, message = "10 ~ 2000자 길이의 내용을 입력할 수 있습니다.")
     private String content;
 
     @NotNull
@@ -32,14 +33,8 @@ public class Board extends Timestamped {
     private User user;
 
 
-//    @ManyToOne
-//    @JoinCol umn(name = "stockId")
     @NotNull
     private String stockId;
-
-//    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
-//    Set<Likes> likes = new HashSet<>();
-
 
     public Board(BoardRequestDto boardRequestDto) {
         this.title = boardRequestDto.getTitle();
@@ -47,5 +42,6 @@ public class Board extends Timestamped {
         this.user = boardRequestDto.getUser();
         this.stockId = boardRequestDto.getStockId();
     }
+
 
 }

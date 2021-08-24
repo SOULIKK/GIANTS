@@ -85,9 +85,11 @@ public class BoardController {
         BoardDetailResponseDto boardDetailResponseDto = boardService.getDetail(b);
         String username = authentication.getName();
         boolean isLiked = boardService.chkLike(username, b);
+        int countComment = boardDetailResponseDto.getComments().size();
 
         model.addAttribute("user", username);
         model.addAttribute("board", boardDetailResponseDto);
+        model.addAttribute("countComment", countComment);
         model.addAttribute("isLiked", isLiked);
         model.addAttribute("stockId", s);
 

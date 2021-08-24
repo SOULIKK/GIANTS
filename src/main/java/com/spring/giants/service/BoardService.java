@@ -103,4 +103,8 @@ public class BoardService {
         boardRepository.deleteById(boardId);
         likesRepository.deleteByBoardId(boardId);
     }
+
+    public List<Board> getUserBoard(User user) {
+        return boardRepository.findByUser(user);
+    }
 }
