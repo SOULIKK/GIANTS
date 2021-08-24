@@ -41,3 +41,11 @@ section {
   max-height: 400px;
   overflow: hidden auto;
 }
+
+.comment-form {
+  border-bottom: 1px solid #f3f3f3;
+}
+
+.board-content{
+  min-height: 20rem !important;
+}
