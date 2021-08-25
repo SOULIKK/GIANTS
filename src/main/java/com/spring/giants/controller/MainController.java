@@ -17,28 +17,33 @@ public class MainController {
     final private MainService mainService;
 
     @GetMapping("/")
-    public String main() {
-        return "main/main";
+    public String main(Model model) {
+        String state = "home";
+        model.addAttribute("state", state);
+        return "/main/main";
     }
 
     @GetMapping("/search")
     public String stockSearch() {
-        return "main/search";
+        return "/main/search";
     }
 
     @GetMapping("/hot")
-    public String hot() {
-        return "main/hot";
+    public String hot(Model model) {
+        String state = "hot";
+        model.addAttribute("state", state);
+        return "/main/hot";
     }
 
     @GetMapping("/pick")
-    public String pick() {
-        return "main/pick";
+    public String pick(Model model) {
+        String state = "pick";
+        model.addAttribute("state", state);
+        return "/main/pick";
     }
 
     @GetMapping("/main/stock")
     public String searchedValue(@RequestParam String name, Model model) {
-
         String id = "";
         StockResponseDto stockResponseDto = mainService.getStock(name, id);
         model.addAttribute("stock", stockResponseDto);

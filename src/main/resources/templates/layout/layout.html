@@ -61,7 +61,6 @@
 <!-- SIDEBAR -->
 <div id="sidebar" th:fragment="sidebar(sidebar)">
 
-
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel"
          style="visibility: hidden;" aria-modal="true" role="dialog">
         <div class="offcanvas-header pb-0 pt-5">
@@ -72,19 +71,19 @@
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
-                    <a href="#" class="nav-link active" aria-current="page">
+                    <a href="#" class="nav-link link-dark" th:classappend="${sidebar == 'home'} ? 'nav-link active'" aria-current="page" th:href="@{/}">
                         <i class="fa fa-home"></i>&nbsp;&nbsp;
                         <span>홈</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link link-dark">
+                    <a href="#" class="nav-link link-dark" th:classappend="${sidebar == 'pick'} ? 'nav-line active'" th:href="@{/pick}">
                         <i class="fa fa-paper-plane"></i>&nbsp;&nbsp;
                         <span>Editor's Pick</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link link-dark">
+                    <a href="#" class="nav-link link-dark" th:classappend="${sidebar == 'hot'} ? 'nav-line active'" th:href="@{/hot}">
                         <i class="fa fa-star"></i>&nbsp;&nbsp;
                         <span>인기글</span>
                     </a>
@@ -96,7 +95,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link link-dark">
+                    <a href="#" class="nav-link link-dark" th:classappend="${sidebar == 'mypage'} ? 'nav-line active'" th:href="@{/user/mypage}">
                         <i class="fa fa-user"></i>&nbsp;&nbsp;
                         <span>마이페이지</span>
                     </a>
@@ -108,71 +107,6 @@
 </div>
 <!-- // SIDEBAR -->
 
-<!-- SEARCH MODAL -->
-<div id="search" th:fragment="search(search)">
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h6 class="modal-title" id="exampleModalLabel"><b>종목 검색</b></h6>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                    </div>
-                    <button type="button" class="btn btn-dark d-none" th:onclick="|javascript:test()|">ddd</button>
-
-                    <table class="table d-none">
-                        <tr>
-                            <td>한화에스비아이스팩</td>
-                        </tr>
-                        <tr>
-                            <td>한화플러스제1호스팩</td>
-                        </tr>
-                        <tr>
-                            <td>한화손해보험</td>
-                        </tr>
-                        <tr>
-                            <td>한화</td>
-                        </tr>
-                        <tr>
-                            <td>한화우</td>
-                        </tr>
-                        <tr>
-                            <td>한화3우B</td>
-                        </tr>
-                        <tr>
-                            <td>한화투자증권</td>
-                        </tr>
-                        <tr>
-                            <td>한화투자증권우</td>
-                        </tr>
-                        <tr>
-                            <td>대한화섬</td>
-                        </tr>
-                        <tr>
-                            <td>한화솔루션</td>
-                        </tr>
-                        <tr>
-                            <td>한화솔루션우</td>
-                        </tr>
-                        <tr>
-                            <td>한화에어로스페이스</td>
-                        </tr>
-                        <tr>
-                            <td>한화생명 코스피</td>
-                        </tr>
-                        <tr>
-                            <td>한화시스템</td>
-                        </tr>
-
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- // SEARCH MODAL -->
 
 
 <footer>

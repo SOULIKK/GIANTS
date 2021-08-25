@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout/layout :: head('hot')">
+<head th:replace="layout/layout :: head('mypage')">
 </head>
 
 <body>
-<nav class="bg-dark" th:replace="layout/layout :: menu('hot')">
+<nav class="bg-dark" th:replace="layout/layout :: menu('mypage')">
 </nav>
 
 
@@ -55,7 +55,8 @@
                                         <tr th:each="userBoard : ${userBoards}">
                                             <td th:text="${userBoard.title}"></td>
                                             <td th:text="${userBoard.createdAt}"></td>
-
+                                            <td></td>
+                                            <td></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -70,7 +71,7 @@
             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                 <div class="p-5">
                     <h2 class="p-3">비밀번호 변경</h2>
-                    <form th:action="@{/user/pw}" th:method="POST">
+                    <form th:action="@{/user/update}" th:method="POST">
                         <input type="hidden" name="username" th:value="${userInfo.username}">
                         <label>
                             <span>새 비밀번호</span>
@@ -102,7 +103,7 @@
 </section>
 
 <!-- SIDEBAR -->
-<div id="sidebar" th:replace="layout/layout :: sidebar('hot')">
+<div id="sidebar" th:replace="layout/layout :: sidebar('mypage')">
 </div>
 <!-- // SIDEBAR -->
 
