@@ -2,6 +2,7 @@ package com.spring.giants.model.dto;
 
 
 import com.spring.giants.model.entity.Board;
+import com.spring.giants.model.entity.Likes;
 import com.spring.giants.model.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,8 +23,9 @@ public class BoardDetailResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private List<CommentResponseDto> comments;
+    private List<Likes> likes;
 
-    public BoardDetailResponseDto(Board board, List<CommentResponseDto> comments) {
+    public BoardDetailResponseDto(Board board, List<CommentResponseDto> comments, List<Likes> likes) {
         this.boardId = board.getBoardId();
         this.title = board.getTitle();
         this.content=  board.getContent();
@@ -31,6 +33,7 @@ public class BoardDetailResponseDto {
         this.createdAt = board.getCreatedAt();
         this.modifiedAt = board.getModifiedAt();
         this.comments = comments;
+        this.likes = likes;
     }
 
 }

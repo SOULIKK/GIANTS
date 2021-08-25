@@ -1,6 +1,7 @@
 package com.spring.giants.model.dto;
 
 import com.spring.giants.model.entity.Board;
+import com.spring.giants.model.entity.Likes;
 import com.spring.giants.model.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,12 +22,11 @@ public class BoardListResponseDto {
     private String stockId;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private int likes;
-
+    private Long cntComment;
+    private Long cntLike;
 
 
     public BoardListResponseDto(Board board) {
-
         this.boardId = board.getBoardId();
         this.title = board.getTitle();
         this.content = board.getContent();

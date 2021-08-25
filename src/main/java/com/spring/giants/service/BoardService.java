@@ -58,13 +58,13 @@ public class BoardService {
         );
 
         List<Comment> commentList = commentRepository.findAllByBoardOrderByCreatedAtDesc(board);
-
         List<CommentResponseDto> commentResponseDtoList = commentList.stream()
                 .map(CommentResponseDto::new)
                 .collect(Collectors.toList());
 
+        List<Likes> likesList = likesRepository.findAllByBoardId(boardId);
 
-        BoardDetailResponseDto boardDetailResponseDto = new BoardDetailResponseDto(board, commentResponseDtoList);
+        BoardDetailResponseDto boardDetailResponseDto = new BoardDetailResponseDto(board, commentResponseDtoList, likesList);
         return boardDetailResponseDto;
     }
 
@@ -107,4 +107,5 @@ public class BoardService {
     public List<Board> getUserBoard(User user) {
         return boardRepository.findByUser(user);
     }
+
 }

@@ -86,10 +86,12 @@ public class BoardController {
         String username = authentication.getName();
         boolean isLiked = boardService.chkLike(username, b);
         int countComment = boardDetailResponseDto.getComments().size();
+        int countLikes = boardDetailResponseDto.getLikes().size();
 
         model.addAttribute("user", username);
         model.addAttribute("board", boardDetailResponseDto);
         model.addAttribute("countComment", countComment);
+        model.addAttribute("countLikes", countLikes);
         model.addAttribute("isLiked", isLiked);
         model.addAttribute("stockId", s);
 
@@ -110,6 +112,8 @@ public class BoardController {
         boardService.delBoard(boardId);
         return "redirect:list?stock="+stockId;
     }
+
+
 
 
 }

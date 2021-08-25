@@ -36,6 +36,7 @@
                     <span class="text-dark">좋아요</span>
                     <i th:if="${isLiked.equals(true)}" class="fas fa-heart text-danger"></i>
                     <i th:if="${isLiked.equals(false)}" class="far fa-heart text-secondary"></i>
+                    <span class="text-dark" th:text="${countLikes}"></span>
                 </h5>
             </a>
 
@@ -86,6 +87,7 @@
                     </button>
                 </div>
             </div>
+            <br><br>
 
         </div>
 
