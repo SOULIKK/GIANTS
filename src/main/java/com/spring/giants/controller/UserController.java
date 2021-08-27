@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.Mapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class UserController {
     final private UserService userService;
     final private BoardService boardService;
 
+
     @GetMapping("/mypage")
     public String getUserpage(Authentication authentication, Model model) {
 
@@ -33,6 +35,13 @@ public class UserController {
         model.addAttribute("userInfo", user);
         model.addAttribute("userBoards", userBoards);
 
+        return "/user/mypage";
+    }
+
+    @PostMapping("/update")
+    public String updatePw(Authentication authentication, String password, String chkPassword) {
+        String username = authentication.getName();
+        userService.updatePw(username, password);
         return "/user/mypage";
     }
 
