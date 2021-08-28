@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -23,19 +24,19 @@ public class MainController {
         return "/main/main";
     }
 
-    @GetMapping("/search")
+    @GetMapping("/main/search")
     public String stockSearch() {
         return "/main/search";
     }
 
-    @GetMapping("/hot")
+    @GetMapping("/main/hot")
     public String hot(Model model) {
         String state = "hot";
         model.addAttribute("state", state);
         return "/main/hot";
     }
 
-    @GetMapping("/pick")
+    @GetMapping("/main/pick")
     public String pick(Model model) {
         String state = "pick";
         model.addAttribute("state", state);
