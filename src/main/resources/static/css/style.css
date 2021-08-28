@@ -46,3 +46,9 @@ section {
 .board-content{
   min-height: 20rem !important;
 }
+
+.tab-pane.fade.active {
+  border-bottom: 1px solid #dee2e6 !important;
+  border-right: 1px solid #dee2e6 !important;
+  border-left: 1px solid #dee2e6 !important;
+}
