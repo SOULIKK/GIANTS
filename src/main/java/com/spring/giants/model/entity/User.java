@@ -2,6 +2,7 @@ package com.spring.giants.model.entity;
 
 
 
+import com.spring.giants.model.dto.ProfileRequestDto;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -36,4 +37,8 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Board> boards = new ArrayList<>();
 
+    public void update(ProfileRequestDto profileRequestDto) {
+        this.username = profileRequestDto.username;
+        this.password = profileRequestDto.password;
+    }
 }

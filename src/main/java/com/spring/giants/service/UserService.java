@@ -1,6 +1,7 @@
 package com.spring.giants.service;
 
 
+import com.spring.giants.model.dto.ProfileRequestDto;
 import com.spring.giants.model.entity.Role;
 import com.spring.giants.model.entity.User;
 import com.spring.giants.model.repository.UserRepository;
@@ -31,5 +32,13 @@ public class UserService {
     @Transactional
     public User getUserInfo(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    public void updatePw(String username, String password) {
+        User user = userRepository.findByUsername(username);
+        ProfileRequestDto profileRequestDto = new ProfileRequestDto();
+        profileRequestDto.setUsername(username);
+        profileRequestDto.setPassword(password);
+        user.update(profileRequestDto);
     }
 }

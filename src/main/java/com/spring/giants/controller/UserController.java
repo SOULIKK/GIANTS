@@ -40,6 +40,10 @@ public class UserController {
 
     @PostMapping("/update")
     public String updatePw(Authentication authentication, String password, String chkPassword) {
+
+        if (password != chkPassword) {
+            return "/user/mypage";
+        }
         String username = authentication.getName();
         userService.updatePw(username, password);
         return "/user/mypage";
