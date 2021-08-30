@@ -42,11 +42,11 @@ public class UserController {
     public String updatePw(Authentication authentication, String password, String chkPassword) {
 
         if (password != chkPassword) {
-            return "/user/mypage";
+            return "redirect:/";
         }
         String username = authentication.getName();
         userService.updatePw(username, password);
-        return "/user/mypage";
+        return "redirect:/user/mypage";
     }
 
 
