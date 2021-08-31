@@ -1,6 +1,7 @@
 package com.spring.giants.controller;
 
 
+import com.spring.giants.config.validator.BoardValidator;
 import com.spring.giants.model.dto.BoardDetailResponseDto;
 import com.spring.giants.model.dto.BoardListResponseDto;
 import com.spring.giants.model.dto.BoardRequestDto;
@@ -20,9 +21,11 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.function.DoubleToIntFunction;
 
@@ -35,6 +38,7 @@ public class BoardController {
 
     final private BoardService boardService;
     final private MainService mainService;
+    final private BoardValidator boardValidator;
 
 
     @GetMapping("/list")
@@ -64,15 +68,21 @@ public class BoardController {
     @GetMapping("/write")
     public String write(@RequestParam String stock, Model model) {
         model.addAttribute("stock", stock);
+        model.addAttribute("board", new BoardRequestDto());
         return "board/write";
     }
 
 
-    @PostMapping("/submit")
-    public String writeBoard(Authentication authentication, BoardRequestDto boardRequestDto) {
+    @PostMapping("/write")
+    public String writeBoard(Authentication authentication, @Valid BoardRequestDto boardRequestDto, BindingResult bindingResult) {
+        boardValidator.validate(boardRequestDto, bindingResult);
+
         String username = authentication.getName();
-        System.out.println(boardRequestDto.getStockId());
         String stock = boardService.setBoard(username, boardRequestDto);
+
+        if (bindingResult.hasErrors()) {
+            return "redirect:/board/list?stock="+stock;
+        }
 
         return "redirect:/board/list?stock="+stock;
     }

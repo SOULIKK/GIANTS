@@ -52,3 +52,8 @@ section {
   border-right: 1px solid #dee2e6 !important;
   border-left: 1px solid #dee2e6 !important;
 }
+
+.dropdown-menu {
+  min-width: 6rem !important;
+  font-size: .75rem !important;
+}
