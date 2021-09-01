@@ -38,7 +38,6 @@ public class User {
     private List<Board> boards = new ArrayList<>();
 
     public void update(ProfileRequestDto profileRequestDto) {
-        this.username = profileRequestDto.username;
-        this.password = profileRequestDto.password;
+        this.password = profileRequestDto.getPassword();
     }
 }

@@ -34,11 +34,15 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+    @Transactional
     public void updatePw(String username, String password) {
+
         User user = userRepository.findByUsername(username);
         ProfileRequestDto profileRequestDto = new ProfileRequestDto();
-        profileRequestDto.setUsername(username);
-        profileRequestDto.setPassword(password);
+
+        String encodedPw = passwordEncoder.encode(password);
+        profileRequestDto.setPassword(encodedPw);
+
         user.update(profileRequestDto);
     }
 }
