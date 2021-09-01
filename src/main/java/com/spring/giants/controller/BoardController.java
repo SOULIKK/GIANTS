@@ -24,6 +24,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -66,23 +67,30 @@ public class BoardController {
 
 
     @GetMapping("/write")
-    public String write(@RequestParam String stock, Model model) {
-        model.addAttribute("stock", stock);
-        model.addAttribute("board", new BoardRequestDto());
+    public String write(String stock, Model model) {
+        BoardRequestDto boardRequestDto = new BoardRequestDto();
+        boardRequestDto.setStockId(stock);
+        model.addAttribute("board", boardRequestDto);
         return "board/write";
     }
 
 
     @PostMapping("/write")
-    public String writeBoard(Authentication authentication, @Valid BoardRequestDto boardRequestDto, BindingResult bindingResult) {
-        boardValidator.validate(boardRequestDto, bindingResult);
+    public String writeBoard(Authentication authentication
+            , @Valid @ModelAttribute BoardRequestDto boardRequestDto
+            , BindingResult bindingResult
+            , RedirectAttributes redirectAttributes
+            , Model model) {
 
         String username = authentication.getName();
-        String stock = boardService.setBoard(username, boardRequestDto);
+        String stock = boardRequestDto.getStockId();
 
         if (bindingResult.hasErrors()) {
-            return "redirect:/board/list?stock="+stock;
+            redirectAttributes.addFlashAttribute("board", boardRequestDto);
+            return "redirect:/board/write?stock="+stock;
         }
+
+        boardService.setBoard(username, boardRequestDto);
 
         return "redirect:/board/list?stock="+stock;
     }
@@ -123,7 +131,22 @@ public class BoardController {
         return "redirect:list?stock="+stockId;
     }
 
+    @GetMapping("/update")
+    public String updateForm(String s, Long b, Model model) {
+        BoardDetailResponseDto board = boardService.getDetail(b);
+        model.addAttribute("board", board);
+        model.addAttribute("stockId", s);
+        return "board/update";
+    }
 
+    @PostMapping("/update")
+    public String update(Long boardId, BoardRequestDto boardRequestDto, Authentication authentication) {
+        String username = authentication.getName();
+        String stockId = boardRequestDto.getStockId();
 
+        boardService.uptBoard(boardId, boardRequestDto);
+//        return "redirect: /";
+        return "redirect:/board/detail?s="+stockId+"&b="+boardId;
+    }
 
 }

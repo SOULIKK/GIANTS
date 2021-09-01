@@ -104,8 +104,14 @@ public class BoardService {
         likesRepository.deleteByBoardId(boardId);
     }
 
+    @Transactional
     public List<Board> getUserBoard(User user) {
         return boardRepository.findByUser(user);
     }
 
+    @Transactional
+    public void uptBoard(Long boardId, BoardRequestDto boardRequestDto) {
+        Board board = boardRepository.findOneByBoardId(boardId);
+        board.update(boardRequestDto);
+    }
 }

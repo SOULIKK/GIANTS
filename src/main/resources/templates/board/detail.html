@@ -30,7 +30,17 @@
         </div>
 
         <div class="p-2 text-end">
-            <div th:if="${board.user.username} == ${user}">
+            <div th:if="${board.user.username} == ${user}" class="d-flex justify-content-md-end p-1">
+
+<!--                <button type="button" class="btn btn-dark mr-1 border border-0" th:onclick="uptBoard([[${stockId}]], [[${board.boardId}]])">-->
+<!--                        <i class="fa fa-cog"></i>-->
+<!--                        수정-->
+<!--                </button>-->
+                <a type="button" class="btn btn-dark mr-1 border border-0" th:href="@{/board/update(s=${stockId}, b=${board.boardId})}">
+                    <i class="fa fa-cog"></i>
+                    수정
+                </a>&nbsp;
+
                 <form th:action="@{/board/delete}" th:method="POST">
 
                     <input type="hidden" name="stockId" th:value="${stockId}">

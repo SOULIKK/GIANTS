@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head('detail')">
+</head>
+
+<body>
+<nav class="bg-dark" th:replace="layout/layout :: menu('detail')">
+</nav>
+
+<section>
+    <div class="main col-lg-8 bg-white m-auto h-100 p-3 overflow-auto">
+
+        <div>
+            <a class="btn btn-outline-secondary py-1 px-2" th:href="@{/board/detail(b=${board.boardId}, s=${stockId})}">
+                <i class="fa fa-arrow-left"></i> 돌아가기
+            </a>
+        </div>
+
+        <form th:action="@{/board/update}" th:method="POST">
+            <div class="pt-5 pb-2">
+                <input type="hidden" name="boardId" id="boardId" th:value="${board.boardId}">
+                <label class="fw-bold py-2 text-primary">제목</label>
+                <input class="form-control fs-4 fw-bold" name="title" th:value="${board.title}">
+            </div>
+
+            <br>
+
+            <label class="fw-bold py-2 text-primary">내용</label>
+            <textarea class="form-control board-content card-body overflow-auto" name="content" th:value="${board.content}"></textarea>
+            <div class="py-3 text-end">
+                <button type="submit" class="btn btn-outline-primary text-end"><span>저장</span></button>
+            </div>
+        </form>
+
+    </div>
+</section>
+
+
+<!-- SIDEBAR -->
+<div id="sidebar" th:replace="layout/layout :: sidebar('detail')">
+</div>
+<!-- // SIDEBAR -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script th:src="@{/js/common.js}"></script>
+
+
+</body>
+
+</html>

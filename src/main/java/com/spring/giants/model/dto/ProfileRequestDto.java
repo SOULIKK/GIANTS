@@ -11,7 +11,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProfileRequestDto {
-
-    public String username;
     public String password;
 }
