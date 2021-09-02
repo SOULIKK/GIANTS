@@ -32,10 +32,6 @@
         <div class="p-2 text-end">
             <div th:if="${board.user.username} == ${user}" class="d-flex justify-content-md-end p-1">
 
-<!--                <button type="button" class="btn btn-dark mr-1 border border-0" th:onclick="uptBoard([[${stockId}]], [[${board.boardId}]])">-->
-<!--                        <i class="fa fa-cog"></i>-->
-<!--                        수정-->
-<!--                </button>-->
                 <a type="button" class="btn btn-dark mr-1 border border-0" th:href="@{/board/update(s=${stockId}, b=${board.boardId})}">
                     <i class="fa fa-cog"></i>
                     수정
@@ -55,17 +51,19 @@
 
         <div class="p-4 text-center">
             <a th:href="@{/board/like(s=${stockId}, b=${board.boardId})}">
-                <h3>
+                <button class="btn btn-outline-danger">
+                    <div>
+                        <i class="fa fa-chart-line fa-3x" th:classappend="${isLiked.equals(true)} ? 'text-danger' : 'text-secondary'"></i>
+                    </div>
                     <span th:classappend="${isLiked.equals(true)} ? 'text-danger' : 'text-secondary'">가즈아 !!</span>
-                    <i class="fa fa-chart-line" th:classappend="${isLiked.equals(true)} ? 'text-danger' : 'text-secondary'"></i>
                     <span class="text-dark" th:text="${countLikes}"></span>
-                </h3>
+                </button>
             </a>
         </div>
 
         <div class="mt-5 p-2">
 
-            <div class="p-2">
+            <div class="p-2" th:if="${user}">
                 <h5 classt="pb-1">댓글 작성</h5>
                 <form th:action="@{/comment/create/{boardId}(boardId = ${board.boardId})}" th:method="POST">
                     <textarea class="form-control" name="content" row="4"></textarea>
