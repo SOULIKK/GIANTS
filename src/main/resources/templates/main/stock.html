@@ -8,18 +8,26 @@
 </nav>
 
 <section>
-    <div class="main col-lg-8 bg-white m-auto h-100 p-3 overflow-auto">
-        <h4>
+    <div class="main col-lg-8 bg-white m-auto h-100 px-md-3 pt-3 overflow-auto">
+        <h4 class="pt-3 px-3">
             <span class="fw-bold text-primary" th:text="${stock.stockName}"></span>
             <span th:text="${stock.stockId}"></span>
         </h4>
 
         <div class="row p-0 m-0">
-            <div class="col-md-12 pt-4 pb-2">
+            <div class="col-md-12 pt-2 pb-2">
                 <div class="card">
                     <div class="card-body">
-                        <h4><b>기업개요</b></h4>
-                        <div style="background: #f3f3f3; height: 100px; width: 100%;"></div>
+                        <h4 class="pb-2"><b>기업개요</b></h4>
+                        <div class="p-md-2">
+                            <h4>업종</h4>
+                            <p class="p-1" th:text="${stock.sector}"></p>
+                            <br>
+                            <div th:if="${stock.product}">
+                                <h4>주요제품</h4>
+                                <p class="p-1" th:text="${stock.product}"></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

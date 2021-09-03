@@ -15,10 +15,14 @@ public class StockResponseDto {
     private String stockId;
     private String stockName;
     private String market;
+    private String sector;
+    private String product;
 
     public StockResponseDto(Stock stock) {
         this.stockId = stock.getStockId();
         this.stockName = stock.getStockName();
         this.market = stock.getMarket();
+        this.sector = stock.getSector();
+        this.product = stock.getProduct();
     }
 }

@@ -43,12 +43,5 @@ public class MainController {
         return "/main/pick";
     }
 
-    @GetMapping("/main/stock")
-    public String searchedValue(@RequestParam String name, Model model) {
-        String id = "";
-        StockResponseDto stockResponseDto = mainService.getStock(name, id);
-        model.addAttribute("stock", stockResponseDto);
-        return "main/stock";
-    }
 
 }

@@ -19,4 +19,8 @@ public class Stock {
 
     @NotNull
     private String market;
+
+    private String sector;
+
+    private String product;
 }
