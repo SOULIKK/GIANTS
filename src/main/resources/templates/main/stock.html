@@ -12,6 +12,12 @@
         <h4 class="pt-3 px-3">
             <span class="fw-bold text-primary" th:text="${stock.stockName}"></span>
             <span th:text="${stock.stockId}"></span>
+            <span class="badge bg-warning text-dark" th:if="${stock.market} == 'p'">
+                <span>KOSPI</span>
+            </span>
+            <span class="badge bg-warning text-dark" th:if="${stock.market} == 'd'">
+                <span>KOSDAQ</span>
+            </span>
         </h4>
 
         <div class="row p-0 m-0">
