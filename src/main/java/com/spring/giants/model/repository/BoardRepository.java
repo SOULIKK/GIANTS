@@ -19,4 +19,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
 
     Board findOneByBoardId(Long boardId);
+
+    List<BoardListResponseDto> findTop10ByStockIdOrderByCreatedAtDesc(String stockId);
 }

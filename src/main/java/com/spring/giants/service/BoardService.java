@@ -114,4 +114,8 @@ public class BoardService {
         Board board = boardRepository.findOneByBoardId(boardId);
         board.update(boardRequestDto);
     }
+
+    public List<BoardListResponseDto> getMainBoardList(String stockId) {
+        return boardRepository.findTop10ByStockIdOrderByCreatedAtDesc(stockId);
+    }
 }
