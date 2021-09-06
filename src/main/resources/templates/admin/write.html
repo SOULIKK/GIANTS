@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head('pick')">
+</head>
+
+<body>
+<nav class="bg-dark" th:replace="layout/layout :: menu('pick')">
+</nav>
+
+<section>
+    <div class="main col-lg-8 bg-white m-auto h-100 p-3">
+        <div class="p-md-4">
+            <form th:action="@{/admin/submit}" th:method="POST">
+                <br>
+                <label>유형</label>
+                <select class="form-select" aria-label="Default select example" name="stockId">
+                    <option selected>유형을 선택하세요</option>
+                    <option th:value="AN">공지</option>
+                    <option th:value="EP">Editor's pick</option>
+                </select>
+                <br>
+                <label>제목</label>
+                <input class="form-control" name="title" type="text">
+                <br>
+                <label>내용</label>
+                <textarea class="form-control" name="content" rows="10"></textarea>
+                <br>
+                <div class="text-end">
+                    <button type="submit" class="btn btn-outline-primary">저장</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- SIDEBAR -->
+<div id="sidebar" th:replace="layout/layout :: sidebar('pick')">
+</div>
+<!-- // SIDEBAR -->
+
+
+</html>
