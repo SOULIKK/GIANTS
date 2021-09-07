@@ -6,15 +6,9 @@ import com.spring.giants.model.dto.BoardDetailResponseDto;
 import com.spring.giants.model.dto.BoardListResponseDto;
 import com.spring.giants.model.dto.BoardRequestDto;
 import com.spring.giants.model.dto.StockResponseDto;
-import com.spring.giants.model.entity.Board;
-import com.spring.giants.model.entity.Likes;
-import com.spring.giants.model.entity.Stock;
-import com.spring.giants.model.repository.BoardRepository;
-
 import com.spring.giants.service.BoardService;
 import com.spring.giants.service.MainService;
 import lombok.AllArgsConstructor;
-import lombok.experimental.PackagePrivate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -23,12 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import javax.validation.Valid;
-import java.util.List;
-import java.util.function.DoubleToIntFunction;
 
 
 @Controller
@@ -39,7 +29,6 @@ public class BoardController {
 
     final private BoardService boardService;
     final private MainService mainService;
-    final private BoardValidator boardValidator;
 
 
     @GetMapping("/list")
@@ -145,7 +134,6 @@ public class BoardController {
         String stockId = boardRequestDto.getStockId();
 
         boardService.uptBoard(boardId, boardRequestDto);
-//        return "redirect: /";
         return "redirect:/board/detail?s="+stockId+"&b="+boardId;
     }
 
