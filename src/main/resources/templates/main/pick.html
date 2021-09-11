@@ -24,7 +24,9 @@
             <tbody>
             <tr th:each="pick : ${picks}">
                 <td class="text-center">EDITOR</td>
-                <td class="pl-2" th:text="${pick.title}"></td>
+                <td class="pl-2">
+                    <a th:href="@{/pick/detail(b=${pick.boardId})}" th:text="${pick.title}"></a>
+                </td>
                 <td class="text-center" th:text="${pick.createdAt}"></td>
             </tr>
             </tbody>
