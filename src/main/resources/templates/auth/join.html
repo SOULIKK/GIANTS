@@ -11,7 +11,7 @@
 
         <h3 class="text-center pt-5">회원가입</h3>
         <br>
-        <form th:action="@{/auth/join}" th:method="POST" onsubmit="return joinValidation()">
+        <form th:action="@{/auth/join}" th:method="POST" th:onsubmit="return joinValidation()">
 
             <div class="w-100 py-2">
                 <label for="username">Username</label>
@@ -40,16 +40,31 @@
 
 <script>
     function joinValidation() {
+
         const pw = document.getElementById("password").value;
         const pw2 = document.getElementById("pwChk").value;
         const username = document.getElementById("username").value;
 
+        const regexId = /^[a-z0-9]{6,12}$/;
+        const regexPw = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]|.*[0-9]).{10,15}$/
+
         if (username == ""){
-            alert("아이디를 확인해주세요.");
+            alert("아이디를 입력해주세요.");
             return false;
         }
-
-        if (pw == '' || pw2 == '' || pw != pw2) {
+        if (!regexId.test(username)) {
+            alert("아이디를 확인해주세요. (6~12자의 영문 숫자 조합)");
+            return false;
+        }
+        if (pw == '' || pw2 == '') {
+            alert("비밀번호를 입력해주세요.");
+            return false;
+        }
+        if (!regexPw.test(pw)) {
+            alert("비밀번호 양식을 확인해주세요. (10~15자의 영문,숫자,특수문자 조합)");
+            return false;
+        }
+        if (pw != pw2) {
             alert("비밀번호를 확인해주세요.");
             return false;
         }
