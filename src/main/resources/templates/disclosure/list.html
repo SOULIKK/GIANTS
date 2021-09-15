@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head('REPORT')">
+</head>
+
+<body>
+<nav class="bg-dark" th:replace="layout/layout :: menu('REPORT')">
+</nav>
+
+<section>
+    <div class="main col-lg-8 bg-white m-auto h-100 p-3 overflow-auto">
+        <div>
+            <table class="table">
+                <thead class="text-center">
+                <tr>
+                    <th>공시기업</th>
+                    <th>보고서명</th>
+                    <th>제출인</th>
+                    <th>접수일자</th>
+                </tr>
+                </thead>
+                <tbody style="font-size: .75rem;">
+                <tr th:each="todayReport : ${todayReports}">
+                    <td th:text="${todayReport.corpName}"></td>
+                    <td class="text-primary">
+                        <a type="button" th:onclick="reportLink([[${todayReport.rcpNo}]])"
+                           th:text="${todayReport.reportNm}"></a>
+                    </td>
+                    <td th:text="${todayReport.flrNm}"></td>
+                    <td th:text="${todayReport.rceptDt}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-center" th:if="${todayReports.totalElements > 100}">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+
+                    <li class="page-item" th:classappend="${1 == todayReports.pageable.pageNumber + 1} ? 'disabled'">
+                        <a class="page-link" href="#" aria-label="Previous"
+                           th:href="@{/report/today(page=${todayReports.pageable.pageNumber - 1})}">
+                            <span aria-hidden="true"> < </span>
+                        </a>
+                    </li>
+
+                    <li class="page-item" th:classappend="${i == todayReports.pageable.pageNumber + 1} ? 'disabled'"
+                        th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                        <a class="page-link"
+                           th:href="@{/report/today(page=${i - 1})}">
+                            <span th:text="${i}"></span>
+                        </a>
+                    </li>
+
+                    <li class="page-item"
+                        th:classappend="${todayReports.totalPages == todayReports.pageable.pageNumber + 1} ? 'disabled'">
+                        <a class="page-link" href="#" aria-label="Next"
+                           th:href="@{/report/today(page=${todayReports.pageable.pageNumber + 1})}">
+                            <span aria-hidden="true"> > </span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
+
+<!-- SIDEBAR -->
+<div id="sidebar" th:replace="layout/layout :: sidebar('REPORT')">
+</div>
+<!-- // SIDEBAR -->
+
+<script th:src="@{/js/common.js}"></script>
+<script th:src="@{/js/disclosure.js}"></script>
+
+</body>
+
+
+</html>
