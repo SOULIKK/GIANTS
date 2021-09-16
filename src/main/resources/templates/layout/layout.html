@@ -76,31 +76,31 @@
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
-                    <a href="#" class="nav-link link-dark" th:classappend="${sidebar == 'home'} ? 'nav-link active'" aria-current="page" th:href="@{/}">
+                    <a href="#" class="nav-link link-dark" th:classappend="${sidebar == 'MAIN'} ? 'nav-link active'" aria-current="page" th:href="@{/}">
                         <i class="fa fa-home"></i>&nbsp;&nbsp;
                         <span>홈</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link link-dark" th:classappend="${sidebar == 'pick'} ? 'nav-line active'" th:href="@{/main/pick}">
+                    <a href="#" class="nav-link link-dark" th:classappend="${sidebar == 'PICK'} ? 'nav-line active'" th:href="@{/main/pick}">
                         <i class="fa fa-paper-plane"></i>&nbsp;&nbsp;
                         <span>Editor's Pick</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link link-dark" th:classappend="${sidebar == 'hot'} ? 'nav-line active'" th:href="@{/main/hot}">
+                    <a href="#" class="nav-link link-dark" th:classappend="${sidebar == 'HOT'} ? 'nav-line active'" th:href="@{/main/hot}">
                         <i class="fa fa-star"></i>&nbsp;&nbsp;
                         <span>인기글</span>
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link link-dark" th:href="@{/disclosure/all}">
+                    <a class="nav-link link-dark" th:classappend="${sidebar == 'REPORT'} ? 'nav-line active'" th:href="@{/report/today}">
                         <i class="fa fa-list-alt"></i>&nbsp;&nbsp;
                         <span>최근공시</span>
                     </a>
                 </li>
                 <li sec:authorize="isAuthenticated()">
-                    <a class="nav-link link-dark" th:classappend="${sidebar == 'mypage'} ? 'nav-line active'" th:href="@{/user/mypage}">
+                    <a class="nav-link link-dark" th:classappend="${sidebar == 'MYPAGE'} ? 'nav-line active'" th:href="@{/user/mypage}">
                         <i class="fa fa-user"></i>&nbsp;&nbsp;
                         <span>마이페이지</span>
                     </a>

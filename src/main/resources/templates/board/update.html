@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout/layout :: head('detail')">
+<head th:replace="layout/layout :: head(${board.title})">
 </head>
 
 <body>
-<nav class="bg-dark" th:replace="layout/layout :: menu('detail')">
+<nav class="bg-dark" th:replace="layout/layout :: menu('DETAIL')">
 </nav>
 
 <section>
@@ -37,7 +37,7 @@
 
 
 <!-- SIDEBAR -->
-<div id="sidebar" th:replace="layout/layout :: sidebar('detail')">
+<div id="sidebar" th:replace="layout/layout :: sidebar('DETAIL')">
 </div>
 <!-- // SIDEBAR -->
 

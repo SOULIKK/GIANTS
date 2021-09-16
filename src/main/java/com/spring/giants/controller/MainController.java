@@ -2,7 +2,9 @@ package com.spring.giants.controller;
 
 import com.spring.giants.model.dto.BoardListResponseDto;
 import com.spring.giants.model.dto.BoardRequestDto;
+import com.spring.giants.model.dto.DisclosureResponseDto;
 import com.spring.giants.service.BoardService;
+import com.spring.giants.service.DisclosureService;
 import com.spring.giants.service.MainService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,11 +24,14 @@ public class MainController {
 
     final private MainService mainService;
     final private BoardService boardService;
+    final private DisclosureService disclosureService;
 
     @GetMapping("/")
     public String main(Model model) {
-        String state = "home";
+        String state = "HOME";
         model.addAttribute("state", state);
+        List<DisclosureResponseDto> todayReports = disclosureService.getMainReport();
+        model.addAttribute("todayReports", todayReports);
         return "/main/main";
     }
 
@@ -37,7 +42,7 @@ public class MainController {
 
     @GetMapping("/main/hot")
     public String hot(Model model) {
-        String state = "hot";
+        String state = "HOT";
         model.addAttribute("state", state);
         return "/main/hot";
     }
@@ -50,7 +55,7 @@ public class MainController {
             , Model model
     ) {
 
-        String state = "pick";
+        String state = "PICK";
         String stockId = "EP";
         Page<BoardListResponseDto> boardListResponseDto = boardService.getBoardList(stockId, search, pageable);
 
