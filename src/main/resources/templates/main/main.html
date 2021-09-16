@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout/layout :: head('main')">
+<head th:replace="layout/layout :: head('MAIN')">
 </head>
 
 <body>
-<nav class="bg-dark" th:replace="layout/layout :: menu('main')">
+<nav class="bg-dark" th:replace="layout/layout :: menu('MAIN')">
 </nav>
 
 <section>
@@ -142,85 +142,16 @@
                             </div>
 
                             <table class="table">
-                                <thead>
+                                <thead class="text-center">
                                 <tr>
-                                    <th>작성자</th>
-                                    <th>제목</th>
-                                    <th>작성일시</th>
-                                    <th>좋아요</th>
-                                    <th>댓글수</th>
+                                    <th>공시기업</th>
+                                    <th>보고서명</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                <tr th:each="report : ${todayReports}">
+                                    <td th:text="${report.corpName}"></td>
+                                    <td th:text="${report.reportNm}"></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -239,7 +170,7 @@
 </section>
 
 <!-- SIDEBAR -->
-<div id="sidebar" th:replace="layout/layout :: sidebar('home')">
+<div id="sidebar" th:replace="layout/layout :: sidebar('MAIN')">
 </div>
 <!-- // SIDEBAR -->
 

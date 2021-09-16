@@ -2,8 +2,10 @@ package com.spring.giants.controller;
 
 
 import com.spring.giants.model.dto.BoardListResponseDto;
+import com.spring.giants.model.dto.DisclosureResponseDto;
 import com.spring.giants.model.dto.StockResponseDto;
 import com.spring.giants.service.BoardService;
+import com.spring.giants.service.DisclosureService;
 import com.spring.giants.service.MainService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,6 +25,7 @@ public class StockController {
 
     private final MainService mainService;
     private final BoardService boardService;
+    private final DisclosureService disclosureService;
 
     @GetMapping("/stock")
     public String stockMain() {
@@ -34,11 +37,12 @@ public class StockController {
     public String searchedValue(@RequestParam String name, Model model, Pageable pageable) {
         String id = "";
         StockResponseDto stockResponseDto = mainService.getStock(name, id);
-
         List<BoardListResponseDto> boardListResponseDto = boardService.getMainBoardList(stockResponseDto.getStockId());
+        List<DisclosureResponseDto> disclosureResponseDto = disclosureService.getReport(stockResponseDto.getStockId());
 
         model.addAttribute("stock", stockResponseDto);
         model.addAttribute("boards", boardListResponseDto);
+        model.addAttribute("reports", disclosureResponseDto);
 
         return "main/stock";
     }

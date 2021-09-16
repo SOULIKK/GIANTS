@@ -9,6 +9,11 @@
 
 <section>
     <div class="main col-lg-8 bg-white m-auto h-100 p-3 overflow-auto">
+        <div class="px-2 pt-3 pb-4 d-flex">
+            <a class="btn btn-outline-primary rounded-pill p-1 m-1" th:heaf="@{/report/]}"><span>정기공시</span></a>
+            <a class="btn btn-outline-primary rounded-pill p-1 m-1"><span>지분공시</span></a>
+            <a class="btn btn-outline-primary rounded-pill p-1 m-1"><span>수주공시</span></a>
+        </div>
         <div>
             <table class="table">
                 <thead class="text-center">
@@ -19,15 +24,15 @@
                     <th>접수일자</th>
                 </tr>
                 </thead>
-                <tbody style="font-size: .75rem;">
-                <tr th:each="todayReport : ${todayReports}">
-                    <td th:text="${todayReport.corpName}"></td>
-                    <td class="text-primary">
-                        <a type="button" th:onclick="reportLink([[${todayReport.rcpNo}]])"
-                           th:text="${todayReport.reportNm}"></a>
+                <tbody style="font-size: .75rem;" class="text-center">
+                <tr th:each="report : ${todayReports}">
+                    <td th:text="${report.corpName}"></td>
+                    <td class="text-primary text-start">
+                        <a type="button" th:onclick="reportLink([[${report.rcpNo}]])"
+                           th:text="${report.reportNm}"></a>
                     </td>
-                    <td th:text="${todayReport.flrNm}"></td>
-                    <td th:text="${todayReport.rceptDt}"></td>
+                    <td th:text="${report.flrNm}"></td>
+                    <td th:text="${report.rceptDt}"></td>
                 </tr>
                 </tbody>
             </table>

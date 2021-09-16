@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout/layout :: head('stock')">
+<head th:replace="layout/layout :: head('STOCK')">
 </head>
 
 <body>
-<nav class="bg-dark" th:replace="layout/layout :: menu('stock')">
+<nav class="bg-dark" th:replace="layout/layout :: menu('STOCK')">
 </nav>
 
 <section>
-    <div class="main col-lg-8 bg-white m-auto h-100 px-md-3 pt-3 overflow-auto">
-        <h4 class="pt-3 px-3">
+    <div class="main col-lg-8 bg-white m-auto h-100 px-md-3 py-4 overflow-auto">
+        <h4 class="pt-2 px-3">
             <span class="fw-bold text-primary" th:text="${stock.stockName}"></span>
             <span th:text="${stock.stockId}"></span>
             <span class="badge bg-warning text-dark" th:if="${stock.market} == 'p'">
@@ -26,12 +26,12 @@
                     <div class="card-body">
                         <h4 class="pb-2"><b>기업개요</b></h4>
                         <div class="p-md-2">
-                            <h4>업종</h4>
-                            <p class="p-1" th:text="${stock.sector}"></p>
+                            <h5>업종</h5>
+                            <p class="pb-1" th:text="${stock.sector}"></p>
                             <br>
                             <div th:if="${stock.product}">
-                                <h4>주요제품</h4>
-                                <p class="p-1" th:text="${stock.product}"></p>
+                                <h5>주요제품</h5>
+                                <p class="pb-1" th:text="${stock.product}"></p>
                             </div>
                         </div>
                     </div>
@@ -112,85 +112,18 @@
                             </div>
 
                             <table class="table">
-                                <thead>
+                                <thead class="text-center">
                                 <tr>
-                                    <th>작성자</th>
-                                    <th>제목</th>
-                                    <th>작성일시</th>
-                                    <th>좋아요</th>
-                                    <th>댓글수</th>
+                                    <th>날짜</th>
+                                    <th>보고서명</th>
+                                    <th>제출인</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                <tr th:each="report : ${reports}">
+                                    <td th:text="${report.rceptDt}"></td>
+                                    <td th:text="${report.reportNm}"></td>
+                                    <td th:text="${report.flrNm}"></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -207,7 +140,7 @@
 </section>
 
 <!-- SIDEBAR -->
-<div id="sidebar" th:replace="layout/layout :: sidebar('stock')">
+<div id="sidebar" th:replace="layout/layout :: sidebar('STOCK')">
 </div>
 <!-- // SIDEBAR -->
 

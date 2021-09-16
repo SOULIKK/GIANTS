@@ -8,9 +8,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public interface DisclosureRepository extends JpaRepository<Disclosure, String> {
 
 
     Page<DisclosureResponseDto> findByRceptDt(String now_dt, Pageable pageable);
+
+    List<DisclosureResponseDto> findTop10ByRceptDtOrderByRceptDtDesc(String rceptDt);
+
+    List<DisclosureResponseDto> findTop10ByStockCodeOrderByRcpNoDesc(String stockCode);
+
 }
