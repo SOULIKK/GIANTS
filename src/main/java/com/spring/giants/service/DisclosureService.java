@@ -17,12 +17,7 @@ public class DisclosureService {
 
     final private DisclosureRepository disclosureRepository;
 
-    public Page<DisclosureResponseDto> getTodayDisclosure(Pageable pageable) {
-        String now_dt = getToday();
-        return disclosureRepository.findByRceptDt(now_dt, pageable);
-
-    }
-
+    // 메인페이지 미리보기
     public List<DisclosureResponseDto> getMainReport() {
         String rceptDt = getToday();
         return disclosureRepository.findTop10ByRceptDtOrderByRceptDtDesc(rceptDt);
@@ -35,7 +30,21 @@ public class DisclosureService {
         return today;
     }
 
+    // 종목 메인페이지 미리보기
     public List<DisclosureResponseDto> getReport(String stockId) {
         return disclosureRepository.findTop10ByStockCodeOrderByRcpNoDesc(stockId);
+    }
+
+
+    public Page<DisclosureResponseDto> getTodayReport(String reportType, Pageable pageable) {
+        String now_dt = getToday();
+        if (reportType.equals("regular")) {
+            String year = "사업보고서";
+            String half = "분기보고서";
+            String quarter = "분기보고서";
+            String rceptDt = getToday();
+            return disclosureRepository.findByRceptDtAndReportNmContainingOrReportNmContainingOrReportNmContainingOrderByRceptDtDesc(rceptDt, year, half, quarter, pageable);
+        }
+        return disclosureRepository.findByRceptDt(now_dt, pageable);
     }
 }
