@@ -9,10 +9,16 @@
 
 <section>
     <div class="main col-lg-8 bg-white m-auto h-100 p-3 overflow-auto">
+        <h2 class="pt-2 pb-3 text-warning">오늘의 공시</h2>
         <div class="px-2 pt-3 pb-4 d-flex">
-            <a class="btn btn-outline-primary rounded-pill p-1 m-1" th:heaf="@{/report/]}"><span>정기공시</span></a>
-            <a class="btn btn-outline-primary rounded-pill p-1 m-1"><span>지분공시</span></a>
-            <a class="btn btn-outline-primary rounded-pill p-1 m-1"><span>수주공시</span></a>
+            <a class="btn btn-outline-primary rounded-pill p-1 m-1" th:href="@{/report/today}" th:classappend="${reportType == 'today'} ? 'btn btn-primary text-white'"><span> 전체 </span></a>
+            <a class="btn btn-outline-primary rounded-pill p-1 m-1" th:href="@{/report/regular}" th:classappend="${reportType == 'regular'} ? 'btn btn-primary text-white'"><span>정기공시</span></a>
+            <a class="btn btn-outline-primary rounded-pill p-1 m-1" th:href="@{/report/share}" th:classappend="${reportType == 'share'} ? 'btn btn-primary text-white'"><span>지분공시</span></a>
+            <a class="btn btn-outline-primary rounded-pill p-1 m-1" th:href="@{/report/contract}" th:classappend="${reportType == 'contract'} ? 'btn btn-primary text-white'"><span>수주공시</span></a>
+            <!--
+                보류
+                <a class="btn btn-outline-primary rounded-pill p-1 m-1" th:href="@{/report/facility}"><span>시설투자</span></a>
+            -->
         </div>
         <div>
             <table class="table">
