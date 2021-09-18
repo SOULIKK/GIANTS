@@ -20,4 +20,8 @@ public interface DisclosureRepository extends JpaRepository<Disclosure, String> 
     List<DisclosureResponseDto> findTop10ByStockCodeOrderByRcpNoDesc(String stockCode);
 
     Page<DisclosureResponseDto> findByRceptDtAndReportNmContainingOrReportNmContainingOrReportNmContainingOrderByRceptDtDesc(String rceptDt, String year, String half, String quarter, Pageable pageable);
+
+    Page<DisclosureResponseDto> findByReportNmAndRceptDtOrderByRcpNoDesc(String reportNm, String rceptDt, Pageable pageable);
+
+    Page<DisclosureResponseDto> findByCorpNameAndRceptDtOrderByRcpNoDesc(String corpName, String rceptDt, Pageable pageable);
 }
