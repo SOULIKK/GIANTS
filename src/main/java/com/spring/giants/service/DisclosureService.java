@@ -19,7 +19,8 @@ public class DisclosureService {
 
     // 메인페이지 미리보기
     public List<DisclosureResponseDto> getMainReport() {
-        String rceptDt = getToday();
+        //String rceptDt = getToday();
+        String rceptDt = "20210917";
         return disclosureRepository.findTop10ByRceptDtOrderByRceptDtDesc(rceptDt);
     }
 
@@ -36,15 +37,43 @@ public class DisclosureService {
     }
 
 
-    public Page<DisclosureResponseDto> getTodayReport(String reportType, Pageable pageable) {
-        String now_dt = getToday();
+    public Page<DisclosureResponseDto> getTodayReports(String reportType, Pageable pageable) {
+
+        // String rceptDt = getToday();
+        String rceptDt = "20210917";
+
         if (reportType.equals("regular")) {
-            String year = "사업보고서";
-            String half = "분기보고서";
-            String quarter = "분기보고서";
-            String rceptDt = getToday();
-            return disclosureRepository.findByRceptDtAndReportNmContainingOrReportNmContainingOrReportNmContainingOrderByRceptDtDesc(rceptDt, year, half, quarter, pageable);
+            String title1 = "사업보고서";
+            String title2 = "분기보고서";
+            String title3 = "분기보고서";
+            return disclosureRepository.findByRceptDtAndReportNmContainingOrReportNmContainingOrReportNmContainingOrderByRceptDtDesc(rceptDt, title1, title2, title3, pageable);
+        } else if (reportType.equals("share")) {
+            String title1 = "임원ㆍ주요주주특정증권등소유상황보고서";
+            String title2 = "주식등의대량보유상황보고서";
+            String title3 = "공개매수";
+            return disclosureRepository.findByRceptDtAndReportNmContainingOrReportNmContainingOrReportNmContainingOrderByRceptDtDesc(rceptDt, title1, title2, title3, pageable);
+        } else if (reportType.equals("contract")) {
+            String title1 = "공급계약체결";
+            String title2 = title1;
+            String title3 = title1;
+            return disclosureRepository.findByRceptDtAndReportNmContainingOrReportNmContainingOrReportNmContainingOrderByRceptDtDesc(rceptDt, title1, title2, title3, pageable);
+        } else if (reportType.equals("today")) {
+            String title1 = "";
+            String title2 = "";
+            String title3 = "";
+            return disclosureRepository.findByRceptDtAndReportNmContainingOrReportNmContainingOrReportNmContainingOrderByRceptDtDesc(rceptDt, title1, title2, title3, pageable);
         }
-        return disclosureRepository.findByRceptDt(now_dt, pageable);
+
+        return disclosureRepository.findByRceptDt(rceptDt, pageable);
+
+    }
+
+    public Page<DisclosureResponseDto> getSearchedReports(String searchType, String searchText, Pageable pageable) {
+        //String today = getToday();
+        String today = "20210917";
+        if (searchType.equals("reportNm")) {
+            return disclosureRepository.findByReportNmAndRceptDtOrderByRcpNoDesc(searchText, today, pageable);
+        }
+        return disclosureRepository.findByCorpNameAndRceptDtOrderByRcpNoDesc(searchText, today, pageable);
     }
 }
