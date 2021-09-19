@@ -24,4 +24,6 @@ public interface DisclosureRepository extends JpaRepository<Disclosure, String> 
     Page<DisclosureResponseDto> findByReportNmAndRceptDtOrderByRcpNoDesc(String reportNm, String rceptDt, Pageable pageable);
 
     Page<DisclosureResponseDto> findByCorpNameAndRceptDtOrderByRcpNoDesc(String corpName, String rceptDt, Pageable pageable);
+
+    Page<DisclosureResponseDto> findAllByStockCodeOrderByRcpNoDesc(String stockId, Pageable pageable);
 }

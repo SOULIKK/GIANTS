@@ -76,4 +76,8 @@ public class DisclosureService {
         }
         return disclosureRepository.findByCorpNameAndRceptDtOrderByRcpNoDesc(searchText, today, pageable);
     }
+
+    public Page<DisclosureResponseDto> getStockReports(String stockId, Pageable pageable) {
+        return disclosureRepository.findAllByStockCodeOrderByRcpNoDesc(stockId, pageable);
+    }
 }

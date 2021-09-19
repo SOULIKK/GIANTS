@@ -52,5 +52,19 @@ public class DisclosureController {
         return "/disclosure/list";
     }
 
+    @GetMapping("/report/s/{stockId}")
+    public String stockReport(@PathVariable String stockId, Pageable pageable, Model model) {
+        Page<DisclosureResponseDto> disclosureResponseDto = disclosureService.getStockReports(stockId, pageable);
+        model.addAttribute("reports", disclosureResponseDto);
+
+        int startPage = Math.max(1, disclosureResponseDto.getPageable().getPageNumber() - 4);
+        int endPage = Math.min(disclosureResponseDto.getTotalPages(), disclosureResponseDto.getPageable().getPageNumber() + 4);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("reportType", stockId);
+
+        return "/disclosure/stockReports";
+    }
+
 
 }
