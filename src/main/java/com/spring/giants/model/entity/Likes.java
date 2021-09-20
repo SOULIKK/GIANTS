@@ -3,10 +3,7 @@ package com.spring.giants.model.entity;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -17,13 +14,18 @@ public class Likes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long likeId;
 
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId")
+    private User user;
 
-    private Long boardId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "boardId")
+    private Board board;
 
-    public Likes(Long userId, Long boardId) {
-        this.userId = userId;
-        this.boardId = boardId;
+
+    public Likes(User user, Board board) {
+        this.user = user;
+        this.board = board;
     }
 
 }

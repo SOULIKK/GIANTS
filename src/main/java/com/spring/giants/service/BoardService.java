@@ -1,6 +1,6 @@
 package com.spring.giants.service;
 
-import com.spring.giants.config.exception.ApiRequestException;
+
 import com.spring.giants.model.dto.BoardDetailResponseDto;
 import com.spring.giants.model.dto.BoardListResponseDto;
 import com.spring.giants.model.dto.BoardRequestDto;
@@ -16,7 +16,6 @@ import com.spring.giants.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,8 +52,9 @@ public class BoardService {
 
     @Transactional
     public BoardDetailResponseDto getDetail(Long boardId) {
+
         Board board = boardRepository.findById(boardId).orElseThrow(
-                () -> new ApiRequestException("해당 글이 존재하지 않습니다.")
+            () -> new RuntimeException()
         );
 
         List<Comment> commentList = commentRepository.findAllByBoardOrderByCreatedAtDesc(board);
@@ -62,7 +62,7 @@ public class BoardService {
                 .map(CommentResponseDto::new)
                 .collect(Collectors.toList());
 
-        List<Likes> likesList = likesRepository.findAllByBoardId(boardId);
+        List<Likes> likesList = likesRepository.findAllByBoard(board);
 
         BoardDetailResponseDto boardDetailResponseDto = new BoardDetailResponseDto(board, commentResponseDtoList, likesList);
         return boardDetailResponseDto;
@@ -72,16 +72,16 @@ public class BoardService {
     public boolean setLike(String username, Long boardId) {
 
         User user = userRepository.findByUsername(username);
-        Long userId = user.getUserId();
+        Board board = boardRepository.findByBoardId(boardId);
 
         boolean isLiked = chkLike(username, boardId);
 
         if (!isLiked) {
-            Likes likes = new Likes(userId, boardId);
+            Likes likes = new Likes(user, board);
             likesRepository.save(likes);
             return true;
         } else {
-            likesRepository.deleteByUserIdAndBoardId(userId, boardId);
+            likesRepository.deleteByUserAndBoard(user, board);
             return false;
         }
     }
@@ -89,7 +89,8 @@ public class BoardService {
     @Transactional
     public boolean chkLike(String username, Long boardId) {
         User user = userRepository.findByUsername(username);
-        Likes isLiked = likesRepository.findByUserIdAndBoardId(user.getUserId(), boardId);
+        Board board = boardRepository.findByBoardId(boardId);
+        Likes isLiked = likesRepository.findByUserAndBoard(user, board);
 
         if (isLiked == null) {
             return false;
@@ -100,8 +101,9 @@ public class BoardService {
 
     @Transactional
     public void delBoard(Long boardId) {
+        Board board = boardRepository.findByBoardId(boardId);
         boardRepository.deleteById(boardId);
-        likesRepository.deleteByBoardId(boardId);
+        likesRepository.deleteByBoard(board);
     }
 
     @Transactional
@@ -117,5 +119,9 @@ public class BoardService {
 
     public List<BoardListResponseDto> getMainBoardList(String stockId) {
         return boardRepository.findTop10ByStockIdOrderByCreatedAtDesc(stockId);
+    }
+
+    public List<Board> getHotBoards() {
+        return boardRepository.findAll();
     }
 }
