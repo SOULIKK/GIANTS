@@ -2,6 +2,7 @@ package com.spring.giants.model.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,7 +24,8 @@ public class Disclosure {
     private String corpName;
     private String flrNm;
     private String reportNm;
-    private String rceptDt;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date rceptDt;
     private String rm;
     private String stockCode;
 

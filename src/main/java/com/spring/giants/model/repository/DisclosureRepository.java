@@ -12,18 +12,21 @@ import java.util.List;
 
 public interface DisclosureRepository extends JpaRepository<Disclosure, String> {
 
-
-    Page<DisclosureResponseDto> findByRceptDt(String now_dt, Pageable pageable);
-
-    List<DisclosureResponseDto> findTop10ByRceptDtOrderByRceptDtDesc(String rceptDt);
+    List<DisclosureResponseDto> findTop10ByRceptDtOrderByRceptDtDesc(Date rceptDt);
 
     List<DisclosureResponseDto> findTop10ByStockCodeOrderByRcpNoDesc(String stockCode);
 
-    Page<DisclosureResponseDto> findByRceptDtAndReportNmContainingOrReportNmContainingOrReportNmContainingOrderByRceptDtDesc(String rceptDt, String year, String half, String quarter, Pageable pageable);
-
-    Page<DisclosureResponseDto> findByReportNmAndRceptDtOrderByRcpNoDesc(String reportNm, String rceptDt, Pageable pageable);
-
-    Page<DisclosureResponseDto> findByCorpNameAndRceptDtOrderByRcpNoDesc(String corpName, String rceptDt, Pageable pageable);
+    Page<DisclosureResponseDto> findByRceptDtAndReportNmContainingOrReportNmContainingOrReportNmContainingOrderByRceptDtDesc(Date rceptDt, String title1, String title2, String title3, Pageable pageable);
 
     Page<DisclosureResponseDto> findAllByStockCodeOrderByRcpNoDesc(String stockId, Pageable pageable);
+
+    Page<DisclosureResponseDto> findByReportNmAndRceptDtBetweenOrderByRcpNoDesc(String searchText, Date searchStart, Date searchEnd, Pageable pageable);
+
+    Page<DisclosureResponseDto> findByCorpNameAndRceptDtBetweenOrderByRcpNoDesc(String searchText, Date searchStart, Date searchEnd, Pageable pageable);
+
+    Page<DisclosureResponseDto> findByRceptDt(Date rceptDt, Pageable pageable);
+
+
+
+    DisclosureResponseDto findTop1ByOrderByRcpNoDesc();
 }

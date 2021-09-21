@@ -17,30 +17,36 @@ public class DisclosureService {
 
     final private DisclosureRepository disclosureRepository;
 
+    private Date getToday() {
+        Date now = new Date();
+        DisclosureResponseDto dto = disclosureRepository.findTop1ByOrderByRcpNoDesc();
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String today = format.format(now);
+        String recentRcepDt = format.format(dto.getRceptDt());
+
+        if (!recentRcepDt.equals(today)) {
+            return dto.getRceptDt();
+        }
+        return now;
+    }
+
     // 메인페이지 미리보기
     public List<DisclosureResponseDto> getMainReport() {
-        //String rceptDt = getToday();
-        String rceptDt = "20210917";
+        Date rceptDt = getToday();
         return disclosureRepository.findTop10ByRceptDtOrderByRceptDtDesc(rceptDt);
     }
 
-    private String getToday() {
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-        Date now = new Date();
-        String today = format.format(now);
-        return today;
-    }
 
     // 종목 메인페이지 미리보기
     public List<DisclosureResponseDto> getReport(String stockId) {
         return disclosureRepository.findTop10ByStockCodeOrderByRcpNoDesc(stockId);
     }
 
-
+    // 공시 카테고리
     public Page<DisclosureResponseDto> getTodayReports(String reportType, Pageable pageable) {
 
-        // String rceptDt = getToday();
-        String rceptDt = "20210917";
+         Date rceptDt = getToday();
 
         if (reportType.equals("regular")) {
             String title1 = "사업보고서";
@@ -65,16 +71,14 @@ public class DisclosureService {
         }
 
         return disclosureRepository.findByRceptDt(rceptDt, pageable);
-
     }
 
-    public Page<DisclosureResponseDto> getSearchedReports(String searchType, String searchText, Pageable pageable) {
-        //String today = getToday();
-        String today = "20210917";
+    // 공시 상세검색
+    public Page<DisclosureResponseDto>  getSearchedReports(String searchType, Date searchStart, Date searchEnd, String searchText, Pageable pageable) {
         if (searchType.equals("reportNm")) {
-            return disclosureRepository.findByReportNmAndRceptDtOrderByRcpNoDesc(searchText, today, pageable);
+            return disclosureRepository.findByReportNmAndRceptDtBetweenOrderByRcpNoDesc(searchText, searchStart, searchEnd, pageable);
         }
-        return disclosureRepository.findByCorpNameAndRceptDtOrderByRcpNoDesc(searchText, today, pageable);
+        return disclosureRepository.findByCorpNameAndRceptDtBetweenOrderByRcpNoDesc(searchText, searchStart, searchEnd, pageable);
     }
 
     public Page<DisclosureResponseDto> getStockReports(String stockId, Pageable pageable) {
