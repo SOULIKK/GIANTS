@@ -22,3 +22,15 @@ function searchValidation() {
         return false;
     }
 }
+
+function stockReport(stockId) {
+    if (stockId == "") {
+        alert("유효한 요청이 아닙니다.");
+        return false;
+    }
+    location.href=`/report/s/${stockId}/all`;
+}
+
+function reportTypeLink(stockId, type) {
+    location.href = `/report/s/${stockId}/${type}`;
+}

@@ -145,15 +145,8 @@
 </div>
 <!-- // SIDEBAR -->
 
-<script>
-    function stockReport(stockId) {
-        if (stockId == "") {
-            alert("유효한 요청이 아닙니다.");
-            return false;
-        }
-        location.href=`/report/s/${stockId}`;
-    }
-</script>
+<script th:src="@{/js/disclosure.js}"></script>
+
 </body>
 
 </html>
