@@ -39,7 +39,7 @@
 
                 <button type="button" class="btn btn-outline-primary rounded-pill p-1"
                         th:onclick="reportTypeLink([[${stock.stockId}]], 'all')"
-                        th:classappend="${reportType == 'today'} ? 'btn btn-primary text-white'"><span> 전체 </span>
+                        th:classappend="${reportType == 'all'} ? 'btn btn-primary text-white'"><span> 전체 </span>
                 </button>
                 <button type="button" class="btn btn-outline-primary rounded-pill p-1"
                         th:onclick="reportTypeLink([[${stock.stockId}]], 'regular')"

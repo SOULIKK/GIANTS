@@ -51,12 +51,12 @@
 
         <div class="p-4 text-center">
             <a th:href="@{/board/like(s=${stockId}, b=${board.boardId})}">
-                <button class="btn btn-outline-danger">
+                <button class="btn btn-outline-danger" th:classappend="${isLiked.equals(true)} ? 'border border-danger' : 'border border-secondary'">
                     <div>
                         <i class="fa fa-chart-line fa-3x" th:classappend="${isLiked.equals(true)} ? 'text-danger' : 'text-secondary'"></i>
                     </div>
                     <span th:classappend="${isLiked.equals(true)} ? 'text-danger' : 'text-secondary'">가즈아 !!</span>
-                    <span class="text-dark" th:text="${countLikes}"></span>
+                    <span class="text-dark" th:text="${countLikes}" th:classappend="${isLiked.equals(true)} ? 'text-danger'"></span>
                 </button>
             </a>
         </div>
