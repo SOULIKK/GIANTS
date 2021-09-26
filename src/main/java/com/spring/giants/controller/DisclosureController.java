@@ -49,6 +49,11 @@ public class DisclosureController {
             , @PageableDefault(size = 100) Pageable pageable
             , Model model) {
 
+        if (searchType.equals("corpName")) {
+            StockResponseDto stockResponseDto = mainService.getStock(searchText, "");
+            model.addAttribute("stock", stockResponseDto);
+        }
+
         Page<DisclosureResponseDto> disclosureResponseDto = disclosureService.getSearchedReports(searchType, searchStart, searchEnd, searchText, pageable);
         int startPage = Math.max(1, disclosureResponseDto.getPageable().getPageNumber() - 4);
         int endPage = Math.min(disclosureResponseDto.getTotalPages(), disclosureResponseDto.getPageable().getPageNumber() + 4);

@@ -9,7 +9,7 @@
 
 <section>
     <div class="main col-lg-8 bg-white m-auto h-100 p-3 overflow-auto">
-        <h4 class="pt-2 pb-3" th:if="!${stock}">오늘의 공시</h4>
+        <h4 class="pt-2 mb-0" th:if="!${stock}">오늘의 공시</h4>
         <div class="px-2 pt-3 pb-4 d-flex justify-content-between">
             <div th:if="!${stock}">
                 <a class="btn btn-outline-primary rounded-pill p-1" th:href="@{/report/today}"
@@ -25,18 +25,21 @@
                     <a class="btn btn-outline-primary rounded-pill p-1" th:href="@{/report/facility}"><span>시설투자</span></a>
                 -->
             </div>
-            <div th:if="${stock}">
-                <h4 class="py-3">
-                    <span class="fw-bold text-primary" th:text="${stock.stockName}"></span>
-                    <span th:text="${stock.stockId}"></span>
-                    <span class="badge bg-warning text-dark" th:if="${stock.market} == 'p'">
-                        <span>KOSPI</span>
-                    </span>
-                    <span class="badge bg-warning text-dark" th:if="${stock.market} == 'd'">
-                        <span>KOSDAQ</span>
-                    </span>
-                </h4>
 
+            <div th:if="${stock}">
+                <div th:if="${search}">
+                    <h4 class="py-3">
+                        <span class="fw-bold text-primary" th:text="${stock.stockName}"></span>
+                        <span th:text="${stock.stockId}"></span>
+                        <span class="badge bg-warning text-dark" th:if="${stock.market} == 'p'">
+                            <span>KOSPI</span>
+                        </span>
+                        <span class="badge bg-warning text-dark" th:if="${stock.market} == 'd'">
+                            <span>KOSDAQ</span>
+                        </span>
+                    </h4>
+                </div>
+                <div th:if="!${search}">
                 <button type="button" class="btn btn-outline-primary rounded-pill p-1"
                         th:onclick="reportTypeLink([[${stock.stockId}]], 'all')"
                         th:classappend="${reportType == 'all'} ? 'btn btn-primary text-white'"><span> 전체 </span>
@@ -53,6 +56,7 @@
                         th:onclick="reportTypeLink([[${stock.stockId}]], 'contract')"
                         th:classappend="${reportType == 'contract'} ? 'btn btn-primary text-white'"><span>수주공시</span>
                 </button>
+                </div>
             </div>
             <div th:if="!${stock}">
                 <a class="btn btn-outline-primary rounded-pill p-1" data-bs-toggle="modal"
