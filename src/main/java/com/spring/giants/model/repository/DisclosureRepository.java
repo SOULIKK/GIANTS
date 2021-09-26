@@ -7,8 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -28,7 +26,7 @@ public interface DisclosureRepository extends JpaRepository<Disclosure, String> 
 
     DisclosureResponseDto findTop1ByOrderByRcpNoDesc();
 
-    @Query(value = "SELECT d.* FROM Disclosure d WHERE (report_nm LIKE %:title1% OR report_nm LIKE %:title2% OR report_nm LIKE %:title3%) AND rceptDt = :rceptDt ORDER BY rcp_no DESC", nativeQuery = true)
+    @Query(value = "SELECT d.* FROM Disclosure d WHERE (report_nm LIKE %:title1% OR report_nm LIKE %:title2% OR report_nm LIKE %:title3%) AND rcept_dt = :rceptDt ORDER BY rcp_no DESC", nativeQuery = true)
     List<Disclosure> findByRceptDtAndReportNm(@Param("title1") String title1, @Param("title2") String title2, @Param("title3") String title3, @Param("rceptDt") Date rceptDt, Pageable pageable);
 
     @Query(value = "SELECT d.* FROM Disclosure d WHERE (report_nm LIKE %:title1% OR report_nm LIKE %:title2% OR report_nm LIKE %:title3%) AND stock_code = :stockId ORDER BY rcp_no DESC", nativeQuery = true)
