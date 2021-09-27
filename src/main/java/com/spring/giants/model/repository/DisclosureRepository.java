@@ -22,7 +22,7 @@ public interface DisclosureRepository extends JpaRepository<Disclosure, String> 
 
     Page<DisclosureResponseDto> findByCorpNameAndRceptDtBetweenOrderByRcpNoDesc(String searchText, Date searchStart, Date searchEnd, Pageable pageable);
 
-    Page<DisclosureResponseDto> findByRceptDt(Date rceptDt, Pageable pageable);
+    Page<DisclosureResponseDto> findByRceptDtOrderByRcpNoDesc(Date rceptDt, Pageable pageable);
 
     DisclosureResponseDto findTop1ByOrderByRcpNoDesc();
 

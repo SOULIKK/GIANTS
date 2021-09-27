@@ -10,6 +10,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -21,22 +23,25 @@ public class DisclosureService {
 
     final private DisclosureRepository disclosureRepository;
 
-    private Date getToday() {
+    private Date getToday() throws ParseException {
+
         Date now = new Date();
         DisclosureResponseDto dto = disclosureRepository.findTop1ByOrderByRcpNoDesc();
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        String today = format.format(now);
-        String recentRcepDt = format.format(dto.getRceptDt());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String today = dateFormat.format(now);
+        Date today2 = dateFormat.parse(today);
+        String recentRcepDt = dateFormat.format(dto.getRceptDt());
 
         if (!recentRcepDt.equals(today)) {
             return dto.getRceptDt();
         }
-        return now;
+
+        return today2;
     }
 
     // 메인페이지 미리보기
-    public List<DisclosureResponseDto> getMainReport() {
+    public List<DisclosureResponseDto> getMainReport() throws ParseException {
         Date rceptDt = getToday();
         return disclosureRepository.findTop10ByRceptDtOrderByRceptDtDesc(rceptDt);
     }
@@ -47,7 +52,7 @@ public class DisclosureService {
     }
 
     // 공시 카테고리
-    public Page<DisclosureResponseDto> getTodayReports(String reportType, Pageable pageable) {
+    public Page<DisclosureResponseDto> getTodayReports(String reportType, Pageable pageable) throws ParseException {
 
         Date rceptDt = getToday();
 
@@ -55,7 +60,7 @@ public class DisclosureService {
             String title1 = "사업보고서";
             String title2 = "분기보고서";
             String title3 = "분기보고서";
-            List<Disclosure> disclosures = disclosureRepository.findByRceptDtAndReportNm(title1, title2, title2, rceptDt, pageable);
+            List<Disclosure> disclosures = disclosureRepository.findByRceptDtAndReportNm(title1, title2, title3, rceptDt, pageable);
             List<DisclosureResponseDto> disclosureResponseDto = disclosures.stream()
                     .map(DisclosureResponseDto::new)
                     .collect(Collectors.toList());
@@ -66,7 +71,7 @@ public class DisclosureService {
             String title1 = "임원ㆍ주요주주특정증권등소유상황보고서";
             String title2 = "주식등의대량보유상황보고서";
             String title3 = "공개매수";
-            List<Disclosure> disclosures = disclosureRepository.findByRceptDtAndReportNm(title1, title2, title2, rceptDt, pageable);
+            List<Disclosure> disclosures = disclosureRepository.findByRceptDtAndReportNm(title1, title2, title3, rceptDt, pageable);
             List<DisclosureResponseDto> disclosureResponseDto = disclosures.stream()
                     .map(DisclosureResponseDto::new)
                     .collect(Collectors.toList());
@@ -77,7 +82,7 @@ public class DisclosureService {
             String title1 = "공급계약체결";
             String title2 = title1;
             String title3 = title1;
-            List<Disclosure> disclosures = disclosureRepository.findByRceptDtAndReportNm(title1, title2, title2, rceptDt, pageable);
+            List<Disclosure> disclosures = disclosureRepository.findByRceptDtAndReportNm(title1, title2, title3, rceptDt, pageable);
             List<DisclosureResponseDto> disclosureResponseDto = disclosures.stream()
                     .map(DisclosureResponseDto::new)
                     .collect(Collectors.toList());
@@ -85,7 +90,7 @@ public class DisclosureService {
             int end = (start + pageable.getPageSize()) > disclosureResponseDto.size() ? disclosureResponseDto.size() : (start + pageable.getPageSize());
             return new PageImpl<>(disclosureResponseDto.subList(start, end), pageable, disclosureResponseDto.size());
         }
-        return disclosureRepository.findByRceptDt(rceptDt, pageable);
+        return disclosureRepository.findByRceptDtOrderByRcpNoDesc(rceptDt, pageable);
     }
 
     // 공시 상세검색

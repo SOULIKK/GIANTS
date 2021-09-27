@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;;
+import java.text.ParseException;
 import java.util.Date;
 
 @Controller
@@ -24,7 +25,7 @@ public class DisclosureController {
     private final DisclosureService disclosureService;
 
     @GetMapping("/report/{reportType}")
-    public String getReport(@PathVariable String reportType, @PageableDefault(size = 100) Pageable pageable, Model model) {
+    public String getReport(@PathVariable String reportType, @PageableDefault(size = 100) Pageable pageable, Model model) throws ParseException {
 
         Page<DisclosureResponseDto> disclosureResponseDto = disclosureService.getTodayReports(reportType, pageable);
 
