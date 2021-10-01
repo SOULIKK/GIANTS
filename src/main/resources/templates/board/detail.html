@@ -31,21 +31,13 @@
 
         <div class="p-2 text-end">
             <div th:if="${board.user.username} == ${user}" class="d-flex justify-content-md-end p-1">
-
                 <a type="button" class="btn btn-dark mr-1 border border-0" th:href="@{/board/update(s=${stockId}, b=${board.boardId})}">
                     <i class="fa fa-cog"></i>
                     수정
                 </a>&nbsp;
-
-                <form th:action="@{/board/delete}" th:method="POST">
-
-                    <input type="hidden" name="stockId" th:value="${stockId}">
-                    <input type="hidden" name="boardId" th:value="${board.boardId}">
-
-                    <button type="submit" class="btn btn-outline-secondary p-2">
-                        <i class="fa fa-trash"></i> 삭제
-                    </button>
-                </form>
+                <button type="button" class="btn btn-outline-secondary p-2" th:onclick="delBoard([[${stockId}]], [[${board.boardId}]])">
+                    <i class="fa fa-trash"></i> 삭제
+                </button>
             </div>
         </div>
 

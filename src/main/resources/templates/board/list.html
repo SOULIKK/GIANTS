@@ -3,6 +3,7 @@
 <head th:replace="layout/layout :: head('MAIN')">
 </head>
 
+<script th:src="@{/js/common.js}"></script>
 <body>
 <nav class="bg-dark" th:replace="layout/layout :: menu('MAIN')">
 </nav>
@@ -27,6 +28,12 @@
                 </div>
             </form>
 
+        </div>
+
+        <div class="py-1 text-end">
+            <button type="button" class="btn btn-outline-success p-1" th:onclick="writeBoard([[${stock.stockId}]])">
+                <span>글 작성</span>
+            </button>
         </div>
 
 
@@ -54,7 +61,7 @@
             </tbody>
         </table>
 
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-center" th:if="${boards.totalElements > 10}">
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
 
@@ -83,14 +90,6 @@
                 </ul>
             </nav>
 
-            <form th:action="@{/board/write}" th:method="GET">
-                <input type="hidden" name="stock" th:value="${stock.stockId}">
-                <div class="text-end">
-                    <button type="submit" class="btn btn-outline-success p-1">
-                        글 작성
-                    </button>
-                </div>
-            </form>
         </div>
 
     </div>

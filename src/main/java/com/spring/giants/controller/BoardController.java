@@ -1,7 +1,5 @@
 package com.spring.giants.controller;
 
-
-import com.spring.giants.config.validator.BoardValidator;
 import com.spring.giants.model.dto.BoardDetailResponseDto;
 import com.spring.giants.model.dto.BoardListResponseDto;
 import com.spring.giants.model.dto.BoardRequestDto;
