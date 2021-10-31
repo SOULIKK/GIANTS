@@ -5,14 +5,12 @@ import com.spring.giants.model.entity.Disclosure;
 import com.spring.giants.model.repository.DisclosureRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,26 +21,22 @@ public class DisclosureService {
 
     final private DisclosureRepository disclosureRepository;
 
-    private Date getToday() throws ParseException {
+    private LocalDateTime getToday() throws ParseException {
 
-        Date now = new Date();
+        LocalDateTime now = LocalDateTime.now();
         DisclosureResponseDto dto = disclosureRepository.findTop1ByOrderByRcpNoDesc();
+        LocalDateTime recentRcepDt = dto.getRceptDt();
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String today = dateFormat.format(now);
-        Date today2 = dateFormat.parse(today);
-        String recentRcepDt = dateFormat.format(dto.getRceptDt());
-
-        if (!recentRcepDt.equals(today)) {
+        if (!recentRcepDt.equals(now)) {
             return dto.getRceptDt();
         }
 
-        return today2;
+        return now;
     }
 
     // 메인페이지 미리보기
     public List<DisclosureResponseDto> getMainReport() throws ParseException {
-        Date rceptDt = getToday();
+        LocalDateTime rceptDt = getToday();
         return disclosureRepository.findTop10ByRceptDtOrderByRceptDtDesc(rceptDt);
     }
 
@@ -54,7 +48,7 @@ public class DisclosureService {
     // 공시 카테고리
     public Page<DisclosureResponseDto> getTodayReports(String reportType, Pageable pageable) throws ParseException {
 
-        Date rceptDt = getToday();
+        LocalDateTime rceptDt = getToday();
 
         if (reportType.equals("regular")) {
             String title1 = "사업보고서";

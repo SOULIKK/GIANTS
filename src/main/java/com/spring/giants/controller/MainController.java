@@ -3,9 +3,9 @@ package com.spring.giants.controller;
 import com.spring.giants.model.dto.BoardListResponseDto;
 import com.spring.giants.model.dto.BoardRequestDto;
 import com.spring.giants.model.dto.DisclosureResponseDto;
+import com.spring.giants.model.entity.Board;
 import com.spring.giants.service.BoardService;
 import com.spring.giants.service.DisclosureService;
-import com.spring.giants.service.MainService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.text.ParseException;
 import java.util.List;
 
 
@@ -22,12 +23,11 @@ import java.util.List;
 @AllArgsConstructor
 public class MainController {
 
-    final private MainService mainService;
     final private BoardService boardService;
     final private DisclosureService disclosureService;
 
     @GetMapping("/")
-    public String main(Model model) {
+    public String main(Model model) throws ParseException {
         String state = "HOME";
         model.addAttribute("state", state);
         List<DisclosureResponseDto> todayReports = disclosureService.getMainReport();
@@ -41,9 +41,13 @@ public class MainController {
     }
 
     @GetMapping("/main/hot")
-    public String hot(Model model) {
+    public String hot(Model model) throws ParseException {
         String state = "HOT";
+        List<Board> boards = boardService.getHotBoards();
+
+        model.addAttribute("boards", boards);
         model.addAttribute("state", state);
+
         return "/main/hot";
     }
 
@@ -69,6 +73,5 @@ public class MainController {
 
         return "main/pick";
     }
-
 
 }

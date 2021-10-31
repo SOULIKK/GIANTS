@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @NoArgsConstructor
@@ -19,7 +20,7 @@ public class DisclosureResponseDto {
     private String corpName;
     private String flrNm;
     private String reportNm;
-    private Date rceptDt;
+    private LocalDateTime rceptDt;
     private String rm;
     private String stockCode;
 
