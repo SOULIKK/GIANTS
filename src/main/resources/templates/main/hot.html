@@ -9,6 +9,13 @@
 
 <section>
     <div class="main col-lg-8 bg-white m-auto h-100 p-3 overflow-auto">
+        <table class="table">
+            <tbody>
+                <tr th:each="board : ${boards}">
+                    <td th:text="${board.title}"></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </section>
 
