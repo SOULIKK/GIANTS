@@ -6,6 +6,7 @@ import com.spring.giants.model.dto.DisclosureResponseDto;
 import com.spring.giants.model.entity.Board;
 import com.spring.giants.service.BoardService;
 import com.spring.giants.service.DisclosureService;
+import com.spring.giants.service.MainService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,10 +25,11 @@ import java.util.List;
 public class MainController {
 
     final private BoardService boardService;
+    final private MainService mainService;
     final private DisclosureService disclosureService;
 
     @GetMapping("/")
-    public String main(Model model) throws ParseException {
+    public String main(Model model) {
         String state = "HOME";
         model.addAttribute("state", state);
         List<DisclosureResponseDto> todayReports = disclosureService.getMainReport();
@@ -59,9 +61,7 @@ public class MainController {
             , Model model
     ) {
 
-        String state = "PICK";
-        String stockId = "EP";
-        Page<BoardListResponseDto> boardListResponseDto = boardService.getBoardList(stockId, search, pageable);
+        Page<BoardListResponseDto> boardListResponseDto = boardService.getEpBoards(search, pageable);
 
         int startPage = Math.max(1, boardListResponseDto.getPageable().getPageNumber());
         int endPage = Math.min(boardListResponseDto.getTotalPages(), boardListResponseDto.getPageable().getPageNumber() + 4);
@@ -69,6 +69,7 @@ public class MainController {
         model.addAttribute("picks", boardListResponseDto);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
+        String state = "PICK";
         model.addAttribute("state", state);
 
         return "main/pick";

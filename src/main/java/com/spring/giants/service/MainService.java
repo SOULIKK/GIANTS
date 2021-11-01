@@ -1,8 +1,7 @@
 package com.spring.giants.service;
 
-import com.spring.giants.model.dto.StockResponseDto;
+import com.spring.giants.model.dto.StockDto;
 import com.spring.giants.model.entity.Stock;
-import com.spring.giants.model.repository.BoardRepository;
 import com.spring.giants.model.repository.StockRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,12 +15,16 @@ public class MainService {
     private final StockRepository stockRepository;
 
     @Transactional
-    public StockResponseDto getStock(String stockName, String stockId) {
-
-        Stock stock = stockRepository.findByStockNameOrStockId(stockName, stockId);
-        StockResponseDto stockResponseDto = new StockResponseDto(stock);
-
-        return stockResponseDto;
+    public StockDto getStock(StockDto stockDto) {
+        Stock stock = stockRepository.findByStockId(stockDto.getStockId());
+        StockDto result = new StockDto(stock);
+        return result;
     }
 
+    @Transactional
+    public StockDto stockSearch(String stockName) {
+        Stock stock = stockRepository.findByStockName(stockName);
+        StockDto stockDto = new StockDto(stock);
+        return stockDto;
+    }
 }

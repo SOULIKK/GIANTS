@@ -9,24 +9,33 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
-import java.util.Date;
 
-@Entity
+
+
 @Getter
 @NoArgsConstructor
+@Entity
 public class Disclosure {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String rcpNo;
+
     private String corpCls;
+
     private String corpCode;
+
     private String corpName;
+
     private String flrNm;
+
     private String reportNm;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime rceptDt;
+
     private String rm;
+
     private String stockCode;
 
 }

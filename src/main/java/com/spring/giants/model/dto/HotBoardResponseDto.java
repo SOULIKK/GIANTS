@@ -1,6 +1,7 @@
 package com.spring.giants.model.dto;
 
 import com.spring.giants.model.entity.Board;
+import com.spring.giants.model.entity.Stock;
 import com.spring.giants.model.entity.User;
 import lombok.*;
 
@@ -16,7 +17,7 @@ public class HotBoardResponseDto {
     private String title;
     private String content;
     private User user;
-    private String stockId;
+    private Stock stock;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private Long commentCnt;
@@ -27,7 +28,7 @@ public class HotBoardResponseDto {
         this.title = board.getTitle();
         this.content = board.getContent();
         this.user = board.getUser();
-        this.stockId = board.getStockId();
+        this.stock = board.getStock();
         this.createdAt = board.getCreatedAt();
         this.modifiedAt = board.getModifiedAt();
         this.commentCnt = commentCnt;

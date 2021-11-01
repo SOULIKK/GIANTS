@@ -1,10 +1,7 @@
 package com.spring.giants.service;
 
 
-import com.spring.giants.config.exception.ApiRequestException;
-import com.spring.giants.model.dto.BoardDetailResponseDto;
 import com.spring.giants.model.dto.CommentRequestDto;
-import com.spring.giants.model.dto.CommentResponseDto;
 import com.spring.giants.model.entity.Board;
 import com.spring.giants.model.entity.Comment;
 import com.spring.giants.model.entity.User;
@@ -15,8 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -31,7 +26,7 @@ public class CommentService {
     public Board setComment(CommentRequestDto commentRequestDto, String username, Long boardId) {
 
         if (commentRequestDto.getContent().isEmpty()) {
-            new ApiRequestException("내용을 입력해주세요");
+            new RuntimeException();
         }
 
         User user = userRepository.findByUsername(username);
@@ -42,11 +37,10 @@ public class CommentService {
     }
 
     @Transactional
-//    public Board delComment(Long commentId) {
     public void delComment(Long commentId) {
 
         Comment comment = commentRepository.findById(commentId).orElseThrow(
-            () -> new ApiRequestException("존재하지 않는 댓글입니다.")
+                () -> new RuntimeException()
         );
 
         commentRepository.delete(comment);

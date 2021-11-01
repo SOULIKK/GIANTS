@@ -15,6 +15,7 @@ public class BoardRequestDto {
     private String title;
     private String content;
     private User user;
-    private String stockId;
+//    private String stockId;
+    private Stock stock;
 
 }

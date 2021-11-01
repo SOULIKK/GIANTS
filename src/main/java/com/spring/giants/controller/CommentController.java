@@ -25,8 +25,7 @@ public class CommentController {
 
         String username = authentication.getName();
         Board board = commentService.setComment(commentRequestDto, username, boardId);
-
-        return "redirect:/board/detail?s="+board.getStockId()+"&b="+board.getBoardId();
+        return "redirect:/board/detail?s="+board.getStock().getStockId()+"&b="+board.getBoardId();
     }
 
     @PostMapping("/delete")

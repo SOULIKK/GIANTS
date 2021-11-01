@@ -3,7 +3,8 @@ package com.spring.giants.controller;
 import com.spring.giants.model.dto.BoardDetailResponseDto;
 import com.spring.giants.model.dto.BoardListResponseDto;
 import com.spring.giants.model.dto.BoardRequestDto;
-import com.spring.giants.model.dto.StockResponseDto;
+import com.spring.giants.model.dto.StockDto;
+import com.spring.giants.model.entity.Stock;
 import com.spring.giants.service.BoardService;
 import com.spring.giants.service.MainService;
 import lombok.AllArgsConstructor;
@@ -31,21 +32,19 @@ public class BoardController {
 
     @GetMapping("/list")
     public String getStockBoard(
-            @RequestParam String stock
+            @RequestParam StockDto stockDto
             , @RequestParam(required = false, defaultValue = "") String search
             , @PageableDefault(size = 10) Pageable pageable
             , Model model
     ) {
         String stockName = "";
-        StockResponseDto stockResponseDto = mainService.getStock(stockName, stock);
-
-        Page<BoardListResponseDto> boardListResponseDto = boardService.getBoardList(stockResponseDto.getStockId(), search, pageable);
+        Page<BoardListResponseDto> boardListResponseDto = boardService.getBoardList(mainService.getStock(stockDto), search, pageable);
 
         int startPage = Math.max(1, boardListResponseDto.getPageable().getPageNumber() - 4);
         int endPage = Math.min(boardListResponseDto.getTotalPages(), boardListResponseDto.getPageable().getPageNumber() + 4);
 
         model.addAttribute("boards", boardListResponseDto);
-        model.addAttribute("stock", stockResponseDto);
+        model.addAttribute("stock", stockDto);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
 
@@ -54,23 +53,24 @@ public class BoardController {
 
 
     @GetMapping("/write")
-    public String write(String stock, Model model) {
+    public String write(StockDto stockDto, Model model) {
         BoardRequestDto boardRequestDto = new BoardRequestDto();
-        boardRequestDto.setStockId(stock);
         model.addAttribute("board", boardRequestDto);
+        model.addAttribute("stock", stockDto);
         return "board/write";
     }
 
 
     @PostMapping("/write")
-    public String writeBoard(Authentication authentication
+    public String writeBoard(
+            Authentication authentication
             , @Valid @ModelAttribute BoardRequestDto boardRequestDto
             , BindingResult bindingResult
             , RedirectAttributes redirectAttributes
             , Model model) {
 
         String username = authentication.getName();
-        String stock = boardRequestDto.getStockId();
+        String stock = boardRequestDto.getStock().getStockId();
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("board", boardRequestDto);
@@ -129,10 +129,10 @@ public class BoardController {
     @PostMapping("/update")
     public String update(Long boardId, BoardRequestDto boardRequestDto, Authentication authentication) {
         String username = authentication.getName();
-        String stockId = boardRequestDto.getStockId();
+        Stock stock = boardRequestDto.getStock();
 
         boardService.uptBoard(boardId, boardRequestDto);
-        return "redirect:/board/detail?s="+stockId+"&b="+boardId;
+        return "redirect:/board/detail?s="+stock.getStockId()+"&b="+boardId;
     }
 
 }

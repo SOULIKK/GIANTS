@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class StockResponseDto {
+public class StockDto {
 
     private String stockId;
     private String stockName;
@@ -18,7 +18,7 @@ public class StockResponseDto {
     private String sector;
     private String product;
 
-    public StockResponseDto(Stock stock) {
+    public StockDto(Stock stock) {
         this.stockId = stock.getStockId();
         this.stockName = stock.getStockName();
         this.market = stock.getMarket();

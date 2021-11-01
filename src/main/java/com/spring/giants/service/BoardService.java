@@ -1,14 +1,9 @@
 package com.spring.giants.service;
 
-
-import com.spring.giants.model.dto.BoardDetailResponseDto;
-import com.spring.giants.model.dto.BoardListResponseDto;
-import com.spring.giants.model.dto.BoardRequestDto;
-import com.spring.giants.model.dto.CommentResponseDto;
-import com.spring.giants.model.entity.Board;
-import com.spring.giants.model.entity.Comment;
-import com.spring.giants.model.entity.Likes;
-import com.spring.giants.model.entity.User;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.spring.giants.model.dto.*;
+import com.spring.giants.model.entity.*;
 import com.spring.giants.model.repository.BoardRepository;
 import com.spring.giants.model.repository.CommentRepository;
 import com.spring.giants.model.repository.LikesRepository;
@@ -18,7 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,13 +36,13 @@ public class BoardService {
         boardRequestDto.setUser(user);
         Board board = new Board(boardRequestDto);
 
-        return boardRepository.save(board).getStockId();
+        return boardRepository.save(board).getStock().getStockId();
     }
 
 
     @Transactional
-    public Page<BoardListResponseDto> getBoardList(String stockId, String search, Pageable pageable) {
-        return boardRepository.findAllByStockIdAndTitleContainingOrderByCreatedAtDesc(stockId, search, pageable);
+    public Page<BoardListResponseDto> getBoardList(StockDto stockDto, String search, Pageable pageable) {
+        return boardRepository.findAllByStockAndTitleContainingOrderByCreatedAtDesc(stockDto.getStockId(), search, pageable);
     }
 
 
@@ -117,11 +113,34 @@ public class BoardService {
         board.update(boardRequestDto);
     }
 
-    public List<BoardListResponseDto> getMainBoardList(String stockId) {
-        return boardRepository.findTop10ByStockIdOrderByCreatedAtDesc(stockId);
+    @Transactional
+    public List<BoardListResponseDto> getMainBoardList(StockDto stockDto) {
+        return boardRepository.findTop10ByStockOrderByCreatedAtDesc(stockDto.getStockId());
     }
 
-    public List<Board> getHotBoards() {
-        return boardRepository.findAll();
+
+    @Transactional
+    public List<Board> getHotBoards() throws ParseException {
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        QBoard qBoard = QBoard.board;
+
+        BooleanExpression expression = qBoard.likes.size().gt(1);
+
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime beforeWeek = now.minusDays(7);
+
+        BooleanExpression expression2 = qBoard.createdAt.after(beforeWeek);
+
+        booleanBuilder.and(expression);
+        booleanBuilder.and(expression2);
+
+
+        List<Board> boards = (List<Board>) boardRepository.findAll(booleanBuilder);
+        return boards;
+    }
+
+    public Page<BoardListResponseDto> getEpBoards(String search, Pageable pageable) {
+
+        return null;
     }
 }

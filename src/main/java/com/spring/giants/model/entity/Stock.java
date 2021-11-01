@@ -4,7 +4,8 @@ package com.spring.giants.model.entity;
 import lombok.Getter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -23,4 +24,7 @@ public class Stock {
     private String sector;
 
     private String product;
+
+    @OneToMany(mappedBy = "stock")
+    private List<Board> boards = new ArrayList<>();
 }

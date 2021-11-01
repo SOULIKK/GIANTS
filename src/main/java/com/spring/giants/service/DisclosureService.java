@@ -1,7 +1,9 @@
 package com.spring.giants.service;
 
 import com.spring.giants.model.dto.DisclosureResponseDto;
+import com.spring.giants.model.dto.StockDto;
 import com.spring.giants.model.entity.Disclosure;
+import com.spring.giants.model.entity.Stock;
 import com.spring.giants.model.repository.DisclosureRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,7 +23,7 @@ public class DisclosureService {
 
     final private DisclosureRepository disclosureRepository;
 
-    private LocalDateTime getToday() throws ParseException {
+    private LocalDateTime getToday() {
 
         LocalDateTime now = LocalDateTime.now();
         DisclosureResponseDto dto = disclosureRepository.findTop1ByOrderByRcpNoDesc();
@@ -35,14 +37,14 @@ public class DisclosureService {
     }
 
     // 메인페이지 미리보기
-    public List<DisclosureResponseDto> getMainReport() throws ParseException {
+    public List<DisclosureResponseDto> getMainReport() {
         LocalDateTime rceptDt = getToday();
         return disclosureRepository.findTop10ByRceptDtOrderByRceptDtDesc(rceptDt);
     }
 
     // 종목 메인페이지 미리보기
-    public List<DisclosureResponseDto> getReport(String stockId) {
-        return disclosureRepository.findTop10ByStockCodeOrderByRcpNoDesc(stockId);
+    public List<DisclosureResponseDto> getReport(StockDto stockDto) {
+        return disclosureRepository.findTop10ByStockCodeOrderByRcpNoDesc(stockDto.getStockId());
     }
 
     // 공시 카테고리
