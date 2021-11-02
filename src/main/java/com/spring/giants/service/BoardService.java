@@ -139,8 +139,10 @@ public class BoardService {
         return boards;
     }
 
-    public Page<BoardListResponseDto> getEpBoards(String search, Pageable pageable) {
+    public Page<BoardListResponseDto> getEdiorsPickBoards(String search, Pageable pageable) {
 
-        return null;
+        User user = new User();
+        user.setUserId(1L);
+        return boardRepository.findAllByUserAndTitleContainingOrderByCreatedAtDesc(user, search, pageable);
     }
 }

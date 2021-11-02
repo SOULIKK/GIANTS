@@ -61,7 +61,7 @@ public class MainController {
             , Model model
     ) {
 
-        Page<BoardListResponseDto> boardListResponseDto = boardService.getEpBoards(search, pageable);
+        Page<BoardListResponseDto> boardListResponseDto = boardService.getEdiorsPickBoards(search, pageable);
 
         int startPage = Math.max(1, boardListResponseDto.getPageable().getPageNumber());
         int endPage = Math.min(boardListResponseDto.getTotalPages(), boardListResponseDto.getPageable().getPageNumber() + 4);
