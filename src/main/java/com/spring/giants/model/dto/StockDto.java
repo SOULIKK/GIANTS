@@ -17,6 +17,7 @@ public class StockDto {
     private String market;
     private String sector;
     private String product;
+    private String homepage;
 
     public StockDto(Stock stock) {
         this.stockId = stock.getStockId();
@@ -24,5 +25,6 @@ public class StockDto {
         this.market = stock.getMarket();
         this.sector = stock.getSector();
         this.product = stock.getProduct();
+        this.homepage = stock.getHomepage();
     }
 }

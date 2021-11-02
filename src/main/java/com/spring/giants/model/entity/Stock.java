@@ -25,6 +25,8 @@ public class Stock {
 
     private String product;
 
+    private String homepage;
+
     @OneToMany(mappedBy = "stock")
     private List<Board> boards = new ArrayList<>();
 }
