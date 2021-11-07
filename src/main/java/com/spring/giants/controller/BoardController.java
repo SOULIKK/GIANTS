@@ -32,13 +32,14 @@ public class BoardController {
 
     @GetMapping("/list")
     public String getStockBoard(
-            @RequestParam StockDto stockDto
+            @RequestParam String stockId
             , @RequestParam(required = false, defaultValue = "") String search
             , @PageableDefault(size = 10) Pageable pageable
             , Model model
     ) {
-        String stockName = "";
-        Page<BoardListResponseDto> boardListResponseDto = boardService.getBoardList(mainService.getStock(stockDto), search, pageable);
+
+        StockDto stockDto = mainService.getStockByStockId(stockId);
+        Page<BoardListResponseDto> boardListResponseDto = boardService.getBoardList(stockId, search, pageable);
 
         int startPage = Math.max(1, boardListResponseDto.getPageable().getPageNumber() - 4);
         int endPage = Math.min(boardListResponseDto.getTotalPages(), boardListResponseDto.getPageable().getPageNumber() + 4);

@@ -27,4 +27,14 @@ public class MainService {
         StockDto stockDto = new StockDto(stock);
         return stockDto;
     }
+
+    public Stock getStockByStockName(String stockName) {
+        return stockRepository.findByStockName(stockName);
+    }
+
+    public StockDto getStockByStockId(String stockId) {
+        Stock stock = stockRepository.findByStockId(stockId);
+        StockDto stockDto = new StockDto(stock);
+        return stockDto;
+    }
 }

@@ -49,7 +49,6 @@ public class Board extends Timestamped {
         this.title = boardRequestDto.getTitle();
         this.content = boardRequestDto.getContent();
         this.user = boardRequestDto.getUser();
-//        this.stockId = boardRequestDto.getStockId();
         this.stock = boardRequestDto.getStock();
     }
 

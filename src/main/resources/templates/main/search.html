@@ -33,13 +33,13 @@
 <section>
     <div class="main col-lg-8 bg-white m-auto h-100 p-3 overflow-auto">
 
-        <!-- 여기서부터 쪼개면 됨 -->
+        <!--  -->
         <div class="row p-5">
             <h4 class="p-3">종목명으로 검색하세요.</h4>
             <form th:action="@{/main/stock}" th:method="GET">
                 <div class="ui-widget d-flex">
 
-                    <input type="text" name="name" class="form-control" id="search_input">&nbsp;
+                    <input type="text" name="stockName" class="form-control" id="search_input">&nbsp;
                     <button type="submit" class="btn btn-outline-primary px-2">
                         <i class="fa fa-search"></i>
                     </button>
@@ -47,7 +47,7 @@
                 </div>
             </form>
         </div>
-        <!-- 여기서부터 쪼개면 됨 -->
+        <!--  -->
 
     </div>
 </section>

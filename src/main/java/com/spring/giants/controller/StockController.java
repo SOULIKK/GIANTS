@@ -4,6 +4,7 @@ package com.spring.giants.controller;
 import com.spring.giants.model.dto.BoardListResponseDto;
 import com.spring.giants.model.dto.DisclosureResponseDto;
 import com.spring.giants.model.dto.StockDto;
+import com.spring.giants.model.entity.Stock;
 import com.spring.giants.service.BoardService;
 import com.spring.giants.service.DisclosureService;
 import com.spring.giants.service.MainService;
@@ -12,8 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+
+
 
 
 import java.util.List;
@@ -26,19 +27,16 @@ public class StockController {
     private final BoardService boardService;
     private final DisclosureService disclosureService;
 
-    @GetMapping("/stock")
-    public String stockMain() {
-        return "main/stock";
-    }
-
 
     @GetMapping("/main/stock")
-    public String searchedValue(StockDto stockDto, Model model, Pageable pageable) {
+    public String searchedValue(String stockName, Model model) {
 
-        List<BoardListResponseDto> boardListResponseDto = boardService.getMainBoardList(stockDto);
-        List<DisclosureResponseDto> disclosureResponseDto = disclosureService.getReport(stockDto);
+        Stock stock = mainService.getStockByStockName(stockName);
 
-        model.addAttribute("stock", stockDto);
+        List<BoardListResponseDto> boardListResponseDto = boardService.getMainBoardList(stock);
+        List<DisclosureResponseDto> disclosureResponseDto = disclosureService.getReport(stock.getStockId());
+
+        model.addAttribute("stock", stock);
         model.addAttribute("boards", boardListResponseDto);
         model.addAttribute("reports", disclosureResponseDto);
 

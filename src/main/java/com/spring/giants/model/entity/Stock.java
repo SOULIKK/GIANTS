@@ -1,6 +1,7 @@
 package com.spring.giants.model.entity;
 
 
+import lombok.Data;
 import lombok.Getter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -8,11 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Getter
 @Entity
+@Data
 public class Stock {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String stockId;
 
     @NotNull

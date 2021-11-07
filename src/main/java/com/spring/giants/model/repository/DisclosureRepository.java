@@ -2,6 +2,7 @@ package com.spring.giants.model.repository;
 
 import com.spring.giants.model.dto.DisclosureResponseDto;
 import com.spring.giants.model.entity.Disclosure;
+import com.spring.giants.model.entity.Stock;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,8 +16,6 @@ import java.util.List;
 public interface DisclosureRepository extends JpaRepository<Disclosure, String> {
 
     List<DisclosureResponseDto> findTop10ByRceptDtOrderByRceptDtDesc(LocalDateTime rceptDt);
-
-    List<DisclosureResponseDto> findTop10ByStockCodeOrderByRcpNoDesc(String stockCode);
 
     Page<DisclosureResponseDto> findAllByStockCodeOrderByRcpNoDesc(String stockId, Pageable pageable);
 
@@ -34,6 +33,5 @@ public interface DisclosureRepository extends JpaRepository<Disclosure, String> 
     @Query(value = "SELECT d.* FROM Disclosure d WHERE (report_nm LIKE %:title1% OR report_nm LIKE %:title2% OR report_nm LIKE %:title3%) AND stock_code = :stockId ORDER BY rcp_no DESC", nativeQuery = true)
     List<Disclosure> findByReportNm(@Param("title1") String title1, @Param("title2") String title2, @Param("title3") String title3, @Param("stockId") String stockId, Pageable pageable);
 
-
-
+    List<DisclosureResponseDto> findTop10ByStockCodeOrderByRcpNoDesc(String stockCode);
 }

@@ -4,10 +4,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.spring.giants.model.dto.*;
 import com.spring.giants.model.entity.*;
-import com.spring.giants.model.repository.BoardRepository;
-import com.spring.giants.model.repository.CommentRepository;
-import com.spring.giants.model.repository.LikesRepository;
-import com.spring.giants.model.repository.UserRepository;
+import com.spring.giants.model.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +24,7 @@ public class BoardService {
     private final UserRepository userRepository;
     private final LikesRepository likesRepository;
     private final CommentRepository commentRepository;
+    private final StockRepository stockRepository;
 
 
     @Transactional
@@ -41,8 +39,9 @@ public class BoardService {
 
 
     @Transactional
-    public Page<BoardListResponseDto> getBoardList(StockDto stockDto, String search, Pageable pageable) {
-        return boardRepository.findAllByStockAndTitleContainingOrderByCreatedAtDesc(stockDto.getStockId(), search, pageable);
+    public Page<BoardListResponseDto> getBoardList(String stockId, String search, Pageable pageable) {
+        Stock stock = stockRepository.findByStockId(stockId);
+        return boardRepository.findAllByStockAndTitleContainingOrderByCreatedAtDesc(stock, search, pageable);
     }
 
 
@@ -88,6 +87,7 @@ public class BoardService {
         Board board = boardRepository.findByBoardId(boardId);
         Likes isLiked = likesRepository.findByUserAndBoard(user, board);
 
+
         if (isLiked == null) {
             return false;
         } else {
@@ -114,8 +114,10 @@ public class BoardService {
     }
 
     @Transactional
-    public List<BoardListResponseDto> getMainBoardList(StockDto stockDto) {
-        return boardRepository.findTop10ByStockOrderByCreatedAtDesc(stockDto.getStockId());
+    public List<BoardListResponseDto> getMainBoardList(Stock stock) {
+
+        return boardRepository.findTop10ByStockOrderByCreatedAtDesc(stock);
+
     }
 
 
@@ -139,10 +141,11 @@ public class BoardService {
         return boards;
     }
 
-    public Page<BoardListResponseDto> getEdiorsPickBoards(String search, Pageable pageable) {
 
-        User user = new User();
-        user.setUserId(1L);
-        return boardRepository.findAllByUserAndTitleContainingOrderByCreatedAtDesc(user, search, pageable);
-    }
+//    public Page<BoardListResponseDto> getEdiorsPickBoards(String search, Pageable pageable) {
+//
+//        User user = new User();
+//        user.setUserId(1L);
+//        return boardRepository.findAllByUserAndTitleContainingOrderByCreatedAtDesc(user, search, pageable);
+//    }
 }

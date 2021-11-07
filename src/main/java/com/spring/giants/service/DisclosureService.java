@@ -5,6 +5,7 @@ import com.spring.giants.model.dto.StockDto;
 import com.spring.giants.model.entity.Disclosure;
 import com.spring.giants.model.entity.Stock;
 import com.spring.giants.model.repository.DisclosureRepository;
+import com.spring.giants.model.repository.StockRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 public class DisclosureService {
 
     final private DisclosureRepository disclosureRepository;
+    final private StockRepository stockRepository;
 
     private LocalDateTime getToday() {
 
@@ -43,8 +45,9 @@ public class DisclosureService {
     }
 
     // 종목 메인페이지 미리보기
-    public List<DisclosureResponseDto> getReport(StockDto stockDto) {
-        return disclosureRepository.findTop10ByStockCodeOrderByRcpNoDesc(stockDto.getStockId());
+    public List<DisclosureResponseDto> getReport(String stockId) {
+        Stock stock = stockRepository.findByStockName(stockId);
+        return disclosureRepository.findTop10ByStockCodeOrderByRcpNoDesc(stockId);
     }
 
     // 공시 카테고리
