@@ -1,8 +1,11 @@
 package com.spring.giants.model.entity;
 
 
+import com.spring.giants.model.dto.StockDto;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -11,6 +14,7 @@ import java.util.List;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Stock {
 
     @Id
@@ -31,4 +35,14 @@ public class Stock {
 
     @OneToMany(mappedBy = "stock")
     private List<Board> boards = new ArrayList<>();
+
+    public Stock(StockDto stockDto) {
+        this.stockId = stockDto.getStockId();
+        this.stockName = stockDto.getStockName();
+        this.market = stockDto.getMarket();
+        this.sector = stockDto.getSector();
+        this.product = stockDto.getProduct();
+        this.homepage = stockDto.getHomepage();
+    }
+
 }

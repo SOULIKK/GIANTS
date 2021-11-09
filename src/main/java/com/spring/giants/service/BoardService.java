@@ -28,19 +28,22 @@ public class BoardService {
 
 
     @Transactional
-    public String setBoard(String username, BoardRequestDto boardRequestDto) {
+    public void setBoard(String username, String stockId, BoardRequestDto boardRequestDto) {
 
         User user = userRepository.findByUsername(username);
+        Stock stock = stockRepository.findByStockId(stockId);
+
         boardRequestDto.setUser(user);
+        boardRequestDto.setStock(stock);
         Board board = new Board(boardRequestDto);
 
-        return boardRepository.save(board).getStock().getStockId();
+        boardRepository.save(board);
     }
 
 
     @Transactional
-    public Page<BoardListResponseDto> getBoardList(String stockId, String search, Pageable pageable) {
-        Stock stock = stockRepository.findByStockId(stockId);
+    public Page<BoardListResponseDto> getBoardList(StockDto stockDto, String search, Pageable pageable) {
+        Stock stock = new Stock(stockDto);
         return boardRepository.findAllByStockAndTitleContainingOrderByCreatedAtDesc(stock, search, pageable);
     }
 

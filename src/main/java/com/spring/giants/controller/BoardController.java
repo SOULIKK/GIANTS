@@ -39,7 +39,7 @@ public class BoardController {
     ) {
 
         StockDto stockDto = mainService.getStockByStockId(stockId);
-        Page<BoardListResponseDto> boardListResponseDto = boardService.getBoardList(stockId, search, pageable);
+        Page<BoardListResponseDto> boardListResponseDto = boardService.getBoardList(stockDto, search, pageable);
 
         int startPage = Math.max(1, boardListResponseDto.getPageable().getPageNumber() - 4);
         int endPage = Math.min(boardListResponseDto.getTotalPages(), boardListResponseDto.getPageable().getPageNumber() + 4);
@@ -54,10 +54,12 @@ public class BoardController {
 
 
     @GetMapping("/write")
-    public String write(StockDto stockDto, Model model) {
+    public String write(@RequestParam String stock, Model model) {
+        StockDto stockDto = mainService.getStockByStockId(stock);
+
         BoardRequestDto boardRequestDto = new BoardRequestDto();
-        model.addAttribute("board", boardRequestDto);
         model.addAttribute("stock", stockDto);
+        model.addAttribute("board", boardRequestDto);
         return "board/write";
     }
 
@@ -65,22 +67,21 @@ public class BoardController {
     @PostMapping("/write")
     public String writeBoard(
             Authentication authentication
+            , @RequestParam(value="stockId") String stockId
             , @Valid @ModelAttribute BoardRequestDto boardRequestDto
             , BindingResult bindingResult
             , RedirectAttributes redirectAttributes
-            , Model model) {
+            ) {
 
         String username = authentication.getName();
-        String stock = boardRequestDto.getStock().getStockId();
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("board", boardRequestDto);
-            return "redirect:/board/write?stock="+stock;
+            return "redirect:/board/write?stock="+stockId;
         }
 
-        boardService.setBoard(username, boardRequestDto);
-
-        return "redirect:/board/list?stock="+stock;
+        boardService.setBoard(username, stockId, boardRequestDto);
+        return "redirect:/board/list?stockId="+stockId;
     }
 
 
