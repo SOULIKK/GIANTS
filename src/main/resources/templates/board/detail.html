@@ -47,8 +47,8 @@
                     <div>
                         <i class="fa fa-chart-line fa-3x" th:classappend="${isLiked.equals(true)} ? 'text-danger' : 'text-secondary'"></i>
                     </div>
-                    <span th:classappend="${isLiked.equals(true)} ? 'text-danger' : 'text-secondary'">가즈아 !!</span>
-                    <span class="text-dark" th:text="${countLikes}" th:classappend="${isLiked.equals(true)} ? 'text-danger'"></span>
+                    <span th:classappend="${isLiked.equals(true)} ? 'text-danger'">가즈아 !!</span>
+                    <span th:text="${countLikes}" th:classappend="${isLiked.equals(true)} ? 'text-danger' : 'text-secondary'"></span>
                 </button>
             </a>
         </div>
@@ -83,7 +83,7 @@
 
                 <div class="text-end" th:if="${comment.user.username} == ${user}">
                     <button type="button" class="btn btn-outline-dark p-1 border border-0"
-                            th:onclick="delComment([[${stockId}]], [[${board.boardId}]], [[${comment.commentId}]])">
+                            th:onclick="delComment([[${stockId}]], [[${board.boardId}]])">
                         <span><small>삭제</small></span>
                     </button>
                 </div>

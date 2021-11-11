@@ -101,8 +101,9 @@ public class BoardService {
     @Transactional
     public void delBoard(Long boardId) {
         Board board = boardRepository.findByBoardId(boardId);
-        boardRepository.deleteById(boardId);
         likesRepository.deleteByBoard(board);
+        commentRepository.deleteByBoard(board);
+        boardRepository.deleteById(boardId);
     }
 
     @Transactional
