@@ -4,6 +4,7 @@ import com.spring.giants.model.dto.BoardDetailResponseDto;
 import com.spring.giants.model.dto.BoardListResponseDto;
 import com.spring.giants.model.dto.BoardRequestDto;
 import com.spring.giants.model.dto.StockDto;
+import com.spring.giants.model.entity.Board;
 import com.spring.giants.model.entity.Stock;
 import com.spring.giants.service.BoardService;
 import com.spring.giants.service.MainService;
@@ -117,7 +118,11 @@ public class BoardController {
     @PostMapping("/delete")
     public String delete(String stockId, Long boardId) {
         boardService.delBoard(boardId);
-        return "redirect:list?stock="+stockId;
+        System.out.println("============================");
+        System.out.println("stockId :::::::::::::: "+stockId);
+        System.out.println("============================");
+        return "redirect:list?stockId="+stockId;
+
     }
 
     @GetMapping("/update")
@@ -129,12 +134,9 @@ public class BoardController {
     }
 
     @PostMapping("/update")
-    public String update(Long boardId, BoardRequestDto boardRequestDto, Authentication authentication) {
-        String username = authentication.getName();
-        Stock stock = boardRequestDto.getStock();
-
-        boardService.uptBoard(boardId, boardRequestDto);
-        return "redirect:/board/detail?s="+stock.getStockId()+"&b="+boardId;
+    public String update(Long boardId, BoardRequestDto boardRequestDto) {
+        Board board = boardService.uptBoard(boardId, boardRequestDto);
+        return "redirect:/board/detail?s="+board.getStock().getStockId()+"&b="+board.getBoardId();
     }
 
 }

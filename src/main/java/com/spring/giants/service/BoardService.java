@@ -145,10 +145,15 @@ public class BoardService {
     }
 
 
-//    public Page<BoardListResponseDto> getEdiorsPickBoards(String search, Pageable pageable) {
-//
-//        User user = new User();
-//        user.setUserId(1L);
-//        return boardRepository.findAllByUserAndTitleContainingOrderByCreatedAtDesc(user, search, pageable);
-//    }
+    public Page<BoardListResponseDto> getEdiorsPickBoards(String search, Pageable pageable) {
+        return boardRepository.findAllByTitleContainingOrderByCreatedAtDesc(search, pageable);
+    }
+
+    public void setEpBoard(String username, BoardRequestDto boardRequestDto) {
+        Board board = new Board(boardRequestDto);
+        if (username.equals("admin")) {
+            boardRepository.save(board);
+        }
+
+    }
 }
