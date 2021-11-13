@@ -2,8 +2,9 @@ package com.spring.giants.service;
 
 
 import com.spring.giants.model.dto.ProfileRequestDto;
-import com.spring.giants.model.entity.Role;
+
 import com.spring.giants.model.entity.User;
+import com.spring.giants.model.entity.UserRole;
 import com.spring.giants.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,9 +23,7 @@ public class UserService {
         String encodedPw = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPw);
         user.setEnabled(true);
-        Role role = new Role();
-        role.setRoleId(1);
-        user.getRoles().add(role);
+        user.setRole(UserRole.USER);
 
         return userRepository.save(user);
     }
@@ -45,4 +44,6 @@ public class UserService {
 
         user.update(profileRequestDto);
     }
+
+
 }

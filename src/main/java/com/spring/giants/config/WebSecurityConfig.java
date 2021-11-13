@@ -36,19 +36,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .permitAll();
     }
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .passwordEncoder(passwordEncoder())
-                .usersByUsernameQuery("select username, password, enabled "
-                        + "from user "
-                        + "where username = ?")
-                .authoritiesByUsernameQuery("select u.username as username, r.name as role "
-                        + "from user_role ur inner join user u on ur.user_id = u.user_id "
-                        + "inner join role r on ur.role_id = r.role_id "
-                        + "where u.username = ?");
-    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
