@@ -16,13 +16,14 @@ function delBoard(stockId, boardId) {
     }
 }
 
-function delComment(stockId, boardId) {
+function delComment(stockId, boardId, commentId) {
     $.ajax({
         type: "POST",
         url: `/comment/delete`,
         data: {
             stockId: stockId,
-            boardId: boardId
+            boardId: boardId,
+            commentId: commentId
         },
         success: function (res) {
             location.reload();

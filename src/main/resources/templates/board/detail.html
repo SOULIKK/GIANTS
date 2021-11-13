@@ -83,7 +83,7 @@
 
                 <div class="text-end" th:if="${comment.user.username} == ${user}">
                     <button type="button" class="btn btn-outline-dark p-1 border border-0"
-                            th:onclick="delComment([[${stockId}]], [[${board.boardId}]])">
+                            th:onclick="delComment([[${stockId}]], [[${board.boardId}]], [[${comment.commentId}]])">
                         <span><small>삭제</small></span>
                     </button>
                 </div>
