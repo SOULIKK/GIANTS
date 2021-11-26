@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head('PICK')">
+</head>
+
+<body>
+
+<nav class="bg-dark" th:replace="layout/layout :: menu('PICK')">
+</nav>
+<div class="container px-4 py-5" id="custom-cards">
+    <!--        -->
+    <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+        <div th:each="pick : ${picks}">
+            <div class="col">
+                <div class="card" style="border: none !important; cursor: pointer;" th:onclick="originalPage([[${pick.url}]])">
+                    <div class="card-body">
+                        <img class="w-100" style="height: 250px !important;" th:src="${pick.thumbnail}" alt="">
+                        <h4 class="py-1 m-0" th:text="${pick.title}"></h4>
+                        <span class="text-secondary" th:text="${pick.createdAt}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--        -->
+</div>
+
+
+<!-- SIDEBAR -->
+<div id="sidebar" th:replace="layout/layout :: sidebar('PICK')">
+</div>
+<!-- // SIDEBAR -->
+
+<script>
+    function originalPage(_url) {
+        window.open(_url);
+    }
+</script>
+
+</body>
+
+</html>
