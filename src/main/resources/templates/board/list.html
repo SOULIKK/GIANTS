@@ -18,16 +18,27 @@
                 <span th:text="${stock.stockId}"></span>
             </h3>
 
-            <form th:action="@{/board/list}" th:method="GET">
-                <div class="d-flex">
+
+            <form th:action="@{/board/list}" th:method="GET" id="searchForm">
+                <div class="input-group">
+                    <input type="hidden" name="page" value="1">
+                    <div class="input-group-prepend">
+                        <select class="form-control" name="type">
+                            <option th:selected="${pageRequestDto.type == 't'}" value="t">제목</option>
+                            <option th:selected="${pageRequestDto.type == 'c'}" value="c">내용</option>
+                            <option th:selected="${pageRequestDto.type == 'w'}" value="w">작성자</option>
+                            <option th:selected="${pageRequestDto.type == 'tc'}" value="tc">제목 + 내용</option>
+                            <option th:selected="${pageRequestDto.type == 'tcw'}" value="tcw">제목 + 내용 + 작성자</option>
+                        </select>
+                    </div>
                     <input type="hidden" name="stock" th:value="${stock.stockId}">
-                    <input class="form-control mr-1" type="text" name="search" th:value="${param.searchText}"
-                           style="width: 12rem !important;">
-                    <button type="submit" class="btn btn-outline-success">
-                        <i class="fa fa-search"></i>
-                    </button>
+                    <input class="form-control" type="text" name="keyword" th:value="${pageRequestDto.keyword}">
+                    <div class="input-group-append" id="button-addon4">
+                        <button class="btn btn-outline-secondary btn-search" type="submit">Search</button>
+                    </div>
                 </div>
             </form>
+
 
         </div>
 
@@ -54,7 +65,7 @@
                     <a th:text="${board.title}" th:href="@{/board/detail(s=${stock.stockId}, b=${board.boardId})}"></a>
                     [<span th:text="${board.commentCount}"></span>]
                 </td>
-                <td th:text="${board.createdAt}"></td>
+                <td>[[${#temporals.format(board.createdAt, 'yyyy/MM/dd')}]]</td>
                 <td th:text="${board.likeCount}"></td>
             </tr>
             </tbody>
@@ -65,8 +76,8 @@
             <li class="page-item" th:if="${boards.prev}">
                 <a th:href="@{/board/list(stock=${stock.stockId}, page=${boards.start -1})}" tabindex="-1"> < </a>
             </li>
-            <li class=" 'page-item' + ${boards.page == page ? 'active':''}" th:each="page: ${boards.pageList}">
-                <a class="page-link" th:href="@{/board/list(stock=${stock.stockId}, page=${page})}">
+            <li class="page-item" th:each="page: ${boards.pageList}">
+                <a class="page-link" th:href="@{/board/list(stock=${stock.stockId}, page=${page})}" th:classappend="${boards.page == page} ? 'bg-primary text-white'">
                     [[${page}]]
                 </a>
             </li>
