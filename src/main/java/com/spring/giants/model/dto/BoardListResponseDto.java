@@ -5,12 +5,14 @@ import com.spring.giants.model.entity.Likes;
 import com.spring.giants.model.entity.Stock;
 import com.spring.giants.model.entity.User;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -23,8 +25,8 @@ public class BoardListResponseDto {
     private Stock stock;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private Long cntComment;
-    private Long cntLike;
+    private int commentCount;
+    private int likeCount;
 
 
     public BoardListResponseDto(Board board) {

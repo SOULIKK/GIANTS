@@ -21,7 +21,8 @@
             <form th:action="@{/board/list}" th:method="GET">
                 <div class="d-flex">
                     <input type="hidden" name="stock" th:value="${stock.stockId}">
-                    <input class="form-control mr-1" type="text" name="search" th:value="${param.searchText}" style="width: 12rem !important;">
+                    <input class="form-control mr-1" type="text" name="search" th:value="${param.searchText}"
+                           style="width: 12rem !important;">
                     <button type="submit" class="btn btn-outline-success">
                         <i class="fa fa-search"></i>
                     </button>
@@ -38,59 +39,41 @@
 
 
         <table class="table">
-            <colgroup>
-                <col width="20%">
-                <col width="50%">
-                <col width="30%">
-            </colgroup>
             <thead class="text-center">
             <tr>
                 <th>작성자</th>
                 <th>제목</th>
                 <th>작성일</th>
+                <th>좋아요</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="board : ${boards}">
-                <td class="text-center" th:text="${board.user.username}"></td>
+            <tr th:each="board : ${boards.dtoList}">
+                <td th:text="${board.user.username}"></td>
                 <td>
                     <a th:text="${board.title}" th:href="@{/board/detail(s=${stock.stockId}, b=${board.boardId})}"></a>
+                    [<span th:text="${board.commentCount}"></span>]
                 </td>
-                <td class="text-center" th:text="${board.createdAt}"></td>
+                <td th:text="${board.createdAt}"></td>
+                <td th:text="${board.likeCount}"></td>
             </tr>
             </tbody>
         </table>
 
-        <div class="d-flex justify-content-center" th:if="${boards.totalElements > 10}">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
 
-                    <li class="page-item" th:classappend="${1 == boards.pageable.pageNumber + 1} ? 'disabled'">
-                        <a class="page-link" href="#" aria-label="Previous"
-                           th:href="@{/board/list(stock=${stock.stockId}, page=${boards.pageable.pageNumber - 1}, search=${param.search})}">
-                            <span aria-hidden="true"> < </span>
-                        </a>
-                    </li>
-
-                    <li class="page-item" th:classappend="${i == boards.pageable.pageNumber + 1} ? 'disabled'"
-                        th:each="i : ${#numbers.sequence(startPage, endPage)}">
-                        <a class="page-link"
-                           th:href="@{/board/list(stock=${stock.stockId}, search=${param.search}, page=${i - 1})}">
-                            <span th:text="${i}"></span>
-                        </a>
-                    </li>
-
-                    <li class="page-item"
-                        th:classappend="${boards.totalPages == boards.pageable.pageNumber + 1} ? 'disabled'">
-                        <a class="page-link" href="#" aria-label="Next"
-                           th:href="@{/board/list(stock=${stock.stockId}, page=${boards.pageable.pageNumber + 1}, search=${param.search})}">
-                            <span aria-hidden="true"> > </span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-
-        </div>
+        <ul class="pagination justify-content-center align-items-center">
+            <li class="page-item" th:if="${boards.prev}">
+                <a th:href="@{/board/list(stock=${stock.stockId}, page=${boards.start -1})}" tabindex="-1"> < </a>
+            </li>
+            <li class=" 'page-item' + ${boards.page == page ? 'active':''}" th:each="page: ${boards.pageList}">
+                <a class="page-link" th:href="@{/board/list(stock=${stock.stockId}, page=${page})}">
+                    [[${page}]]
+                </a>
+            </li>
+            <li class="page-item" th:if="${boards.next}">
+                <a class="page-link" th:href="@{/board/list(stock=${stock.stockId}, page=${boards.end +1})}"> > </a>
+            </li>
+        </ul>
 
     </div>
 </section>

@@ -5,14 +5,17 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.spring.giants.model.dto.*;
 import com.spring.giants.model.entity.*;
 import com.spring.giants.model.repository.*;
+import com.spring.giants.model.repository.search.SearchBoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,7 +28,6 @@ public class BoardService {
     private final LikesRepository likesRepository;
     private final CommentRepository commentRepository;
     private final StockRepository stockRepository;
-
 
     @Transactional
     public void setBoard(String username, String stockId, BoardRequestDto boardRequestDto) {
@@ -40,11 +42,31 @@ public class BoardService {
         boardRepository.save(board);
     }
 
-
     @Transactional
-    public Page<BoardListResponseDto> getBoardList(StockDto stockDto, String search, Pageable pageable) {
-        Stock stock = new Stock(stockDto);
-        return boardRepository.findAllByStockAndTitleContainingOrderByCreatedAtDesc(stock, search, pageable);
+    public PageResultDto<BoardListResponseDto, Object[]> getList(PageRequestDto pageRequestDto) {
+
+        Function<Object[], BoardListResponseDto> fn = (en -> entityToDto((Board)en[0], (User)en[1], (Long)en[2]));
+
+        Page<Object[]> result = boardRepository.searchPage(
+                pageRequestDto.getType(),
+                pageRequestDto.getKeyword(),
+                pageRequestDto.getPageable(Sort.by("boardId").descending())
+        );
+
+        return new PageResultDto<>(result, fn);
+    }
+
+
+    BoardListResponseDto entityToDto(Board board, User user, Long commentCount) {
+        BoardListResponseDto boardListResponseDto = BoardListResponseDto.builder()
+                .boardId(board.getBoardId())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .user(user)
+                .createdAt(board.getCreatedAt())
+                .commentCount(commentCount.intValue())
+                .build();
+        return boardListResponseDto;
     }
 
 
@@ -112,9 +134,10 @@ public class BoardService {
     }
 
     @Transactional
-    public void uptBoard(Long boardId, BoardRequestDto boardRequestDto) {
+    public Board uptBoard(Long boardId, BoardRequestDto boardRequestDto) {
         Board board = boardRepository.findOneByBoardId(boardId);
         board.update(boardRequestDto);
+        return board;
     }
 
     @Transactional
@@ -147,6 +170,7 @@ public class BoardService {
 
 
     public Page<BoardListResponseDto> getEdiorsPickBoards(String search, Pageable pageable) {
+
         return boardRepository.findAllByTitleContainingOrderByCreatedAtDesc(search, pageable);
     }
 

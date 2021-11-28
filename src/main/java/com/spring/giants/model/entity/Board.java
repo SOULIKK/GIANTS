@@ -37,9 +37,6 @@ public class Board extends Timestamped {
     private List<Likes> likes = new ArrayList<>();
 
 
-//    @NotNull
-//    private String stockId;
-
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stockId")
