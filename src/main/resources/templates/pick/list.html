@@ -7,6 +7,17 @@
 
 <nav class="bg-dark" th:replace="layout/layout :: menu('PICK')">
 </nav>
+<style>
+    #naver_blog {
+        height: 250px !important;
+        padding-top: 80px;
+        font-weight: 900;
+        font-size: 3rem;
+        background: #2db400;
+        color: #fff;
+        text-align: center;
+    }
+</style>
 <div class="container px-4 py-5" id="custom-cards">
     <!--        -->
     <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
@@ -14,7 +25,10 @@
             <div class="col">
                 <div class="card" style="border: none !important; cursor: pointer;" th:onclick="originalPage([[${pick.url}]])">
                     <div class="card-body">
-                        <img class="w-100" style="height: 250px !important;" th:src="${pick.thumbnail}" alt="">
+                        <div th:if="${#strings.substring(pick.url, 0, 22)} == 'https://blog.naver.com'" id="naver_blog">
+                            NAVER BLOG
+                        </div>
+                        <img th:unless="${#strings.substring(pick.url, 0, 22)} == 'https://blog.naver.com'" class="w-100" style="height: 250px !important;" th:src="${pick.thumbnail}" alt="">
                         <h4 class="py-1 m-0" th:text="${pick.title}"></h4>
                         <span class="text-secondary" th:text="${pick.createdAt}"></span>
                     </div>
