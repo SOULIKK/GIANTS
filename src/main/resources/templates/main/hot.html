@@ -10,10 +10,24 @@
 <section>
     <div class="main col-lg-8 bg-white m-auto h-100 p-3 overflow-auto">
         <table class="table">
+            <thead>
+            <tr clastt="text-center">
+                <td>작성자</td>
+                <td>제목</td>
+                <td>좋아요</td>
+                <td>작성일</td>
+            </tr>
+            </thead>
             <tbody>
-                <tr th:each="board : ${boards}">
-                    <td th:text="${board.title}"></td>
-                </tr>
+            <tr th:each="board : ${boards.dtoList}">
+                <td th:text="${board.user.username}"></td>
+                <td>
+                    <span th:text="${board.title}"></span>
+                    [<span th:text="${board.commentCount}"></span>]
+                </td>
+                <td th:text="${board.likeCount}"></td>
+                <td></td>
+            </tr>
             </tbody>
         </table>
     </div>
