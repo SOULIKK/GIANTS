@@ -20,7 +20,7 @@
 
         <div class="p-2 d-flex justify-content-between">
             <h5 class="text-primary" th:text="${board.user.username}"></h5>
-            <h5 th:text="${#strings.replace(board.createdAt, 'T', '-')}"></h5>
+            <h5>[[${#temporals.format(board.createdAt, 'yyyy/MM/dd'}]]</h5>
         </div>
         <br>
         <div class="card">

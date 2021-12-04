@@ -10,7 +10,7 @@
 <section>
     <div class="main col-lg-8 bg-white m-auto h-100 px-md-3 py-4 overflow-auto">
         <h4 class="pt-2 px-3">
-            <span class="fw-bold text-primary" th:text="${stock.stockName}"></span>
+            <span class="text-primary" th:text="${stock.stockName}"></span>
             <span th:text="${stock.stockId}"></span>
             <span class="badge bg-warning text-dark" th:if="${stock.market} == 'p'">
                 <span>KOSPI</span>
@@ -39,11 +39,11 @@
             </div>
         </div>
 
-        <div class="row p-0 m-0">
+        <div class="row p-0 m-0 d-none">
             <div class="col-md-12 py-4">
                 <div class="card">
                     <div class="card-body">
-                        <h4><b>재무정보</b></h4>
+                        <h4>재무정보</h4>
                         <div style="background: #f3f3f3; height: 215px; width: 100%;"></div>
                     </div>
                 </div>
@@ -61,12 +61,9 @@
 
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <h4>토론실</h4>
-                                <form th:action="@{/board/list}" th:method="GET">
-                                    <input type="hidden" name="stock" th:value="${stock.stockId}">
-                                    <button type="submit" class="btn btn-outline-primary p-1">
+                                    <a type="submit" class="btn btn-outline-primary p-1" th:href="@{/board/list(stock=${stock.stockId})}">
                                         <i class="fa fa-plus p-1 m-0"></i> <span>더보기</span>
-                                    </button>
-                                </form>
+                                    </a>
                             </div>
 
                             <table class="table">
@@ -76,17 +73,14 @@
                                     <th>작성자</th>
                                     <th>제목</th>
                                     <th>작성일시</th>
-                                    <th>좋아요</th>
-                                    <th>댓글수</th>
+
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr th:each="board : ${boards}">
                                     <td th:text="${board.user.username}"></td>
                                     <td th:text="${board.title}"></td>
-                                    <td th:text="${board.createdAt}"></td>
-                                    <td th:text="${board.cntLike}"></td>
-                                    <td th:text="${board.cntComment}"></td>
+                                    <td>[[${#temporals.format(board.createdAt, 'yyyy/MM/dd')}]]</td>
                                 </tr>
                                 </tbody>
                             </table>

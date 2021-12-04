@@ -30,7 +30,7 @@
                         </div>
                         <img th:unless="${#strings.substring(pick.url, 0, 22)} == 'https://blog.naver.com'" class="w-100" style="height: 250px !important;" th:src="${pick.thumbnail}" alt="">
                         <h4 class="py-1 m-0" th:text="${pick.title}"></h4>
-                        <span class="text-secondary" th:text="${pick.createdAt}"></span>
+                        <span class="text-secondary">[[${#temporals.format(pick.createdAt, 'yyyy/MM/dd')}]]</span>
                     </div>
                 </div>
             </div>
