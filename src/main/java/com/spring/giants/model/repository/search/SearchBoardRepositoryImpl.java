@@ -5,8 +5,12 @@ import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.JPQLQuery;
+import com.spring.giants.model.dto.BoardListResponseDto;
+import com.spring.giants.model.dto.BoardRequestDto;
+import com.spring.giants.model.dto.DisclosureResponseDto;
 import com.spring.giants.model.entity.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -14,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,41 +31,59 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
     }
 
 
+//    @Override
+//    public Board search() {
+//        QBoard board = QBoard.board;
+//        QComment comment = QComment.comment;
+//        QUser user = QUser.user;
+//        QLikes likes = QLikes.likes;
+//
+//        JPQLQuery<Board> jpqlQuery = from(board);
+//        jpqlQuery.leftJoin(user).on(board.user.eq(user));
+//        jpqlQuery.leftJoin(comment).on(comment.board.eq(board));
+//        jpqlQuery.leftJoin(likes).on(likes.board.eq(board));
+//
+//        JPQLQuery<Tuple> tuple = jpqlQuery.select(board, user, comment.count(), likes.count());
+//        tuple.groupBy(board);
+//
+//        List<Tuple> result = tuple.fetch();
+//
+//        return null;
+//    }
+
     @Override
-    public Board search() {
+    public Page<Object[]> searchPageStockBoard(String boardType, User user, String stockId, String type, String keyword, Pageable pageable) {
+
         QBoard board = QBoard.board;
         QComment comment = QComment.comment;
-        QUser user = QUser.user;
         QLikes likes = QLikes.likes;
 
         JPQLQuery<Board> jpqlQuery = from(board);
-        jpqlQuery.leftJoin(user).on(board.user.eq(user));
         jpqlQuery.leftJoin(comment).on(comment.board.eq(board));
         jpqlQuery.leftJoin(likes).on(likes.board.eq(board));
 
-        JPQLQuery<Tuple> tuple = jpqlQuery.select(board, user, comment.count(), likes.count());
-        tuple.groupBy(board);
-
-        List<Tuple> result = tuple.fetch();
-
-        return null;
-    }
-
-    @Override
-    public Page<Object[]> searchPage(String type, String keyword, Pageable pageable) {
-
-        QBoard board = QBoard.board;
-        QComment comment = QComment.comment;
-
-        JPQLQuery<Board> jpqlQuery = from(board);
-        jpqlQuery.leftJoin(comment).on(comment.board.eq(board));
-
-        JPQLQuery<Tuple> tuple = jpqlQuery.select(board, board.user, comment.count());
+        JPQLQuery<Tuple> tuple = jpqlQuery.select(board, board.user, comment.count(), likes.count());
 
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         BooleanExpression expression = board.boardId.gt(0L);
-
         booleanBuilder.and(expression);
+
+        if (boardType == "STOCK_BOARD") {
+            BooleanExpression exStockBoard = board.stock.stockId.eq(stockId);
+            booleanBuilder.and(exStockBoard);
+        }
+
+        if (boardType == "MY_BOARD") {
+            BooleanExpression exMyBoard = board.user.userId.eq(user.getUserId());
+            booleanBuilder.and(exMyBoard);
+        }
+
+        if (boardType == "HOT_BOARD") {
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime startDate = now.minusDays(7);
+            BooleanExpression exHotBoard = board.createdAt.between(startDate, now);
+            booleanBuilder.and(exHotBoard);
+        }
 
         if (type != null) {
             String[] typeArr = type.split("");
@@ -84,8 +107,14 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
         sort.stream().forEach(order -> {
             Order direction = order.isAscending()? Order.ASC: Order.DESC;
             String prop = order.getProperty();
-            PathBuilder orderByExpression = new PathBuilder(Board.class, "board");
-            tuple.orderBy(new OrderSpecifier(direction, orderByExpression.get(prop)));
+
+            if (boardType == "HOT_BOARD") {
+                tuple.orderBy(likes.count().desc());
+            } else {
+                PathBuilder orderByExpression = new PathBuilder(Board.class, "board");
+                tuple.orderBy(new OrderSpecifier(direction, orderByExpression.get(prop)));
+            }
+
         });
 
         tuple.groupBy(board);
@@ -98,4 +127,7 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
 
         return new PageImpl<Object[]>(result.stream().map(t->t.toArray()).collect(Collectors.toList()), pageable, count);
     }
+
+
+
 }

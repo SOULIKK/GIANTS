@@ -9,6 +9,26 @@
 
 <section>
     <div class="main col-lg-8 bg-white m-auto h-100 p-3 overflow-auto">
+
+        <form th:action="@{/main/hot}" th:method="GET" id="searchForm">
+            <div class="input-group">
+                <input type="hidden" name="page" value="1">
+                <div class="input-group-prepend">
+                    <select class="form-control" name="type">
+                        <option th:selected="${pageRequestDto.type == 't'}" value="t">제목</option>
+                        <option th:selected="${pageRequestDto.type == 'c'}" value="c">내용</option>
+                        <option th:selected="${pageRequestDto.type == 'w'}" value="w">작성자</option>
+                        <option th:selected="${pageRequestDto.type == 'tc'}" value="tc">제목 + 내용</option>
+                        <option th:selected="${pageRequestDto.type == 'tcw'}" value="tcw">제목 + 내용 + 작성자</option>
+                    </select>
+                </div>
+                <input class="form-control" type="text" name="keyword" th:value="${pageRequestDto.keyword}">
+                <div class="input-group-append" id="button-addon4">
+                    <button class="btn btn-outline-secondary btn-search" type="submit">Search</button>
+                </div>
+            </div>
+        </form>
+
         <table class="table">
             <thead>
             <tr clastt="text-center">
@@ -26,10 +46,24 @@
                     [<span th:text="${board.commentCount}"></span>]
                 </td>
                 <td th:text="${board.likeCount}"></td>
-                <td></td>
+                <td>[[${#temporals.format(board.createdAt, "yyyy/MM/dd")}]]</td>
             </tr>
             </tbody>
         </table>
+
+        <ul class="pagination justify-content-center align-items-center">
+            <li class="page-item" th:if="${boards.prev}">
+                <a th:href="@{/main/hot(page=${boards.start -1})}" tabindex="-1"> < </a>
+            </li>
+            <li class="page-item" th:each="page: ${boards.pageList}">
+                <a class="page-link" th:href="@{/main/hot(page=${page})}" th:classappend="${boards.page == page} ? 'bg-primary text-white'">
+                    [[${page}]]
+                </a>
+            </li>
+            <li class="page-item" th:if="${boards.next}">
+                <a class="page-link" th:href="@{/main/hot(page=${boards.end +1})}"> > </a>
+            </li>
+        </ul>
     </div>
 </section>
 
