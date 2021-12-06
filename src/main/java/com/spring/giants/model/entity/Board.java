@@ -36,6 +36,9 @@ public class Board extends Timestamped {
     @OneToMany(mappedBy = "board")
     private List<Likes> likes = new ArrayList<>();
 
+    private int likeCount;
+    private int commentCount;
+
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
