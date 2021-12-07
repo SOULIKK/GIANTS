@@ -8,48 +8,98 @@
 <nav class="bg-dark" th:replace="layout/layout :: menu('PICK')">
 </nav>
 <style>
-    #naver_blog {
-        height: 250px !important;
-        padding-top: 80px;
-        font-weight: 900;
-        font-size: 3rem;
-        background: #2db400;
-        color: #fff;
-        text-align: center;
+    /*#naver_blog {*/
+    /*    height: 250px !important;*/
+    /*    padding-top: 80px;*/
+    /*    font-weight: 900;*/
+    /*    font-size: 3rem;*/
+    /*    background: #2db400;*/
+    /*    color: #fff;*/
+    /*    text-align: center;*/
+    /*}*/
+    .card-body {
+        box-shadow: rgb(0 0 0 / 4%) 0px 4px 16px 0px;
     }
 </style>
-<div class="container px-4 py-5" id="custom-cards">
-    <!--        -->
-    <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
-        <div th:each="pick : ${picks}">
-            <div class="col">
-                <div class="card" style="border: none !important; cursor: pointer;" th:onclick="originalPage([[${pick.url}]])">
-                    <div class="card-body">
-                        <div th:if="${#strings.substring(pick.url, 0, 22)} == 'https://blog.naver.com'" id="naver_blog">
-                            NAVER BLOG
+
+<div style="background: rgb(248, 249, 250);">
+    <div class="container px-4 py-5" id="custom-cards">
+        <h2>오늘의 스터디</h2>
+
+        <form th:action="@{pick}" th:method="GET">
+            <div class="d-flex w-50 mx-auto">
+                <input class="form-control" type="text" name="s">&nbsp
+                <button type="submit" class="btn btn-outline-secondary">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </form>
+        <!--        -->
+
+        <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+
+            <div th:each="pick : ${picks}">
+                <div class="col">
+                    <div class="card" style="border: none !important; height: 33rem;">
+                        <div class="card-body p-0">
+<!--                            <div th:if="${#strings.substring(pick.url, 0, 22)} == 'https://blog.naver.com'"-->
+<!--                                 id="naver_blog">-->
+<!--                                NAVER BLOG-->
+<!--                            </div>-->
+<!--                            <img th:unless="${#strings.substring(pick.url, 0, 22)} == 'https://blog.naver.com'" class="w-100" style="height: 250px !important;" th:src="${pick.thumbnail}" alt="">-->
+                            <img class="w-100" style="height: 250px !important;" th:src="${pick.thumbnail}" alt="">
+
+                            <div class="p-2">
+                                <h4 class="pb-1 pt-3 m-0" th:text="${pick.title}"></h4>
+                                <p class="px-2 fs-6 pb-1">
+                                    [[${pick.description}]] ...
+                                    <button class="btn btn-outline-danger p-0" style="font-size: .75rem;"
+                                            th:onclick="originalPage([[${pick.url}]])">원문보기
+                                    </button>
+                                </p>
+
+                                <div class="d-flex justify-content-between mt-auto">
+                                    <button class="btn p-0 text-secondary">
+                                        <i class="far fa-bookmark"></i> <span>북마크</span>
+                                    </button>
+                                    <span class="text-secondary">[[${#temporals.format(pick.createdAt, 'yyyy/MM/dd')}]]</span>
+                                </div>
+                            </div>
+
                         </div>
-                        <img th:unless="${#strings.substring(pick.url, 0, 22)} == 'https://blog.naver.com'" class="w-100" style="height: 250px !important;" th:src="${pick.thumbnail}" alt="">
-                        <h4 class="py-1 m-0" th:text="${pick.title}"></h4>
-                        <span class="text-secondary">[[${#temporals.format(pick.createdAt, 'yyyy/MM/dd')}]]</span>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!--        -->
-</div>
 
+        <!--        -->
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+
+                <li class="page-item" th:classappend="${1 == picks.pageable.pageNumber + 1} ? 'disabled'">
+                    <a class="page-link" th:href="@{/pick(page=${picks.pageable.pageNumber - 1}, s=${param.s})}" tabindex="-1" aria-disabled="true"> < </a>
+                </li>
+
+                <li class="page-item" th:classappend="${i == picks.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                    <a class="page-link" th:href="@{/pick(page=${i - 1}, s=${param.s})}" th:text="${i}"></a>
+                </li>
+
+                <li class="page-item" th:classappend="${picks.totalPages == picks.pageable.pageNumber + 1} ? 'disabled'">
+                    <a class="page-link" th:href="@{/pick(page=${picks.pageable.pageNumber + 1}, s=${param.s})}"> > </a>
+                </li>
+
+            </ul>
+        </nav>
+
+        <!--        -->
+    </div>
+</div>
 
 <!-- SIDEBAR -->
 <div id="sidebar" th:replace="layout/layout :: sidebar('PICK')">
 </div>
 <!-- // SIDEBAR -->
 
-<script>
-    function originalPage(_url) {
-        window.open(_url);
-    }
-</script>
 
 </body>
 
