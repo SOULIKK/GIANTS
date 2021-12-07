@@ -20,8 +20,14 @@ public class EditorsPickService {
     final private EditorsPickRepository editorsPickRepository;
 
     @Transactional
-    public Page<EpDto> getList(Pageable pageable) {
-        Page<EpDto> epList = editorsPickRepository.getEpList(pageable);
+    public Page<EpDto> getEpList(Pageable pageable, String s) {
+        Page<EpDto> epList = editorsPickRepository.findByTitleContainingOrderByCreatedAtDesc(s, pageable);
         return epList;
     }
+
+    @Transactional
+    public Page<EpDto> getEpList_1(Pageable pageable) {
+        return editorsPickRepository.getEpList(pageable);
+    }
+
 }
