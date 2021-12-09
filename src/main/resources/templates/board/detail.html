@@ -20,7 +20,7 @@
 
         <div class="p-2 d-flex justify-content-between">
             <h5 class="text-primary" th:text="${board.user.username}"></h5>
-            <h5>[[${#temporals.format(board.createdAt, 'yyyy/MM/dd'}]]</h5>
+            <h5>[[${#temporals.format(board.createdAt, 'yyyy/MM/dd')}]]</h5>
         </div>
         <br>
         <div class="card">
@@ -42,15 +42,15 @@
         </div>
 
         <div class="p-4 text-center">
-            <a th:href="@{/board/like(s=${stockId}, b=${board.boardId})}">
-                <button class="btn btn-outline-danger" th:classappend="${isLiked.equals(true)} ? 'border border-danger' : 'border border-secondary'">
-                    <div>
-                        <i class="fa fa-chart-line fa-3x" th:classappend="${isLiked.equals(true)} ? 'text-danger' : 'text-secondary'"></i>
-                    </div>
-                    <span th:classappend="${isLiked.equals(true)} ? 'text-danger'">가즈아 !!</span>
-                    <span th:text="${countLikes}" th:classappend="${isLiked.equals(true)} ? 'text-danger' : 'text-secondary'"></span>
-                </button>
-            </a>
+<!--            <a th:href="@{/board/like(s=${stockId}, b=${board.boardId})}">-->
+            <button id="likeBtn" class="btn btn-outline-danger" th:classappend="${isLiked.equals(true)} ? 'border border-danger' : 'border border-secondary'" th:onclick="like([[${stockId}]], [[${board.boardId}]])">
+                <div>
+                    <i class="fa fa-chart-line fa-3x" th:classappend="${isLiked.equals(true)} ? 'text-danger' : 'text-secondary'"></i>
+                </div>
+                <span th:classappend="${isLiked.equals(true)} ? 'text-danger'">가즈아 !!</span>
+                <span id="likeCnt" th:text="${countLikes}" th:classappend="${isLiked.equals(true)} ? 'text-danger' : 'text-secondary'"></span>
+            </button>
+<!--            </a>-->
         </div>
 
         <div class="mt-5 p-2">

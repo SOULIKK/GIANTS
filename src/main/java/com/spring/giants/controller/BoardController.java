@@ -26,12 +26,15 @@ public class BoardController {
     @GetMapping("/list")
     public String getStockBoard(
             @RequestParam String stock
-            , @RequestParam(required = false, defaultValue = "") String search
+            , @RequestParam(required = false, defaultValue = "") String keyword
             , Model model
             , PageRequestDto pageRequestDto
     ) {
+        final String boardType = "STOCK_BOARD";
         StockDto stockDto = mainService.getStockByStockId(stock);
-        model.addAttribute("boards", boardService.getList(pageRequestDto));
+
+        model.addAttribute("boards", boardService.getList(boardType, "", stock, pageRequestDto));
+        model.addAttribute("pageRequestDto", pageRequestDto);
         model.addAttribute("stock", stockDto);
 
         return "board/list";
@@ -66,7 +69,7 @@ public class BoardController {
         }
 
         boardService.setBoard(username, stockId, boardRequestDto);
-        return "redirect:/board/list?stockId="+stockId;
+        return "redirect:/board/list?stock="+stockId;
     }
 
 
@@ -90,12 +93,14 @@ public class BoardController {
         return "board/detail";
     }
 
-    @GetMapping("/like")
-    public String like(@RequestParam String s, @RequestParam Long b, Authentication authentication, Model model) {
+    @ResponseBody
+    @PostMapping("/like")
+    public int like(@RequestParam String s, @RequestParam Long b, Authentication authentication) {
         String username = authentication.getName();
         boolean isLiked = boardService.setLike(username, b);
-        model.addAttribute("isLiked", isLiked);
-        return "redirect:detail?s="+s+"&b="+b;
+        BoardDetailResponseDto boardDetailResponseDto = boardService.getDetail(b);
+        int countLikes = boardDetailResponseDto.getLikes().size();
+        return countLikes;
     }
 
 
