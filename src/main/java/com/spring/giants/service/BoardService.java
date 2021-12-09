@@ -2,6 +2,7 @@ package com.spring.giants.service;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.JPQLQuery;
 import com.spring.giants.model.dto.*;
 import com.spring.giants.model.entity.*;
 import com.spring.giants.model.repository.*;
@@ -29,6 +30,8 @@ public class BoardService {
     private final CommentRepository commentRepository;
     private final StockRepository stockRepository;
 
+
+
     @Transactional
     public void setBoard(String username, String stockId, BoardRequestDto boardRequestDto) {
 
@@ -43,11 +46,15 @@ public class BoardService {
     }
 
     @Transactional
-    public PageResultDto<BoardListResponseDto, Object[]> getList(PageRequestDto pageRequestDto) {
+    public PageResultDto<BoardListResponseDto, Object[]> getList(String boardType, String username, String stockId, PageRequestDto pageRequestDto) {
 
-        Function<Object[], BoardListResponseDto> fn = (en -> entityToDto((Board)en[0], (User)en[1], (Long)en[2]));
+        User user = userRepository.findByUsername(username);
+        Function<Object[], BoardListResponseDto> fn = (en -> entityToDto((Board)en[0], (User)en[1], (Long)en[2], (Long)en[3]));
 
-        Page<Object[]> result = boardRepository.searchPage(
+        Page<Object[]> result = boardRepository.searchPageStockBoard(
+                boardType,
+                user,
+                stockId,
                 pageRequestDto.getType(),
                 pageRequestDto.getKeyword(),
                 pageRequestDto.getPageable(Sort.by("boardId").descending())
@@ -57,7 +64,7 @@ public class BoardService {
     }
 
 
-    BoardListResponseDto entityToDto(Board board, User user, Long commentCount) {
+    BoardListResponseDto entityToDto(Board board, User user, Long commentCount, Long likeCount) {
         BoardListResponseDto boardListResponseDto = BoardListResponseDto.builder()
                 .boardId(board.getBoardId())
                 .title(board.getTitle())
@@ -65,6 +72,7 @@ public class BoardService {
                 .user(user)
                 .createdAt(board.getCreatedAt())
                 .commentCount(commentCount.intValue())
+                .likeCount(likeCount.intValue())
                 .build();
         return boardListResponseDto;
     }
@@ -141,38 +149,14 @@ public class BoardService {
     }
 
     @Transactional
-    public List<BoardListResponseDto> getMainBoardList(Stock stock) {
-
-        return boardRepository.findTop10ByStockOrderByCreatedAtDesc(stock);
-
+    public List<BoardListResponseDto> getMainBoardList(StockDto stockDto) {
+        Stock stock = new Stock(stockDto);
+        List<BoardListResponseDto> boardListResponseDto = boardRepository.findTop10ByStockOrderByCreatedAtDesc(stock);
+        return boardListResponseDto;
     }
 
 
-    @Transactional
-    public List<Board> getHotBoards() throws ParseException {
-        BooleanBuilder booleanBuilder = new BooleanBuilder();
-        QBoard qBoard = QBoard.board;
 
-        BooleanExpression expression = qBoard.likes.size().gt(1);
-
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime beforeWeek = now.minusDays(7);
-
-        BooleanExpression expression2 = qBoard.createdAt.after(beforeWeek);
-
-        booleanBuilder.and(expression);
-        booleanBuilder.and(expression2);
-
-
-        List<Board> boards = (List<Board>) boardRepository.findAll(booleanBuilder);
-        return boards;
-    }
-
-
-    public Page<BoardListResponseDto> getEdiorsPickBoards(String search, Pageable pageable) {
-
-        return boardRepository.findAllByTitleContainingOrderByCreatedAtDesc(search, pageable);
-    }
 
     public void setEpBoard(String username, BoardRequestDto boardRequestDto) {
         Board board = new Board(boardRequestDto);
@@ -181,4 +165,6 @@ public class BoardService {
         }
 
     }
+
+
 }
