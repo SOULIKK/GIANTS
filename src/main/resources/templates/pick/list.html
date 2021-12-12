@@ -59,11 +59,13 @@
                                 </p>
 
                                 <div class="d-flex justify-content-between mt-auto">
-                                    <button class="btn p-0 text-secondary">
-                                        <i class="far fa-bookmark"></i> <span>북마크</span>
+                                    <button th:id="'bookMarkBtn_'+${pick.epId}" class="btn p-0 text-secondary" th:onclick="bookMark([[${pick.epId}]])">
+                                        <i class="far fa-bookmark"></i>
+                                        <span>북마크</span>
                                     </button>
                                     <span class="text-secondary">[[${#temporals.format(pick.createdAt, 'yyyy/MM/dd')}]]</span>
                                 </div>
+
                             </div>
 
                         </div>
@@ -94,6 +96,12 @@
         <!--        -->
     </div>
 </div>
+
+<script>
+    function originalPage(_url) {
+        window.open(_url);
+    }
+</script>
 
 <!-- SIDEBAR -->
 <div id="sidebar" th:replace="layout/layout :: sidebar('PICK')">

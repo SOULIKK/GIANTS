@@ -14,14 +14,14 @@ import javax.persistence.Id;
 public class EditorsPick extends Timestamped {
 
     @Id
-    private Long ep_id;
+    private Long epId;
     private String title;
     private String description;
     private String url;
     private String thumbnail;
 
     public EditorsPick(EpDto epDto) {
-        this.ep_id = epDto.getEp_id();
+        this.epId = epDto.getEpId();
         this.title = epDto.getTitle();
         this.description = epDto.getDescription();
         this.url = epDto.getUrl();

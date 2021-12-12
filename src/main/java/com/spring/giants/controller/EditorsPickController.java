@@ -2,6 +2,8 @@ package com.spring.giants.controller;
 
 import com.spring.giants.model.dto.BoardRequestDto;
 import com.spring.giants.model.dto.EpDto;
+import com.spring.giants.model.entity.EditorsPick;
+import com.spring.giants.model.entity.User;
 import com.spring.giants.service.BoardService;
 import com.spring.giants.service.EditorsPickService;
 import com.spring.giants.service.UserService;
@@ -15,7 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
@@ -56,8 +58,14 @@ public class EditorsPickController {
         model.addAttribute("picks", epDto);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
-
         return "pick/list";
+    }
+
+    @ResponseBody
+    @PostMapping("/bookmark")
+    public void bookMark(@RequestParam Long epId, Authentication authentication) {
+        String username = authentication.getName();
+        editorsPickService.setBookMark(username, epId);
     }
 
 
