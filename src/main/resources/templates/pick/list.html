@@ -1,29 +1,32 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="layout/layout :: head('PICK')">
 </head>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script th:src="@{/js/common.js}"></script>
 <body>
 
-<nav class="bg-dark" th:replace="layout/layout :: menu('PICK')">
-</nav>
+
 <style>
-    /*#naver_blog {*/
-    /*    height: 250px !important;*/
-    /*    padding-top: 80px;*/
-    /*    font-weight: 900;*/
-    /*    font-size: 3rem;*/
-    /*    background: #2db400;*/
-    /*    color: #fff;*/
-    /*    text-align: center;*/
-    /*}*/
+    #naver_blog {
+        height: 250px !important;
+        padding-top: 80px;
+        font-weight: 900;
+        font-size: 3rem;
+        background: #2db400;
+        color: #fff;
+        text-align: center;
+    }
     .card-body {
         box-shadow: rgb(0 0 0 / 4%) 0px 4px 16px 0px;
     }
 </style>
 
-<div style="background: rgb(248, 249, 250);">
-    <div class="container px-4 py-5" id="custom-cards">
+<nav class="bg-dark" th:replace="layout/layout :: menu('PICK')" style="position: fixed; width: 100%;">
+</nav>
+
+<div style="background: rgb(248, 249, 250); min-height: calc(100% - 3rem); ">
+    <div class="container px-2 py-5" id="custom-cards">
         <h2>오늘의 스터디</h2>
 
         <form th:action="@{pick}" th:method="GET">
@@ -36,18 +39,18 @@
         </form>
         <!--        -->
 
-        <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+        <div class="row row-cols-1 row-cols-lg-4 align-items-stretch g-4 py-5">
 
             <div th:each="pick : ${picks}">
                 <div class="col">
-                    <div class="card" style="border: none !important; height: 33rem;">
+                    <div class="card" style="border: none !important;">
                         <div class="card-body p-0">
-<!--                            <div th:if="${#strings.substring(pick.url, 0, 22)} == 'https://blog.naver.com'"-->
-<!--                                 id="naver_blog">-->
-<!--                                NAVER BLOG-->
-<!--                            </div>-->
-<!--                            <img th:unless="${#strings.substring(pick.url, 0, 22)} == 'https://blog.naver.com'" class="w-100" style="height: 250px !important;" th:src="${pick.thumbnail}" alt="">-->
-                            <img class="w-100" style="height: 250px !important;" th:src="${pick.thumbnail}" alt="">
+                            <div th:if="${#strings.substring(pick.url, 0, 22)} == 'https://blog.naver.com'"
+                                 id="naver_blog">
+                                NAVER BLOG
+                            </div>
+                            <img th:unless="${#strings.substring(pick.url, 0, 22)} == 'https://blog.naver.com'" class="w-100" style="height: 250px !important;" th:src="${pick.thumbnail}+'?type=w647'" alt="">
+<!--                            <img class="w-100" style="height: 250px !important;" th:src="${pick.thumbnail}" alt="">-->
 
                             <div class="p-2">
                                 <h4 class="pb-1 pt-3 m-0" th:text="${pick.title}"></h4>
@@ -59,11 +62,15 @@
                                 </p>
 
                                 <div class="d-flex justify-content-between mt-auto">
-                                    <button th:id="'bookMarkBtn_'+${pick.epId}" class="btn p-0 text-secondary" th:onclick="bookMark([[${pick.epId}]])">
+                                    <span class="text-secondary">[[${#temporals.format(pick.createdAt, 'yyyy/MM/dd')}]]</span>
+                                    <button th:id="'bookMarkBtn_'+${pick.epId}" class="btn p-0 text-secondary" sec:authorize="isAuthenticated()" th:onclick="bookMark([[${pick.epId}]])">
+                                        <i th:classappend="${pick.bookMarkId} == null ? 'far fa-bookmark' : 'fa fa-bookmark'" sec:authentication=""></i>
+                                        <span>북마크</span>
+                                    </button>
+                                    <button class="btn p-0 text-secondary" sec:authorize="!isAuthenticated()" th:onclick="noAuth()">
                                         <i class="far fa-bookmark"></i>
                                         <span>북마크</span>
                                     </button>
-                                    <span class="text-secondary">[[${#temporals.format(pick.createdAt, 'yyyy/MM/dd')}]]</span>
                                 </div>
 
                             </div>

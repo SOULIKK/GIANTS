@@ -27,8 +27,7 @@ public class EditorsPickService {
     @Transactional
     public Page<EpDto> getEpList(Pageable pageable, String s) {
 
-        Page<EpDto> epList = editorsPickRepository.findByTitleContainingOrderByCreatedAtDesc(s, pageable);
-
+        Page<EpDto> epList = editorsPickRepository.getEpList(s, pageable);
         return epList;
     }
 

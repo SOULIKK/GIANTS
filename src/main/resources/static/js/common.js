@@ -39,6 +39,24 @@ function like(stockId, boardId) {
     })
 }
 
+function bookMark(epId) {
+    $.ajax({
+        type: "POST",
+        url: `/bookmark`,
+        data: {
+            epId: epId
+        },
+        success: function (res) {
+            const isBookMarked = res;
+            if ($(`#bookMarkBtn_${epId} i`).hasClass("far")) {
+                $(`#bookMarkBtn_${epId} i`).removeClass("far").addClass("fa");
+            } else {
+                $(`#bookMarkBtn_${epId} i`).removeClass("fa").addClass("far");
+            }
+        }
+    })
+}
+
 function delComment(stockId, boardId, commentId) {
     $.ajax({
         type: "POST",
@@ -59,3 +77,10 @@ function writeBoard(stockId) {
     location.href = `/board/write?stock=${stockId}`;
 }
 
+function noAuth() {
+    if (!confirm("로그인이 필요합니다. 로그인 하시겠습니까?")) {
+        return false;
+    } else {
+        location.href = '/auth/login';
+    }
+}

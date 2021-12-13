@@ -48,7 +48,7 @@ public class EditorsPickController {
     }
 
     @GetMapping("/pick")
-    public String pickList(@PageableDefault(size = 9) Pageable pageable, @RequestParam(required = false, defaultValue = "") String s, Model model) {
+    public String pickList(@PageableDefault(size = 8) Pageable pageable, @RequestParam(required = false, defaultValue = "") String s, Model model) {
 
         Page<EpDto> epDto = editorsPickService.getEpList(pageable, s);
 

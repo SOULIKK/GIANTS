@@ -19,14 +19,16 @@ public class EpDto {
     private String url;
     private String thumbnail;
     private LocalDateTime createdAt;
+    private Long bookMarkId;
 
 
-    public EpDto(EditorsPick editorsPick) {
+    public EpDto(EditorsPick editorsPick, Long bookMarkId) {
         this.epId = editorsPick.getEpId();
         this.title = editorsPick.getTitle();
         this.description = editorsPick.getDescription();
         this.url = editorsPick.getUrl();
         this.thumbnail = editorsPick.getThumbnail();
         this.createdAt = editorsPick.getCreatedAt();
+        this.bookMarkId = bookMarkId;
     }
 }
