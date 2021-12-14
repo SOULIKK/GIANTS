@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;;
-import java.text.ParseException;
 import java.util.Date;
 
 @Controller
@@ -27,9 +26,9 @@ public class DisclosureController {
     @GetMapping("/report/{reportType}")
     public String getReport(
             @PathVariable String reportType
-            , @PageableDefault(size = 100) Pageable pageable
+            , @PageableDefault(size = 15) Pageable pageable
             , Model model
-    ) throws ParseException {
+    ) {
 
         Page<DisclosureResponseDto> disclosureResponseDto = disclosureService.getTodayReports(reportType, pageable);
 
@@ -41,7 +40,7 @@ public class DisclosureController {
         model.addAttribute("endPage", endPage);
         model.addAttribute("reportType", reportType);
 
-        return "/disclosure/list";
+        return "disclosure/list";
     }
 
     @PostMapping("/report/{search}")
@@ -51,7 +50,7 @@ public class DisclosureController {
             , @DateTimeFormat(pattern = "yyyy-MM-dd") Date searchStart
             , @DateTimeFormat(pattern = "yyyy-MM-dd") Date searchEnd
             , String searchText
-            , @PageableDefault(size = 100) Pageable pageable
+            , @PageableDefault(size = 15) Pageable pageable
             , Model model) {
 
         if (searchType.equals("corpName")) {
@@ -68,20 +67,20 @@ public class DisclosureController {
         model.addAttribute("endPage", endPage);
         model.addAttribute("reportType", search);
 
-        return "/disclosure/list";
+        return "disclosure/list";
     }
 
     @GetMapping("/report/s/{stockId}/{reportType}")
-    public String stockReport(@PathVariable StockDto stockDto, @PathVariable String reportType, Pageable pageable, Model model) {
+    public String stockReport(@PathVariable String stock, @PathVariable String reportType, Pageable pageable, Model model) {
 
-        Page<DisclosureResponseDto> disclosureResponseDto = disclosureService.getStockReports(stockDto.getStockId(), reportType, pageable);
+        Page<DisclosureResponseDto> disclosureResponseDto = disclosureService.getStockReports(stock, reportType, pageable);
         model.addAttribute("reports", disclosureResponseDto);
         int startPage = Math.max(1, disclosureResponseDto.getPageable().getPageNumber() - 4);
         int endPage = Math.min(disclosureResponseDto.getTotalPages(), disclosureResponseDto.getPageable().getPageNumber() + 4);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("reportType", reportType);
-        model.addAttribute("stock", stockDto);
+        model.addAttribute("stock", stock);
 
         return "/disclosure/list";
     }

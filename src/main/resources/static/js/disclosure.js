@@ -3,13 +3,6 @@ function reportLink(rcpNo) {
     window.open(link, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=50,width=1024,height=768");
 }
 
-
-//const today = new Date().toISOString().slice(0, 10);
-// const today = new Date();
-//
-// document.getElementById("searchStart").value = today;
-// document.getElementById("searchEnd").value = today;
-
 function searchValidation() {
     const searchStart = document.getElementById("searchStart").value;
     const searchEnd = document.getElementById("searchEnd").value;
@@ -33,4 +26,18 @@ function stockReport(stockId) {
 
 function reportTypeLink(stockId, type) {
     location.href = `/report/s/${stockId}/${type}`;
+}
+
+function appendReport(rcpNo) {
+    // alert(rcpNo);
+    const inputBody = "<iframe id='i_"+rcpNo+"' width='100%' style='min-height: 450px; overflow: auto;' th:src='http://dart.fss.or.kr/dsaf001/main.do?rcpNo="+rcpNo+"'></iframe>";
+    const targetBody = document.getElementById("i_"+rcpNo);
+    alert(targetBody);
+    if (targetBody) {
+        return;
+    } else {
+        $("#a_"+rcpNo).append(inputBody);
+    }
+
+
 }

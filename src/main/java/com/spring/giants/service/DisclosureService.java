@@ -51,7 +51,7 @@ public class DisclosureService {
     }
 
     // 공시 카테고리
-    public Page<DisclosureResponseDto> getTodayReports(String reportType, Pageable pageable) throws ParseException {
+    public Page<DisclosureResponseDto> getTodayReports(String reportType, Pageable pageable) {
 
         LocalDateTime rceptDt = getToday();
 
@@ -75,8 +75,8 @@ public class DisclosureService {
     }
 
     private Page<DisclosureResponseDto> getDisclosureResponseDtos(Pageable pageable, LocalDateTime rceptDt, String title1, String title2, String title3) {
-        List<Disclosure> disclosures = disclosureRepository.findByRceptDtAndReportNm(title1, title2, title3, rceptDt, pageable);
-        return getDisclosureResponseDtos(pageable, disclosures);
+        Page<DisclosureResponseDto> disclosures = disclosureRepository.findByRceptDtAndReportNm(title1, title2, title3, rceptDt, pageable);
+        return disclosures;
     }
 
     private Page<DisclosureResponseDto> getDisclosureResponseDtos(Pageable pageable, List<Disclosure> disclosures) {

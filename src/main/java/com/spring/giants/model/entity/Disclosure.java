@@ -38,4 +38,6 @@ public class Disclosure {
 
     private String stockCode;
 
+    private LocalDateTime createdAt;
+
 }

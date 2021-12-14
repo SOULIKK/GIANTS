@@ -15,7 +15,7 @@ import java.util.List;
 
 public interface DisclosureRepository extends JpaRepository<Disclosure, String> {
 
-    List<DisclosureResponseDto> findTop10ByRceptDtOrderByRceptDtDesc(LocalDateTime rceptDt);
+    List<DisclosureResponseDto> findTop10ByRceptDtOrderByCreatedAtDesc(LocalDateTime rceptDt);
 
     Page<DisclosureResponseDto> findAllByStockCodeOrderByRcpNoDesc(String stockId, Pageable pageable);
 
@@ -27,10 +27,10 @@ public interface DisclosureRepository extends JpaRepository<Disclosure, String> 
 
     DisclosureResponseDto findTop1ByOrderByRcpNoDesc();
 
-    @Query(value = "SELECT d.* FROM Disclosure d WHERE (report_nm LIKE %:title1% OR report_nm LIKE %:title2% OR report_nm LIKE %:title3%) AND rcept_dt = :rceptDt ORDER BY rcp_no DESC", nativeQuery = true)
-    List<Disclosure> findByRceptDtAndReportNm(@Param("title1") String title1, @Param("title2") String title2, @Param("title3") String title3, @Param("rceptDt") LocalDateTime rceptDt, Pageable pageable);
+    @Query("SELECT new com.spring.giants.model.dto.DisclosureResponseDto(d.rcpNo, d.corpCls, d.corpCode, d.corpName, d.flrNm, d.reportNm, d.rceptDt, d.rm, d.stockCode, d.dcmUrl) FROM Disclosure d WHERE (d.reportNm LIKE %:title1% OR d.reportNm LIKE %:title2% OR d.reportNm LIKE %:title3%) AND d.rceptDt = :rceptDt ORDER BY d.rcpNo DESC")
+    Page<DisclosureResponseDto> findByRceptDtAndReportNm(@Param("title1") String title1, @Param("title2") String title2, @Param("title3") String title3, @Param("rceptDt") LocalDateTime rceptDt, Pageable pageable);
 
-    @Query(value = "SELECT d.* FROM Disclosure d WHERE (report_nm LIKE %:title1% OR report_nm LIKE %:title2% OR report_nm LIKE %:title3%) AND stock_code = :stockId ORDER BY rcp_no DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM Disclosure d WHERE (report_nm LIKE %:title1% OR report_nm LIKE %:title2% OR report_nm LIKE %:title3%) AND stock_code = :stockId ORDER BY rcp_no DESC", nativeQuery = true)
     List<Disclosure> findByReportNm(@Param("title1") String title1, @Param("title2") String title2, @Param("title3") String title3, @Param("stockId") String stockId, Pageable pageable);
 
     List<DisclosureResponseDto> findTop10ByStockCodeOrderByRcpNoDesc(String stockCode);
