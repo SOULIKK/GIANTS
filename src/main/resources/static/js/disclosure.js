@@ -30,9 +30,9 @@ function reportTypeLink(stockId, type) {
 
 function appendReport(rcpNo) {
     // alert(rcpNo);
-    const inputBody = "<iframe id='i_"+rcpNo+"' width='100%' style='min-height: 450px; overflow: auto;' th:src='http://dart.fss.or.kr/dsaf001/main.do?rcpNo="+rcpNo+"'></iframe>";
+    const inputBody = "<iframe id='i_"+rcpNo+"' frameborder='0' style='overflow: auto; position:absolute; top:0px; left:0px; right:0px; bottom:0px;' height='100%' width='100%' src='http://dart.fss.or.kr/dsaf001/main.do?rcpNo="+rcpNo+"'></iframe>";
     const targetBody = document.getElementById("i_"+rcpNo);
-    alert(targetBody);
+    // alert(targetBody);
     if (targetBody) {
         return;
     } else {

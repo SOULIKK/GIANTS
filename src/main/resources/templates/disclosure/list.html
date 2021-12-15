@@ -115,37 +115,49 @@
 
         <div>
 
-            <!-- -->
-            <div class="accordion" id="accordionExample">
-                <div class="accordion-item" th:each="report : ${reports}">
-                    <h2 class="accordion-header" id="headingOne">
-                        <button class="accordion-button collapsed p-2" type="button" data-bs-toggle="collapse" th:data-bs-target="'#r_' + ${report.rcpNo}" aria-expanded="true" th:aria-controls="'r_' + ${report.rcpNo}" th:onclick="appendReport([[${report.rcpNo}]])">
-                            <div>
-                                <div class="text-danger pb-1">[[${report.corpName}]]</div>
-                                <div>[[${report.reportNm}]]</div>
-                            </div>
-                        </button>
-                    </h2>
-                    <div th:id="'r_' + ${report.rcpNo}" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                        <div class="px-0 accordion-body">
-                            <div class="pt-2 pb-4 px-2">
-                                <button type="button" class="btn btn-outline-dark p-0" style="font-size: .75rem;" th:onclick="reportLink([[${report.rcpNo}]])">새창으로 열기</button>
-                            </div>
-                            <div th:id="'a_' + ${report.rcpNo}">
 
+            <!-- modal -->
+            <!-- Button trigger modal -->
+            <div th:each="report : ${reports}">
+                <button type="button" class="btn btn-light w-100 d-flex justify-content-between mb-1" data-bs-toggle="modal" th:data-bs-target="'#m_'+${report.rcpNo}" th:onclick="appendReport([[${report.rcpNo}]])">
+                    <span class="text-danger" th:text="${report.corpName}"></span>
+                    <span class="text-dark" th:text="${report.reportNm}"></span>
+                </button>
+                <div class="modal fade" th:id="'m_'+${report.rcpNo}" tabindex="-1" th:aria-labelledby="'m_'+${report.rcpNo}+'_l'" aria-hidden="true">
+                    <div class="modal-dialog modal-xl my-1" style="height: calc(100% - 1rem);">
+                        <div class="modal-content my-1" style="height: calc(100% - 1rem);">
+                            <div class="modal-header p-2">
+                                <h5 class="modal-title" th:id="'m_'+${report.rcpNo}+'_l'">[[${report.corpName}]]</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-<!--                            <iframe th:src="${report.dcmUrl}" title="내용" width="100%" style="min-height: 450px; overflow: auto;"></iframe>-->
-<!--                            <iframe th:src="'http://dart.fss.or.kr/dsaf001/main.do?rcpNo='+${report.rcpNo}" title="내용" width="100%" style="min-height: 450px; overflow: auto;"></iframe>-->
+                            <div class="modal-body p-0">
+                                <div class="pt-2 pb-4 px-2">
+                                    <button type="button" class="btn btn-outline-dark p-0" style="font-size: .75rem;" th:onclick="reportLink([[${report.rcpNo}]])">새창으로 열기</button>
+                                </div>
+                                <div th:id="'a_' + ${report.rcpNo}">
+
+                                </div>
+                            </div>
+                            <div class="modal-footer py-0 px-2">
+                                <button type="button" class="btn">
+                                    <i class="far fa-bookmark"></i>
+                                    <span>북마크</span>
+                                </button>
+                                <button type="button" class="btn">
+                                    <i class="fa fa-comments"></i>
+                                    <span></span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- -->
+            <!-- modal -->
 
         </div>
 
         <br>
-        <div class="d-flex justify-content-center" th:if="${reports.totalElements > 10}">
+        <div class="d-flex justify-content-center" th:if="${reports.totalElements > 15}">
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
 
