@@ -13,7 +13,9 @@ div::-webkit-scrollbar {
 nav > div {
   height: 3rem;
 }
-
+.main {
+  min-height: 100%;
+}
 .offcanvas-start {
   top: 0;
   left: 0;
@@ -28,6 +30,7 @@ section {
   width: 100%;
   background: rgb(248, 249, 250);
   height: calc(100% - 3rem);
+  overflow: auto;
 }
 
 #searched tr td {
@@ -56,4 +59,14 @@ section {
 .dropdown-menu {
   min-width: 6rem !important;
   font-size: .75rem !important;
+}
+
+#naverBtn {
+  background: #03C75A;
+}
+#fnguideBtn {
+  background: #454545;
+}
+#irgoBtn {
+  background: #444;
 }
