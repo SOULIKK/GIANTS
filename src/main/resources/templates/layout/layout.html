@@ -29,28 +29,54 @@
 <nav class="bg-dark" th:fragment="menu(menu)">
     <div class="col-lg-8 m-auto text-center d-flex align-items-center justify-content-evenly">
 
-        <a type="button" class="btn btn-primary rounded-circle bg-white border border-white text-dark" data-bs-toggle="offcanvas"
+        <a type="button" class="btn btn-dark rounded-circle" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
             <i class="fa fa-list"></i>
         </a>
 
-        <a class="btn btn-primary rounded-circle bg-white border border-white text-dark">
-            <i class="far fa-bell"></i>
+        <a class="btn btn-dark rounded-circle" th:href="@{/pick}">
+            <i class="fa fa-paper-plane"></i>
         </a>
+
+        <!-- 알림 기능 [보류]
+        <a class="btn btn-primary rounded-circle bg-white border border-white text-dark position-relative" data-bs-toggle="dropdown" aria-expanded="false">
+
+            <i class="far fa-bell"></i>
+            <span class="position-absolute top-0 start-100 translate-middle px-2 bg-danger rounded-circle text-white mt-1">
+                999
+                <span class="visually-hidden"></span>
+            </span>
+
+        </a>
+
+        <ul class="dropdown-menu p-0">
+            <hr class="dropdown-divider m-0">
+            <li><a class="dropdown-item p-2">알림 내용</a></li>
+            <hr class="dropdown-divider m-0">
+        </ul>
+        -->
 
         <a class="btn btn-dark" th:href="@{/}">
-            GIANTS
+            <span class="fs-5">
+                GIANTS
+                <span class="position-absolute top-0 translate-middle px-2 bg-danger rounded-circle text-white mt-2" style="font-size: .75rem;">
+                Beta
+                <span class="visually-hidden"></span>
+            </span>
+            </span>
+<!--            <i class="far fa-bell"></i>-->
+
         </a>
 
-        <a class="btn btn-primary rounded-circle bg-white border border-white text-dark" th:href="@{/main/search}">
+        <a class="btn btn-dark rounded-circle" th:href="@{/main/search}">
             <i class="fa fa-search"></i>
         </a>
 
-        <a class="btn btn-primary rounded-circle bg-white border border-white text-dark" sec:authorize="!isAuthenticated()" th:href="@{/auth/login}">
+        <a class="btn btn-dark rounded-circle" sec:authorize="!isAuthenticated()" th:href="@{/auth/login}">
             <i class="fa fa-sign-in-alt"></i>
         </a>
 
-        <a class="btn btn-primary rounded-circle bg-white border border-white text-dark" data-bs-toggle="dropdown" aria-expanded="false" sec:authorize="isAuthenticated()">
+        <a class="btn btn-dark rounded-circle" data-bs-toggle="dropdown" aria-expanded="false" sec:authorize="isAuthenticated()">
             <i class="fa fa-user"></i>
         </a>
         <ul class="dropdown-menu p-0">
@@ -82,9 +108,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link link-dark" th:classappend="${sidebar == 'PICK'} ? 'nav-line active'" th:href="@{/main/pick}">
+                    <a href="#" class="nav-link link-dark" th:classappend="${sidebar == 'PICK'} ? 'nav-line active'" th:href="@{/pick}">
                         <i class="fa fa-paper-plane"></i>&nbsp;&nbsp;
-                        <span>Editor's Pick</span>
+                        <span>스터디</span>
                     </a>
                 </li>
                 <li>
