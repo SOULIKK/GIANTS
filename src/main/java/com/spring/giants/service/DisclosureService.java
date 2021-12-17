@@ -79,15 +79,6 @@ public class DisclosureService {
         return disclosures;
     }
 
-    private Page<DisclosureResponseDto> getDisclosureResponseDtos(Pageable pageable, List<Disclosure> disclosures) {
-        List<DisclosureResponseDto> disclosureResponseDto = disclosures.stream()
-                .map(DisclosureResponseDto::new)
-                .collect(Collectors.toList());
-        int start = (int) pageable.getOffset();
-        int end = (start + pageable.getPageSize()) > disclosureResponseDto.size() ? disclosureResponseDto.size() : (start + pageable.getPageSize());
-        return new PageImpl<>(disclosureResponseDto.subList(start, end), pageable, disclosureResponseDto.size());
-    }
-
     // 공시 상세검색
     public Page<DisclosureResponseDto> getSearchedReports(String searchType, Date searchStart, Date searchEnd, String searchText, Pageable pageable) {
         if (searchType.equals("reportNm")) {
@@ -102,20 +93,20 @@ public class DisclosureService {
             String title1 = "사업보고서";
             String title2 = "반기보고서";
             String title3 = "분기보고서";
-            List<Disclosure> disclosures = disclosureRepository.findByReportNm(title1, title2, title3, stockId, pageable);
-            return getDisclosureResponseDtos(pageable, disclosures);
+            Page<DisclosureResponseDto> disclosures = disclosureRepository.findByReportNm(title1, title2, title3, stockId, pageable);
+            return disclosures;
         } else if (reportType.equals("share")) {
             String title1 = "임원ㆍ주요주주특정증권등소유상황보고서";
             String title2 = "주식등의대량보유상황보고서";
             String title3 = "공개매수";
-            List<Disclosure> disclosures = disclosureRepository.findByReportNm(title1, title2, title3, stockId, pageable);
-            return getDisclosureResponseDtos(pageable, disclosures);
+            Page<DisclosureResponseDto> disclosures = disclosureRepository.findByReportNm(title1, title2, title3, stockId, pageable);
+            return disclosures;
         } else if (reportType.equals("contract")) {
             String title1 = "공급계약체결";
             String title2 = title1;
             String title3 = title1;
-            List<Disclosure> disclosures = disclosureRepository.findByReportNm(title1, title2, title3, stockId, pageable);
-            return getDisclosureResponseDtos(pageable, disclosures);
+            Page<DisclosureResponseDto> disclosures = disclosureRepository.findByReportNm(title1, title2, title3, stockId, pageable);
+            return disclosures;
         }
         return disclosureRepository.findAllByStockCodeOrderByRcpNoDesc(stockId, pageable);
     }
