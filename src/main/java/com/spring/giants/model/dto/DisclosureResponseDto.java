@@ -20,7 +20,7 @@ public class DisclosureResponseDto {
     private String corpName;
     private String flrNm;
     private String reportNm;
-    private LocalDateTime rceptDt;
+    private Date rceptDt;
     private String rm;
     private String stockCode;
 
