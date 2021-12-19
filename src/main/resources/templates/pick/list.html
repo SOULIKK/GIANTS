@@ -27,17 +27,20 @@
 
 <div style="background: rgb(248, 249, 250); min-height: calc(100% - 3rem); ">
     <div class="container px-2 py-5" id="custom-cards">
-        <h2>오늘의 스터디</h2>
 
-        <form th:action="@{pick}" th:method="GET">
-            <div class="d-flex w-50 mx-auto">
-                <input class="form-control" type="text" name="s">&nbsp
-                <button type="submit" class="btn btn-outline-secondary">
-                    <i class="fa fa-search"></i>
-                </button>
-            </div>
-        </form>
-        <!--        -->
+        <div class="d-flex justify-content-between">
+            <h2>스터디</h2>
+
+            <form th:action="@{pick}" th:method="GET">
+                <div class="d-flex w-100 mx-auto">
+                    <input class="form-control" type="text" name="s">&nbsp
+                    <button type="submit" class="btn btn-outline-secondary">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
 
         <div class="row row-cols-1 row-cols-lg-4 align-items-stretch g-4 py-5">
 
@@ -62,15 +65,54 @@
                                 </p>
 
                                 <div class="d-flex justify-content-between mt-auto">
-                                    <span class="text-secondary">[[${#temporals.format(pick.createdAt, 'yyyy/MM/dd')}]]</span>
-                                    <button th:id="'bookMarkBtn_'+${pick.epId}" class="btn p-0 text-secondary" sec:authorize="isAuthenticated()" th:onclick="bookMark([[${pick.epId}]])">
-                                        <i th:classappend="${pick.bookMarkId} == null ? 'far fa-bookmark' : 'fa fa-bookmark'" sec:authentication=""></i>
-                                        <span>북마크</span>
-                                    </button>
-                                    <button class="btn p-0 text-secondary" sec:authorize="!isAuthenticated()" th:onclick="noAuth()">
-                                        <i class="far fa-bookmark"></i>
-                                        <span>북마크</span>
-                                    </button>
+                                    <div>
+                                        <span class="text-secondary">[[${#temporals.format(pick.createdAt, 'yyyy/MM/dd')}]]</span>
+                                    </div>
+                                    <div>
+                                        <button th:id="'bookMarkBtn_'+${pick.epId}" class="btn p-0 text-secondary" sec:authorize="isAuthenticated()" th:onclick="bookMark([[${pick.epId}]])">
+                                            <i th:classappend="${pick.bookMarkId} == null ? 'far fa-bookmark' : 'fa fa-bookmark'" sec:authentication=""></i>
+                                            <span>북마크</span>
+                                        </button>
+                                        <button class="btn p-0 text-secondary" sec:authorize="!isAuthenticated()" th:onclick="noAuth()">
+                                            <i class="far fa-bookmark"></i>
+                                            <span>북마크</span>
+
+                                        </button>
+
+                                        <!-- modal -->
+                                        <button type="button" class="btn p-0 text-secondary" data-bs-toggle="modal" th:data-bs-target="'#ep_'+${pick.epId}" th:onclick="getComments([[${pick.epId}]], [[${#authentication.getName()}]])">
+                                            <i class="far fa-comments"></i> <span th:text="${pick.countComments}"></span>
+                                        </button>
+
+                                        <div class="modal fade" th:id="'ep_'+${pick.epId}" tabindex="-1" th:aria-labelledby="'ep_l_'+${pick.epId}" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" th:id="'ep_l_'+${pick.epId}">
+                                                            <span th:text="${pick.title}"></span>
+                                                        </h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body" style="height: 500px; overflow: auto;">
+                                                        <div th:id="'m_b_'+${pick.epId}"></div>
+                                                    </div>
+                                                    <div class="p-2">
+
+                                                        <form th:action="@{/comment/create/ep/{epId}(epId = ${pick.epId})}" th:method="POST">
+                                                            <div class="w-100 d-flex">
+                                                                <input class="form-control" type="text" name="content" style="width: 90%;">&nbsp;
+                                                                <button class="btn btn-outline-dark p-1" style="width: 10%;" type="submit"><span>저장</span></button>
+                                                            </div>
+                                                        </form>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- modal -->
+
+
+                                    </div>
                                 </div>
 
                             </div>
