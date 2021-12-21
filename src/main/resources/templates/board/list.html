@@ -9,7 +9,7 @@
 </nav>
 
 <section>
-    <div class="main col-lg-8 bg-white m-auto h-100 p-3 overflow-auto">
+    <div class="main col-lg-8 bg-white m-auto p-3">
 
         <div class="d-flex justify-content-between py-3">
 
@@ -62,7 +62,7 @@
             <tr th:each="board : ${boards.dtoList}">
                 <td th:text="${board.user.username}"></td>
                 <td>
-                    <a th:text="${board.title}" th:href="@{/board/detail(s=${stock.stockId}, b=${board.boardId})}"></a>
+                    <a th:text="${board.title}" th:href="@{/board/detail(b=${board.boardId})}"></a>
                     [<span th:text="${board.commentCount}"></span>]
                 </td>
                 <td>[[${#temporals.format(board.createdAt, 'yyyy/MM/dd')}]]</td>

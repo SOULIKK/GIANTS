@@ -2,8 +2,10 @@ package com.spring.giants.controller;
 
 import com.spring.giants.model.dto.*;
 import com.spring.giants.model.entity.Board;
+import com.spring.giants.model.entity.User;
 import com.spring.giants.service.BoardService;
 import com.spring.giants.service.MainService;
+import com.spring.giants.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,7 @@ public class BoardController {
 
     final private BoardService boardService;
     final private MainService mainService;
+    final private UserService userService;
 
 
     @GetMapping("/list")
@@ -75,20 +78,23 @@ public class BoardController {
 
 
     @GetMapping("/detail")
-    public String getBoardDetail(@RequestParam String s, @RequestParam Long b,  Authentication authentication, Model model) {
+    public String getBoardDetail(@RequestParam Long b,  Authentication authentication, Model model) {
 
         BoardDetailResponseDto boardDetailResponseDto = boardService.getDetail(b);
         String username = authentication.getName();
-        boolean isLiked = boardService.chkLike(username, b);
+        User user = userService.getUser(username);
+        Board board = boardService.getBoardByBoardId(b);
+
+        boolean isLiked = boardService.chkLike(user, board);
         int countComment = boardDetailResponseDto.getComments().size();
         int countLikes = boardDetailResponseDto.getLikes().size();
 
-        model.addAttribute("user", username);
+        model.addAttribute("username", username);
         model.addAttribute("board", boardDetailResponseDto);
         model.addAttribute("countComment", countComment);
         model.addAttribute("countLikes", countLikes);
         model.addAttribute("isLiked", isLiked);
-        model.addAttribute("stockId", s);
+
 
         return "board/detail";
     }
@@ -122,7 +128,7 @@ public class BoardController {
     @PostMapping("/update")
     public String update(Long boardId, BoardRequestDto boardRequestDto) {
         Board board = boardService.uptBoard(boardId, boardRequestDto);
-        return "redirect:/board/detail?s="+board.getStock().getStockId()+"&b="+board.getBoardId();
+        return "redirect:/board/detail?b="+board.getBoardId();
     }
 
 }

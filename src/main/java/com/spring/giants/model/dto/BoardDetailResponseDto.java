@@ -3,11 +3,13 @@ package com.spring.giants.model.dto;
 
 import com.spring.giants.model.entity.Board;
 import com.spring.giants.model.entity.Likes;
+import com.spring.giants.model.entity.Stock;
 import com.spring.giants.model.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,7 +21,8 @@ public class BoardDetailResponseDto {
     private Long boardId;
     private String title;
     private String content;
-    private User user;
+    private String username;
+    private Stock stock;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private List<CommentResponseDto> comments;
@@ -29,7 +32,8 @@ public class BoardDetailResponseDto {
         this.boardId = board.getBoardId();
         this.title = board.getTitle();
         this.content=  board.getContent();
-        this.user = board.getUser();
+        this.username = board.getUser().getUsername();
+        this.stock = board.getStock();
         this.createdAt = board.getCreatedAt();
         this.modifiedAt = board.getModifiedAt();
         this.comments = comments;

@@ -10,29 +10,39 @@
 <section>
     <div class="main col-lg-8 bg-white m-auto p-3">
 
-        <form th:action="@{/main/hot}" th:method="GET" id="searchForm">
-            <div class="input-group">
-                <input type="hidden" name="page" value="1">
-                <div class="input-group-prepend">
-                    <select class="form-control" name="type">
-                        <option th:selected="${pageRequestDto.type == 't'}" value="t">제목</option>
-                        <option th:selected="${pageRequestDto.type == 'c'}" value="c">내용</option>
-                        <option th:selected="${pageRequestDto.type == 'w'}" value="w">작성자</option>
-                        <option th:selected="${pageRequestDto.type == 'tc'}" value="tc">제목 + 내용</option>
-                        <option th:selected="${pageRequestDto.type == 'tcw'}" value="tcw">제목 + 내용 + 작성자</option>
-                    </select>
-                </div>
-                <input class="form-control" type="text" name="keyword" th:value="${pageRequestDto.keyword}">
-                <div class="input-group-append" id="button-addon4">
-                    <button class="btn btn-outline-secondary btn-search" type="submit">Search</button>
-                </div>
+        <div class="d-flex justify-content-between pt-2 pb-4">
+            <h4>
+                <span>인기글</span>
+            </h4>
+            <div>
+                <form th:action="@{/main/hot}" th:method="GET" id="searchForm">
+                    <div class="input-group">
+                        <input type="hidden" name="page" value="1">
+                        <div class="input-group-prepend">
+                            <select class="form-control" name="type">
+                                <option th:selected="${pageRequestDto.type == 't'}" value="t">제목</option>
+                                <option th:selected="${pageRequestDto.type == 'c'}" value="c">내용</option>
+                                <option th:selected="${pageRequestDto.type == 'w'}" value="w">작성자</option>
+                                <option th:selected="${pageRequestDto.type == 'tc'}" value="tc">제목 + 내용</option>
+                                <option th:selected="${pageRequestDto.type == 'tcw'}" value="tcw">제목 + 내용 + 작성자</option>
+                            </select>
+                        </div>
+                        <input class="form-control" type="text" name="keyword" th:value="${pageRequestDto.keyword}">
+                        <div class="input-group-append" id="button-addon4">
+                            <button class="btn btn-outline-secondary btn-search" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
 
         <table class="table">
             <thead>
             <tr clastt="text-center">
                 <td>작성자</td>
+                <td>게시판</td>
                 <td>제목</td>
                 <td>좋아요</td>
                 <td>작성일</td>
@@ -42,8 +52,15 @@
             <tr th:each="board : ${boards.dtoList}">
                 <td th:text="${board.user.username}"></td>
                 <td>
-                    <span th:text="${board.title}"></span>
-                    [<span th:text="${board.commentCount}"></span>]
+                    <a type="button" class="btn btn-success px-1 py-0" th:href="@{/main/stock(stockName=${board.stock.stockName})}">
+                        #<span th:text="${board.stock.stockName}"></span>
+                    </a>
+                </td>
+                <td>
+                    <a th:href="@{/board/detail(b=${board.boardId})}">
+                        <span th:text="${board.title}"></span>
+                        [<span th:text="${board.commentCount}"></span>]
+                    </a>
                 </td>
                 <td th:text="${board.likeCount}"></td>
                 <td>[[${#temporals.format(board.createdAt, "yyyy/MM/dd")}]]</td>

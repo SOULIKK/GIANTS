@@ -1,20 +1,13 @@
 package com.spring.giants.service;
 
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.JPQLQuery;
 import com.spring.giants.model.dto.*;
 import com.spring.giants.model.entity.*;
 import com.spring.giants.model.repository.*;
-import com.spring.giants.model.repository.search.SearchBoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.text.ParseException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -23,13 +16,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BoardService {
 
-
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
     private final LikesRepository likesRepository;
     private final CommentRepository commentRepository;
     private final StockRepository stockRepository;
 
+    private final MainService mainService;
 
 
     @Transactional
@@ -70,6 +63,7 @@ public class BoardService {
                 .title(board.getTitle())
                 .content(board.getContent())
                 .user(user)
+                .stock(mainService.getStockByBoardId(board.getBoardId()))
                 .createdAt(board.getCreatedAt())
                 .commentCount(commentCount.intValue())
                 .likeCount(likeCount.intValue())
@@ -102,7 +96,7 @@ public class BoardService {
         User user = userRepository.findByUsername(username);
         Board board = boardRepository.findByBoardId(boardId);
 
-        boolean isLiked = chkLike(username, boardId);
+        boolean isLiked = chkLike(user, board);
 
         if (!isLiked) {
             Likes likes = new Likes(user, board);
@@ -114,13 +108,10 @@ public class BoardService {
         }
     }
 
+
     @Transactional
-    public boolean chkLike(String username, Long boardId) {
-        User user = userRepository.findByUsername(username);
-        Board board = boardRepository.findByBoardId(boardId);
+    public boolean chkLike(User user, Board board) {
         Likes isLiked = likesRepository.findByUserAndBoard(user, board);
-
-
         if (isLiked == null) {
             return false;
         } else {
@@ -136,10 +127,6 @@ public class BoardService {
         boardRepository.deleteById(boardId);
     }
 
-    @Transactional
-    public List<Board> getUserBoard(User user) {
-        return boardRepository.findByUser(user);
-    }
 
     @Transactional
     public Board uptBoard(Long boardId, BoardRequestDto boardRequestDto) {
@@ -155,16 +142,16 @@ public class BoardService {
         return boardListResponseDto;
     }
 
-
-
-
+    @Transactional
     public void setEpBoard(String username, BoardRequestDto boardRequestDto) {
         Board board = new Board(boardRequestDto);
         if (username.equals("admin")) {
             boardRepository.save(board);
         }
-
     }
 
-
+    @Transactional
+    public Board getBoardByBoardId(Long b) {
+        return boardRepository.findByBoardId(b);
+    }
 }
