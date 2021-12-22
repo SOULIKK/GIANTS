@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head('mypage')">
+</head>
+
+<body>
+<nav class="bg-dark" th:replace="layout/layout :: menu('mypage')">
+</nav>
+
+
+<section>
+
+    <div class="main col-lg-8 m-auto h-100 p-3">
+
+        <div class="text-end">
+            <a class="btn btn-dark p-1" th:href="@{/logout}"><span>로그아웃</span></a>
+        </div>
+
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" type="button" th:href="@{/mypage/bookmark}">
+                    북마크
+                </a>
+            </li>
+            <li class="nav-item" >
+                <a class="nav-link" type="button" th:href="@{/mypage/contents}">
+                    작성글
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" type="button" th:href="@{/mypage/likes}">
+                    좋아요한 글
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" type="button" th:href="@{/mypage/profile}">
+                    프로필
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active">
+                <div class="row p-0 m-0">
+                    <div class="p-3">
+                        <div style="font-size: .75rem !important;">
+
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h2>북마크한 글</h2>
+                            </div>
+
+                            <table class="table">
+                                <thead class="text-center fw-bold">
+                                <tr>
+                                    <th>제목</th>
+                                    <th>작성일시</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="myBookMark : ${myBookMarks.dtoList}">
+                                    <td th:text="${myBookMark.title}"></td>
+                                    <td>[[${#temporals.format(myBookMark.createdAt, 'yyyy/MM/dd')}]]</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="row p-0 m-0">
+                    <h2 class="p-3">비밀번호 변경</h2>
+                    <form th:action="@{/templates/mypage/update}" th:method="POST">
+                        <input type="hidden" name="username" th:value="${username}">
+                        <label>
+                            <span>새 비밀번호</span>
+                        </label>
+                        <div class="py-2">
+                            <input class="form-control" type="password" name="password">
+                        </div>
+                        <label>
+                            <span>비밀번호 확인</span>
+                        </label>
+                        <div class="py-2">
+                            <input class="form-control" type="password" name="chkPassword">
+                        </div>
+                        <br>
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-outline-success">
+                                저장
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- SIDEBAR -->
+<div id="sidebar" th:replace="layout/layout :: sidebar('mypage')">
+</div>
+<!-- // SIDEBAR -->
+
+</body>
+
+</html>
