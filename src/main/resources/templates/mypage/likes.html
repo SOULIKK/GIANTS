@@ -7,6 +7,7 @@
 <nav class="bg-dark" th:replace="layout/layout :: menu('mypage')">
 </nav>
 
+
 <section>
 
     <div class="main col-lg-8 m-auto h-100 p-3">
@@ -17,7 +18,7 @@
 
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link active" type="button" th:href="@{/mypage/bookmark}">
+                <a class="nav-link" type="button" th:href="@{/mypage/bookmark}">
                     북마크
                 </a>
             </li>
@@ -27,11 +28,11 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" type="button" th:href="@{/mypage/likes}">
+                <a class="nav-link active" type="button" th:href="@{/mypage/likes}">
                     좋아요한 글
                 </a>
             </li>
-            <li class="nav-item" role="presentation">
+            <li class="nav-item">
                 <a class="nav-link" type="button" th:href="@{/mypage/profile}">
                     프로필
                 </a>
@@ -39,12 +40,12 @@
         </ul>
 
         <div class="tab-content h-75">
+
             <div class="tab-pane h-100 bg-white fade show active">
                 <div class="row p-0 m-0">
                     <div class="p-3" style="font-size: .75rem !important;">
-
                         <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h2>북마크한 글</h2>
+                            <h2>좋아요 한 게시글</h2>
                         </div>
 
                         <table class="table">
@@ -55,16 +56,15 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="myBookMark : ${myBookMarks.dtoList}">
-                                <td th:text="${myBookMark.title}"></td>
-                                <td>[[${#temporals.format(myBookMark.createdAt, 'yyyy/MM/dd')}]]</td>
+                            <tr th:each="myLike : ${myLikes.dtoList}">
+                                <td th:text="${myLike.title}"></td>
+                                <td>[[${#temporals.format(myLike.createdAt, 'yyyy/MM/dd')}]]</td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-
         </div>
 
     </div>
