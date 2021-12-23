@@ -1,16 +1,12 @@
-package com.spring.giants.model.repository.search;
+package com.spring.giants.model.repository.searchPageBoard;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.JPQLQuery;
-import com.spring.giants.model.dto.BoardListResponseDto;
-import com.spring.giants.model.dto.BoardRequestDto;
-import com.spring.giants.model.dto.DisclosureResponseDto;
 import com.spring.giants.model.entity.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -23,10 +19,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport implements SearchBoardRepository {
+public class SearchPageBoardRepositoryImpl extends QuerydslRepositorySupport implements SearchPageBoardRepository {
 
 
-    public SearchBoardRepositoryImpl() {
+    public SearchPageBoardRepositoryImpl() {
         super(Board.class);
     }
 
@@ -73,9 +69,14 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
             booleanBuilder.and(exStockBoard);
         }
 
-        if (boardType == "MY_BOARD") {
-            BooleanExpression exMyBoard = board.user.userId.eq(user.getUserId());
+        if (boardType == "MY_CONTENTS") {
+            BooleanExpression exMyBoard = board.user.eq(user);
             booleanBuilder.and(exMyBoard);
+        }
+
+        if (boardType == "MY_LIKES") {
+            BooleanExpression exMyLikes = likes.user.eq(user);
+            booleanBuilder.and(exMyLikes);
         }
 
         if (boardType == "HOT_BOARD") {

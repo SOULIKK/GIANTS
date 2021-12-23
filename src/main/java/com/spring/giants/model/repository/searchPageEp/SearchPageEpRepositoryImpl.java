@@ -1,4 +1,4 @@
-package com.spring.giants.model.repository.myPage;
+package com.spring.giants.model.repository.searchPageEp;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
@@ -8,7 +8,6 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.JPQLQuery;
 import com.spring.giants.model.entity.*;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -18,10 +17,10 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MyPageRepositoryImpl extends QuerydslRepositorySupport implements MyPageRepository {
+public class SearchPageEpRepositoryImpl extends QuerydslRepositorySupport implements SearchPageEpRepository {
 
 
-    public MyPageRepositoryImpl() {
+    public SearchPageEpRepositoryImpl() {
         super(EditorsPick.class);
     }
 
@@ -77,4 +76,6 @@ public class MyPageRepositoryImpl extends QuerydslRepositorySupport implements M
 
         return new PageImpl<Object[]>(result.stream().map(t->t.toArray()).collect(Collectors.toList()), pageable, count);
     }
+
+
 }
