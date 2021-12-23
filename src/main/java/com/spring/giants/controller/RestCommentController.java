@@ -5,11 +5,7 @@ import com.spring.giants.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
@@ -23,13 +19,18 @@ public class RestCommentController {
     @PostMapping("/comment/ep")
     public ResponseEntity<List<CommentResponseDto>> getCommentList(@RequestParam Long epId) {
 
-        List<CommentResponseDto> result = new ArrayList<>();
-        result = commentService.getCommentList(epId);
-
         List<CommentResponseDto> commentResponseDtoList = commentService.getCommentList(epId);
 
-        return new ResponseEntity<>(result, HttpStatus.OK);
-
+        return new ResponseEntity<>(commentResponseDtoList, HttpStatus.OK);
     }
+
+    @DeleteMapping("/comment/ep")
+    public ResponseEntity<List<CommentResponseDto>> removeComment(@RequestParam Long epId, @RequestParam Long commentId) {
+        commentService.delComment(commentId);
+        List<CommentResponseDto> commentResponseDtoList = commentService.getCommentList(epId);
+
+        return new ResponseEntity<>(commentResponseDtoList, HttpStatus.OK);
+    }
+
 
 }

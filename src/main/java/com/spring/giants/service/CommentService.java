@@ -66,12 +66,13 @@ public class CommentService {
         commentRepository.delete(comment);
     }
 
-    @Transactional
+
     public List<CommentResponseDto> getCommentList(Long epId) {
         EditorsPick editorsPick = editorsPickRepository.findById(epId).orElseThrow(
-                () -> new ApiRequestException("")
+                () -> new ApiRequestException("존재하지 않는 게시글입니다.")
         );
         List<CommentResponseDto> commentResponseDto = commentRepository.findAllByEditorsPickOrderByCreatedAtDesc(editorsPick);
         return commentResponseDto;
     }
+
 }
