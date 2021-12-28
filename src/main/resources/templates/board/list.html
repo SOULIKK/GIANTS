@@ -9,7 +9,7 @@
 </nav>
 
 <section>
-    <div class="main col-lg-8 bg-white m-auto p-3">
+    <div class="main col-lg-8 m-auto p-3">
 
         <div class="d-flex justify-content-between py-3">
 
@@ -23,18 +23,21 @@
                 <div class="input-group">
                     <input type="hidden" name="page" value="1">
                     <div class="input-group-prepend">
-                        <select class="form-control" name="type">
-                            <option th:selected="${pageRequestDto.type == 't'}" value="t">제목</option>
-                            <option th:selected="${pageRequestDto.type == 'c'}" value="c">내용</option>
-                            <option th:selected="${pageRequestDto.type == 'w'}" value="w">작성자</option>
-                            <option th:selected="${pageRequestDto.type == 'tc'}" value="tc">제목 + 내용</option>
-                            <option th:selected="${pageRequestDto.type == 'tcw'}" value="tcw">제목 + 내용 + 작성자</option>
-                        </select>
+<!--                        <select class="form-control" name="type">-->
+<!--                            <option th:selected="${pageRequestDto.type == 't'}" value="t">제목</option>-->
+<!--                            <option th:selected="${pageRequestDto.type == 'c'}" value="c">내용</option>-->
+<!--                            <option th:selected="${pageRequestDto.type == 'w'}" value="w">작성자</option>-->
+<!--                            <option th:selected="${pageRequestDto.type == 'tc'}" value="tc">제목 + 내용</option>-->
+<!--                            <option th:selected="${pageRequestDto.type == 'tcw'}" value="tcw">제목 + 내용 + 작성자</option>-->
+<!--                        </select>-->
+                        <input type="hidden" name="type" th:value="tc">
                     </div>
                     <input type="hidden" name="stock" th:value="${stock.stockId}">
                     <input class="form-control" type="text" name="keyword" th:value="${pageRequestDto.keyword}">
                     <div class="input-group-append" id="button-addon4">
-                        <button class="btn btn-outline-secondary btn-search" type="submit">Search</button>
+                        <button class="btn btn-outline-secondary btn-search" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
                     </div>
                 </div>
             </form>
@@ -42,34 +45,30 @@
 
         </div>
 
-        <div class="py-1 text-end">
-            <button type="button" class="btn btn-outline-success p-1" th:onclick="writeBoard([[${stock.stockId}]])">
+        <div class="py-1 mb-2 text-end">
+            <button type="button" class="btn btn-success p-1" th:onclick="writeBoard([[${stock.stockId}]])">
                 <span>글 작성</span>
             </button>
         </div>
 
+        <div th:each="board : ${boards.dtoList}" class="card border-0 mb-3" style="border-radius: 1rem !important;">
+            <a class="card-body bg-white btn btn-light w-100 text-start" th:href="@{/board/detail(b=${board.boardId})}">
+                <h2 th:text="${board.title}"></h2>
+                <span class="text-dark" th:text="${board.user.username}"></span>
+                <div class="d-flex justify-content-between">
+                    <span class="text-secondary">[[${#temporals.format(board.createdAt, 'yyyy-MM-dd')}]]</span>
+                    <div>
+                        <i class="far fa-comments"></i>
+                        <span th:text="${board.commentCount}"></span>
+                        &nbsp;
+                        <i class="fa fa-heart"></i>
+                        <span th:text="${board.likeCount}"></span>
 
-        <table class="table">
-            <thead class="text-center">
-            <tr>
-                <th>작성자</th>
-                <th>제목</th>
-                <th>작성일</th>
-                <th>좋아요</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="board : ${boards.dtoList}">
-                <td th:text="${board.user.username}"></td>
-                <td>
-                    <a th:text="${board.title}" th:href="@{/board/detail(b=${board.boardId})}"></a>
-                    [<span th:text="${board.commentCount}"></span>]
-                </td>
-                <td>[[${#temporals.format(board.createdAt, 'yyyy/MM/dd')}]]</td>
-                <td th:text="${board.likeCount}"></td>
-            </tr>
-            </tbody>
-        </table>
+                    </div>
+                </div>
+            </a>
+        </div>
+
 
 
         <ul class="pagination justify-content-center align-items-center">
