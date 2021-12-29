@@ -6,6 +6,7 @@ import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.PathBuilder;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.spring.giants.model.entity.*;
 import org.springframework.data.domain.Page;
@@ -55,10 +56,15 @@ public class SearchPageBoardRepositoryImpl extends QuerydslRepositorySupport imp
         QLikes likes = QLikes.likes;
 
         JPQLQuery<Board> jpqlQuery = from(board);
-        jpqlQuery.leftJoin(comment).on(comment.board.eq(board));
         jpqlQuery.leftJoin(likes).on(likes.board.eq(board));
 
-        JPQLQuery<Tuple> tuple = jpqlQuery.select(board, board.user, comment.count(), likes.count());
+        JPQLQuery<Tuple> tuple = jpqlQuery.select(
+                board,
+                board.user,
+                JPAExpressions.select(comment.count().as("countComment")).from(comment).where(comment.board.eq(board)),
+                JPAExpressions.select(likes.count().as("likeCount")).from(likes).where(likes.board.eq(board))
+        );
+
 
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         BooleanExpression expression = board.boardId.gt(0L);
@@ -124,6 +130,7 @@ public class SearchPageBoardRepositoryImpl extends QuerydslRepositorySupport imp
         tuple.limit(pageable.getPageSize());
 
         List<Tuple> result = tuple.fetch();
+
         Long count = tuple.fetchCount();
 
         return new PageImpl<Object[]>(result.stream().map(t->t.toArray()).collect(Collectors.toList()), pageable, count);
