@@ -8,18 +8,55 @@
 
 
 <style>
-    #naver_blog {
-        height: 250px !important;
-        padding-top: 80px;
+    .naver_blog {
+        height: 180px !important;
+        padding-top: 50px;
         font-weight: 900;
         font-size: 3rem;
         background: #2db400;
         color: #fff;
         text-align: center;
     }
-    .card-body {
+    .col {
         box-shadow: rgb(0 0 0 / 4%) 0px 4px 16px 0px;
     }
+    #article {
+        transition: box-shadow 0.25s ease-in 0s, transform 0.25s ease-in 0s;
+        cursor: pointer;
+    }
+    #article:hover {
+        transform: translateY(-8px);
+    }
+    img {
+        object-fit: cover;
+        height: 180px !important;
+    }
+    .pick-title {
+        height: 3.875rem;
+    }
+    .comment-input input {
+        width: 90%;
+    }
+    .comment-input input {
+        width: 10%;
+    }
+    .pick-description {
+        font-size: .75rem;
+        height: 6.5rem;
+        text-overflow: ellipsis;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        overflow: hidden;
+    }
+    .pick-description div button, .pick-description div span {
+        font-size: 0.875rem !important;
+    }
+    .modal-body {
+        height: 500px !important;
+        overflow: auto;
+    }
+
+
 </style>
 
 <nav class="bg-dark" th:replace="layout/layout :: menu('PICK')" style="position: fixed; width: 100%;">
@@ -42,26 +79,27 @@
         </div>
 
 
-        <div class="row row-cols-1 row-cols-lg-4 align-items-stretch g-4 py-5">
+        <div class="row row-cols-1 row-cols-lg-4 row-cols-mb-3 row-cols-sm-2 align-items-stretch g-4 py-5">
 
             <div th:each="pick : ${picks}">
-                <div class="col">
+                <div class="col" id="article" th:onclick="originalPage([[${pick.url}]])">
                     <div class="card" style="border: none !important;">
                         <div class="card-body p-0">
+
                             <div th:if="${#strings.substring(pick.url, 0, 22)} == 'https://blog.naver.com'"
-                                 id="naver_blog">
+                                 class="naver_blog">
                                 NAVER BLOG
                             </div>
-                            <img th:unless="${#strings.substring(pick.url, 0, 22)} == 'https://blog.naver.com'" class="w-100" style="height: 250px !important;" th:src="${pick.thumbnail}+'?type=w647'" alt="">
-<!--                            <img class="w-100" style="height: 250px !important;" th:src="${pick.thumbnail}" alt="">-->
+                            <img th:unless="${#strings.substring(pick.url, 0, 22)} == 'https://blog.naver.com'" class="w-100" th:src="${pick.thumbnail}+'?type=w647'" alt="">
+
+
+
 
                             <div class="p-2">
-                                <h4 class="pb-1 pt-3 m-0" th:text="${pick.title}"></h4>
-                                <p class="px-2 fs-6 pb-1">
-                                    [[${pick.description}]] ...
-                                    <button class="btn btn-outline-danger p-0" style="font-size: .75rem;"
-                                            th:onclick="originalPage([[${pick.url}]])">원문보기
-                                    </button>
+                                <h6 class="pb-1 py-1 m-0 fw-bolder pick-title" th:text="${pick.title}"></h6>
+                                <div class="px-2 pt-2 pick-description">
+                                    <p style="height: 3rem;" th:if="${pick.description.length()} <= 80" th:text="${pick.description} + '...'"></p>
+                                    <p style="height: 3rem;" th:if="${pick.description.length()} > 80" th:text="${#strings.substring(pick.description, 0, 80)} + '...'  "></p>
                                 </p>
 
                                 <div class="d-flex justify-content-between mt-auto">
@@ -80,7 +118,7 @@
                                         </button>
 
                                         <!-- modal -->
-                                        <button type="button" class="btn p-0 text-secondary" data-bs-toggle="modal" th:data-bs-target="'#ep_'+${pick.epId}" th:onclick="getComments([[${pick.epId}]], [[${#authentication.getName()}]])">
+                                        <button th:id="'commentCntBtn_'+${pick.epId}" type="button" class="btn p-0 text-secondary" data-bs-toggle="modal" th:data-bs-target="'#ep_'+${pick.epId}" th:onclick="getComments([[${pick.epId}]], [[${#authentication.getName()}]])">
                                             <i class="far fa-comments"></i> <span th:text="${pick.countComments}"></span>
                                         </button>
 
@@ -88,20 +126,20 @@
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" th:id="'ep_l_'+${pick.epId}">
+                                                        <h4 class="modal-title" th:id="'ep_l_'+${pick.epId}">
                                                             <span th:text="${pick.title}"></span>
-                                                        </h5>
+                                                        </h4>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
-                                                    <div class="modal-body" style="height: 500px; overflow: auto;">
+                                                    <div class="modal-body">
                                                         <div th:id="'m_b_'+${pick.epId}"></div>
                                                     </div>
                                                     <div class="p-2">
 
                                                         <form th:action="@{/comment/create/ep/{epId}(epId = ${pick.epId})}" th:method="POST">
-                                                            <div class="w-100 d-flex">
-                                                                <input class="form-control" type="text" name="content" style="width: 90%;">&nbsp;
-                                                                <button class="btn btn-outline-dark p-1" style="width: 10%;" type="submit"><span>저장</span></button>
+                                                            <div class="w-100 d-flex comment-input">
+                                                                <input class="form-control" type="text" name="content" autocomplete="off">&nbsp;
+                                                                <button class="btn btn-outline-dark p-1" type="submit"><span>저장</span></button>
                                                             </div>
                                                         </form>
 
@@ -110,7 +148,6 @@
                                             </div>
                                         </div>
                                         <!-- modal -->
-
 
                                     </div>
                                 </div>
@@ -122,28 +159,31 @@
                 </div>
             </div>
         </div>
-
-        <!--        -->
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-
-                <li class="page-item" th:classappend="${1 == picks.pageable.pageNumber + 1} ? 'disabled'">
-                    <a class="page-link" th:href="@{/pick(page=${picks.pageable.pageNumber - 1}, s=${param.s})}" tabindex="-1" aria-disabled="true"> < </a>
-                </li>
-
-                <li class="page-item" th:classappend="${i == picks.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
-                    <a class="page-link" th:href="@{/pick(page=${i - 1}, s=${param.s})}" th:text="${i}"></a>
-                </li>
-
-                <li class="page-item" th:classappend="${picks.totalPages == picks.pageable.pageNumber + 1} ? 'disabled'">
-                    <a class="page-link" th:href="@{/pick(page=${picks.pageable.pageNumber + 1}, s=${param.s})}"> > </a>
-                </li>
-
-            </ul>
-        </nav>
-
-        <!--        -->
     </div>
+    <!--        -->
+    <nav aria-label="Page navigation example" th:if="${picks.totalElements > 8}">
+        <ul class="pagination justify-content-center">
+
+            <li class="page-item" th:classappend="${1 == picks.pageable.pageNumber + 1} ? 'disabled'">
+                <a class="page-link px-2 py-1" th:href="@{/pick(page=${picks.pageable.pageNumber - 1}, s=${param.s})}" tabindex="-1" aria-disabled="true"> < </a>
+            </li>
+
+            <li class="page-item" th:classappend="${i == picks.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                <a class="page-link px-2 py-1" th:href="@{/pick(page=${i - 1}, s=${param.s})}" th:text="${i}"></a>
+            </li>
+
+            <li class="page-item" th:classappend="${picks.totalPages == picks.pageable.pageNumber + 1} ? 'disabled'">
+                <a class="page-link px-2 py-1" th:href="@{/pick(page=${picks.pageable.pageNumber + 1}, s=${param.s})}"> > </a>
+            </li>
+
+        </ul>
+    </nav>
+    <!--        -->
+
+
+
+
+
 </div>
 
 <script>
