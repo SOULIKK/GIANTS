@@ -1,12 +1,11 @@
-function delBoard(stockId, boardId) {
+function delBoard(boardId) {
     if (!confirm("삭제된 글은 복구할 수 없습니다. 삭제하시겠습니까?")) {
         return false;
     } else {
         $.ajax({
-            type: "POST",
-            url: `/board/delete`,
+            type: "DELETE",
+            url: "/board/delete",
             data: {
-                stockId: stockId,
                 boardId: boardId
             },
             success: function (res) {
@@ -26,14 +25,10 @@ function like(stockId, boardId) {
         },
         success: function (res) {
             const cnt = res;
-            alert(res);
-            // alert(res);
-            if ($("#likeBtn").hasClass("btn-outline-danger border border-danger")) {
-                $("#likeBtn").removeClass("btn-outline-danger border border-danger").addClass("btn-outline-danger border border-secondary");
-                $("#likeBtn i, #likeBtn span").removeClass("text-danger").addClass("text-secondary");
+            if ($("#likeBtn").hasClass("btn-outline-danger")) {
+                $("#likeBtn").removeClass("btn-outline-danger").addClass("btn-outline-secondary");
             } else {
-                $("#likeBtn").removeClass("btn-outline-danger border border-secondary").addClass("btn-outline-danger border border-danger");
-                $("#likeBtn i, #likeBtn span").removeClass("text-secondary").addClass("text-danger");
+                $("#likeBtn").removeClass("btn-outline-secondary").addClass("btn-outline-danger");
             }
             $("#likeCnt").text(res);
         }
@@ -69,7 +64,6 @@ function delComment(stockId, boardId, commentId) {
         },
         success: function (res) {
             location.reload();
-            // alert(res.stockId);
         }
     })
 }
@@ -104,31 +98,6 @@ function corpAnalisys(type, stockCode) {
 }
 
 
-
-function stockResearch(stockName) {
-
-    const stock = encodeURIComponent(stockName);
-    alert(stock);
-
-    $.ajax({
-        url: "http://consensus.hankyung.com/apps.analysis/analysis.list",
-        type: "GET",
-        contentType: 'application/x-www-form-urlencoded;charset=euc-kr',
-        data: {
-            search_text: stock,
-            sdate: "2021-01-01",
-            edate: "2021-12-16",
-            pagenum: 80
-        },
-        success: function() {
-            window.open(link, '_blank');
-            win.focus();
-        }
-    })
-
-
-}
-
 function getComments(epId, username) {
 
     $.ajax({
@@ -150,10 +119,10 @@ function getComments(epId, username) {
 
                     str += "<table id='t_"+epId+"' class='w-100 m-auto'><tbody>";
 
-                    if (username != results[i].user.username) {
+                    if (username != results[i].username) {
                         str += "<tr><td class='w-50'>";
                         str += "<div class='p-2' style='border-radius: .75rem; background: #f1f1f1;'>";
-                        str += "<div class='text-primary fw-bold p-1'>"+results[i].user.username+"</div>";
+                        str += "<div class='text-primary fw-bold p-1'>"+results[i].username+"</div>";
                         str += "<div class='py-2'>"+results[i].content+"</div>";
                         str += "<div class='d-flex justify-content-between text-secondary'>";
                         str += "<div>"+results[i].createdAt+"</div>";
@@ -161,13 +130,13 @@ function getComments(epId, username) {
                         str += "<td></td>";
                         str += "</tr>";
                     } else {
-                        str += "<tr><td class='w-50'></td><td>";
+                        str += "<tr><td class='w-50'></td><td id='comment_"+results[i].commentId+"'>";
                         str += "<div class='p-2' style='border-radius: .75rem; background: #f1f1f1;'>";
-                        str += "<div class='text-primary fw-bold p-1'>"+results[i].user.username+"</div>";
+                        str += "<div class='text-primary fw-bold p-1'>"+results[i].username+"</div>";
                         str += "<div class='py-2'>"+results[i].content+"</div>";
                         str += "<div class='d-flex justify-content-between text-secondary'>";
                         str += "<div>"+results[i].createdAt+"</div>";
-                        str += "<div><button type='button' class='btn p-0 text-secondary'><i class='fa fa-trash'></i></button></div>";
+                        str += "<div><button type='button' class='btn p-0 text-secondary' onclick='delEpComment("+epId+", "+results[i].commentId+")'><i class='fa fa-trash'></i></button></div>";
                         str += "</div></div></td>";
                         str += "</tr>";
                     }
@@ -175,10 +144,73 @@ function getComments(epId, username) {
                 });
                 modal_body.append(str);
             }
-
-
         }
     })
 
 }
 
+function delEpComment(epId, commentId) {
+
+    const comment_td = $("#comment_"+commentId);
+    comment_td.remove();
+
+    $.ajax({
+        type: 'DELETE',
+        data: {
+            epId: epId,
+            commentId: commentId
+        },
+        url: '/comment/ep',
+        dataType: 'JSON',
+        success: function(results) {
+
+        }
+
+    })
+}
+
+function sendCert() {
+
+    const email = $("#username").val();
+
+    $.ajax({
+        type: "POST",
+        url: "/cert/send",
+        data: {
+            email: email
+        },
+        success(res) {
+            alert(email+" 로 인증메일이 발송됐습니다. 메일을 확인해주세요.");
+            $("#mail").html("재발송");
+            $("#chkForm").removeClass("d-none");
+
+        }
+    })
+}
+
+
+function chkCert() {
+
+    const email = $("#username").val();
+    const certKey = $("#certKey").val();
+
+    $.ajax({
+        type: "POST",
+        url: "/cert/check",
+        data: {
+            certKey: certKey,
+            email: email
+        },
+        success(res) {
+            if (res == true) {
+                alert("인증이 완료됐습니다.");
+                $('#join').attr('disabled', false);
+            } else {
+                alert("인증번호가 일치하지 않습니다.");
+            }
+
+        }
+
+    })
+
+}

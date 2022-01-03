@@ -4,6 +4,9 @@
 <head th:replace="layout/layout :: head('JOIN')">
 </head>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script th:src="@{/js/common.js}"></script>
+
 <body>
 
 <section class="w-100 vh-100">
@@ -14,8 +17,20 @@
         <form th:action="@{/auth/join}" th:method="POST" th:onsubmit="return joinValidation()">
 
             <div class="w-100 py-2">
-                <label for="username">Username</label>
-                <input class="form-control" type="text" id="username" name="username">
+                <label for="username">Email</label>
+                <div class="d-flex">
+                    <input class="form-control w-75" type="email" id="username" name="username">
+                    <button id="mail" type="button" class="btn btn-danger w-25" th:onclick="sendCert()">인증메일 발송</button>
+                </div>
+
+                <div id="chkForm" class="d-flex d-none pt-3">
+                    <input class="form-control w-75" type="text" id="certKey" name="certKey">
+                    <button type="button" class="btn btn-outline-danger w-25" th:onclick="chkCert()">인증</button>
+                </div>
+            </div>
+            <div class="w-100 py-2">
+                <label for="nickname">Nickname</label>
+                <input class="form-control" type="text" id="nickname" name="nickname">
             </div>
             <div class="w-100 py-2">
                 <label for="password">Password</label>
@@ -26,20 +41,24 @@
                 <input class="form-control" type="password" id="pwChk">
             </div>
             <div class="w-100 py-3">
-                <button type="submit" class="btn btn-primary w-100" onclick="join()">
+                <button type="submit" id="join" class="btn btn-primary w-100" onclick="join()" disabled>
                     <span>회원가입 완료</span>
                 </button>
             </div>
         </form>
         <br>
         <span>이미 <b>GIANTS</b>의 회원이신가요?</span>
-        <button class="btn btn-outline-primary w-100" onclick="goLogin()"><span>로그인하러 가기</span></button>
+        <a class="btn btn-outline-primary w-100" th:href="@{/auth/login}"><span>로그인하러 가기</span></a>
 
     </div>
 </section>
 
+
 <script>
     function joinValidation() {
+
+        alert("준비중입니다.");
+        return false;
 
         const pw = document.getElementById("password").value;
         const pw2 = document.getElementById("pwChk").value;
