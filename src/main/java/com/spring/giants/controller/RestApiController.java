@@ -20,9 +20,7 @@ public class RestApiController {
 
     @PostMapping("/comment/ep")
     public ResponseEntity<List<CommentResponseDto>> getCommentList(@RequestParam Long epId) {
-
         List<CommentResponseDto> commentResponseDtoList = commentService.getCommentList(epId);
-
         return new ResponseEntity<>(commentResponseDtoList, HttpStatus.OK);
     }
 
@@ -30,22 +28,34 @@ public class RestApiController {
     public ResponseEntity<List<CommentResponseDto>> removeComment(@RequestParam Long epId, @RequestParam Long commentId) {
         commentService.delComment(commentId);
         List<CommentResponseDto> commentResponseDtoList = commentService.getCommentList(epId);
-
         return new ResponseEntity<>(commentResponseDtoList, HttpStatus.OK);
     }
 
     @PostMapping("/cert/send")
     public ResponseEntity<String> sendMail(@RequestParam String email) {
-        System.out.println("emailemailemailemailemail = " + email);
-        userService.sendMail(email);
-        return new ResponseEntity<>("ok", HttpStatus.OK);
+        userService.sendCertMail(email);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/cert/check")
-    public ResponseEntity<Boolean> chkCert(@RequestParam String email, @RequestParam int certKey) {
+    public ResponseEntity<Boolean> chkCert(@RequestParam String email, @RequestParam String certKey) {
         Boolean chkCert = userService.chkCert(email, certKey);
         return new ResponseEntity<>(chkCert, HttpStatus.OK);
     }
+
+    @PostMapping("/nickname/check")
+    public ResponseEntity<Boolean> chkNickname(@RequestParam String nickname) {
+        Boolean chkNickname = userService.chkNickname(nickname);
+        return new ResponseEntity<>(chkNickname,  HttpStatus.OK);
+    }
+
+    @PostMapping("/")
+    public ResponseEntity<Boolean> newPw(@RequestParam String email) {
+        Boolean sendTempPw = userService.sendTempPwMail(email);
+        return new ResponseEntity<>(sendTempPw, HttpStatus.OK);
+    }
+
+
 
 
 

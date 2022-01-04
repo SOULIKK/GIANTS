@@ -14,5 +14,5 @@ public class TempUser {
 
     @Id
     private String email;
-    private int certKey;
+    private String certKey;
 }
