@@ -80,11 +80,21 @@ section {
   border: none !important;
   box-shadow: rgb(0 0 0 / 4%) 0px 4px 16px 0px !important;
 }
-.nav-tabs .nav-link {
-  box-shadow: rgb(0 0 0 / 4%) 0px 4px -1px 0px !important;
+.nav-tabs .nav-link.active {
+  box-shadow: rgb(0 0 0 / 4%) 0px -5px 10px 1px !important;
   border: none !important;
+}
+
+.nav-tabs .nav-link {
+  margin-bottom: -2px !important;
 }
 
 .card {
   box-shadow: rgb(0 0 0 / 4%) 0px 4px 16px 0px !important;
 }
+
+
+#likeBtn:hover {
+  color: #fff !important;
+}
+

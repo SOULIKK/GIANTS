@@ -7,7 +7,7 @@
 <nav class="bg-dark" th:replace="layout/layout :: menu('REPORT')">
 </nav>
 <section>
-    <div class="main col-lg-9 bg-white m-auto py-4 px-lx-3 px-md-2 px-sm-0">
+    <div class="main col-lg-9 m-auto py-4 px-lx-3 px-md-2 px-sm-0">
         <h4 class="p-2 mb-0" th:if="!${stock}">오늘의 공시</h4>
         <div class="px-2 pt-1 pb-4 d-flex justify-content-between">
             <div th:if="!${stock}">
@@ -76,8 +76,7 @@
                                         aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form th:action="@{/report/search}" th:method="POST"
-                                      th:onsubmit="return searchValidation()">
+                                <form th:action="@{/report/search}" th:method="POST" th:onsubmit="return searchValidation()">
                                     <div class="btn-group w-100 pt-2 pb-4" role="group"
                                          aria-label="Basic radio toggle button group">
                                         <input type="radio" class="btn-check" name="searchType" id="corpName"
@@ -119,35 +118,42 @@
             <!-- modal -->
             <!-- Button trigger modal -->
             <div th:each="report : ${reports}">
-                <button type="button" class="btn btn-light w-100 d-flex justify-content-between mb-1" data-bs-toggle="modal" th:data-bs-target="'#m_'+${report.rcpNo}" th:onclick="appendReport([[${report.rcpNo}]])">
+                <button type="button" class="btn bg-white w-100 d-flex justify-content-between mb-1" data-bs-toggle="modal" th:data-bs-target="'#m_'+${report.rcpNo}" th:onclick="appendReport([[${report.rcpNo}]])">
                     <span class="text-danger" th:text="${report.corpName}"></span>
                     <span class="text-dark" th:text="${report.reportNm}"></span>
                 </button>
                 <div class="modal fade" th:id="'m_'+${report.rcpNo}" tabindex="-1" th:aria-labelledby="'m_'+${report.rcpNo}+'_l'" aria-hidden="true">
                     <div class="modal-dialog modal-xl my-1" style="height: calc(100% - 1rem);">
                         <div class="modal-content my-1" style="height: calc(100% - 1rem);">
-                            <div class="modal-header p-2">
-                                <h5 class="modal-title" th:id="'m_'+${report.rcpNo}+'_l'">[[${report.corpName}]]</h5>
+                            <div class="modal-header py-2 px-3">
+                                <h5 class="modal-title text-danger" th:id="'m_'+${report.rcpNo}+'_l'">
+                                    <div th:if="${report.stockCode != '' && report.rm != '넥'}">
+                                        <a th:href="@{/main/stock(stockName=${report.corpName})}">
+                                            [[${report.corpName}]]
+                                        </a>
+                                    </div>
+                                    <div th:if="${report.stockCode == '' || report.rm == '넥'}">
+                                        [[${report.corpName}]]
+                                    </div>
+                                </h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body p-0">
                                 <div class="pt-2 pb-4 px-2">
                                     <button type="button" class="btn btn-outline-dark p-0" style="font-size: .75rem;" th:onclick="reportLink([[${report.rcpNo}]])">새창으로 열기</button>
                                 </div>
-                                <div th:id="'a_' + ${report.rcpNo}">
-
-                                </div>
+                                <div th:id="'a_' + ${report.rcpNo}"></div>
                             </div>
-                            <div class="modal-footer py-0 px-2">
-                                <button type="button" class="btn">
-                                    <i class="far fa-bookmark"></i>
-                                    <span>북마크</span>
-                                </button>
-                                <button type="button" class="btn">
-                                    <i class="fa fa-comments"></i>
-                                    <span></span>
-                                </button>
-                            </div>
+<!--                            <div class="modal-footer py-0 px-2">-->
+<!--                                <button type="button" class="btn">-->
+<!--                                    <i class="far fa-bookmark"></i>-->
+<!--                                    <span>북마크</span>-->
+<!--                                </button>-->
+<!--                                <button type="button" class="btn">-->
+<!--                                    <i class="fa fa-comments"></i>-->
+<!--                                    <span></span>-->
+<!--                                </button>-->
+<!--                            </div>-->
                         </div>
                     </div>
                 </div>
@@ -162,21 +168,17 @@
                 <ul class="pagination">
 
                     <li class="page-item" th:classappend="${1 == reports.pageable.pageNumber + 1} ? 'disabled'">
-                        <a class="page-link" href="#" aria-label="Previous"
-                           th:href="@{/report/today(page=${reports.pageable.pageNumber - 1})}">
+                        <a class="page-link px-2 py-1" th:href="@{'/report/'+${reportType}(page=${reports.pageable.pageNumber - 1})}">
                             <span aria-hidden="true"> < </span>
                         </a>
                     </li>
-                    <li class="page-item" th:classappend="${i == reports.pageable.pageNumber + 1} ? 'disabled'"
-                        th:each="i : ${#numbers.sequence(startPage, endPage)}">
-                        <a class="page-link" th:href="@{/report/today(page=${i - 1})}">
+                    <li class="page-item" th:classappend="${i == reports.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                        <a class="page-link px-2 py-1" th:href="@{'/report/'+${reportType}(page=${i - 1})}">
                             <span th:text="${i}"></span>
                         </a>
                     </li>
-                    <li class="page-item"
-                        th:classappend="${reports.totalPages == reports.pageable.pageNumber + 1} ? 'disabled'">
-                        <a class="page-link" href="#" aria-label="Next"
-                           th:href="@{/report/today(page=${reports.pageable.pageNumber + 1})}">
+                    <li class="page-item" th:classappend="${reports.totalPages == reports.pageable.pageNumber + 1} ? 'disabled'">
+                        <a class="page-link px-2 py-1" th:href="@{'/report/'+${reportType}(page=${reports.pageable.pageNumber + 1})}">
                             <span aria-hidden="true"> > </span>
                         </a>
                     </li>

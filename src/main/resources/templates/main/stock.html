@@ -3,51 +3,56 @@
 <head th:replace="layout/layout :: head('STOCK')">
 </head>
 <script th:src="@{/js/common.js}"></script>
-
+<script th:src="@{/js/disclosure.js}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <body>
 <nav class="bg-dark" th:replace="layout/layout :: menu('STOCK')">
 </nav>
+<style>
+    table {
+        font-size: .75rem !important;
+    }
 
+</style>
 <section>
-    <div class="main col-lg-8 bg-white m-auto px-md-3 py-4">
-        <h4 class="pt-2 px-3">
-            <span class="text-primary" th:text="${stock.stockName}"></span>
-            <span th:text="${stock.stockId}"></span>
-            <span class="badge bg-danger text-white pt-1 pb-0" th:if="${stock.market} == 'p'">
-                <span>KOSPI</span>
-            </span>
-            <span class="badge bg-danger text-white pt-1 pb-0" th:if="${stock.market} == 'd'">
-                <span>KOSDAQ</span>
-            </span>
-            <span class="badge bg-secondary text-white pt-1 pb-0" th:onclick="corpAnalisys('home', [[${stock.homepage}]])" style="cursor: pointer;">
-                <i class="fa fa-home"></i>
-            </span>
-        </h4>
-        <div class="pt-2 px-3">
-            <button class="btn text-white p-1 fw-bold" id="naverBtn" th:onclick="corpAnalisys('naver', [[${stock.stockId}]])">
-                NAVER
-            </button>
-            <button class="btn text-white p-1 fw-bold" id="fnguideBtn" th:onclick="corpAnalisys('fnguide', [[${stock.stockId}]])">
-                FN가이드
-            </button>
-            <button class="btn text-white p-1 fw-bold" id="irgoBtn" th:onclick="corpAnalisys('irgo', [[${stock.stockId}]])">
-                IRGO
-            </button>
+    <div class="main col-lg-8 m-auto px-md-3 py-4">
+        <div class="row p-0 m-0">
+            <div class="col-md-12 pt-2 pb-3">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <h4 class="pt-2 px-3">
+                            <span class="text-primary" th:text="${stock.stockName}"></span>
+                            <span th:text="${stock.stockId}"></span>
+                            <span class="badge bg-danger text-white pt-1 pb-0" th:if="${stock.market} == 'p'">
+                                <span>KOSPI</span>
+                            </span>
+                            <span class="badge bg-danger text-white pt-1 pb-0" th:if="${stock.market} == 'd'">
+                                <span>KOSDAQ</span>
+                            </span>
+                            <span class="badge bg-secondary text-white pt-1 pb-0 px-1" th:onclick="corpAnalisys('home', [[${stock.homepage}]])" style="cursor: pointer;">
+                                <i class="fa fa-home"></i>
+                            </span>
+                        </h4>
+                        <div class="pt-2 px-3">
+                    <button class="btn text-white p-1 fw-bold" id="naverBtn" th:onclick="corpAnalisys('naver', [[${stock.stockId}]])">
+                        NAVER
+                    </button>
+                    <button class="btn text-white p-1 fw-bold" id="fnguideBtn" th:onclick="corpAnalisys('fnguide', [[${stock.stockId}]])">
+                        FN가이드
+                    </button>
+                    <button class="btn text-white p-1 fw-bold" id="irgoBtn" th:onclick="corpAnalisys('irgo', [[${stock.stockId}]])">
+                        IRGO
+                    </button>
 
-            <!-- -->
-            <div class="d-none">
-                <form action="http://consensus.hankyung.com/apps.analysis/analysis.list">
-                    <input type="text" name="search_text" value="삼성전자">
-                    <button class="btn btn-dark" type="submit">한경컨센서스</button>
-                </form>
+                </div>
+                    </div>
+                </div>
             </div>
-            <!-- -->
-
         </div>
         <br>
         <div class="row p-0 m-0">
             <div class="col-md-12 pt-2 pb-2">
-                <div class="card">
+                <div class="card border-0">
                     <div class="card-body">
                         <div class="p-md-2">
                             <h5>업종</h5>
@@ -63,12 +68,12 @@
             </div>
         </div>
 
-
+        <br>
 
         <div class="row p-0 m-0">
 
             <div class="col-md-6 mb-2">
-                <div class="card">
+                <div class="card border-0">
                     <div class="card-body">
 
                         <!-- SERCTION 1 -->
@@ -108,7 +113,7 @@
             </div>
 
             <div class="col-md-6 mb-2">
-                <div class="card">
+                <div class="card border-0">
                     <div class="card-body">
 
                         <!-- SERCTION 1 -->
@@ -154,7 +159,7 @@
 </div>
 <!-- // SIDEBAR -->
 
-<script th:src="@{/js/disclosure.js}"></script>
+
 
 </body>
 
