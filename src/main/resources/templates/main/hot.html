@@ -19,13 +19,6 @@
                     <div class="input-group">
                         <input type="hidden" name="page" value="1">
                         <div class="input-group-prepend">
-<!--                            <select class="form-control" name="type">-->
-<!--                                <option th:selected="${pageRequestDto.type == 't'}" value="t">제목</option>-->
-<!--                                <option th:selected="${pageRequestDto.type == 'c'}" value="c">내용</option>-->
-<!--                                <option th:selected="${pageRequestDto.type == 'w'}" value="w">작성자</option>-->
-<!--                                <option th:selected="${pageRequestDto.type == 'tc'}" value="tc">제목 + 내용</option>-->
-<!--                                <option th:selected="${pageRequestDto.type == 'tcw'}" value="tcw">제목 + 내용 + 작성자</option>-->
-<!--                            </select>-->
                             <input type="hidden" name="type" th:value="tc">
                         </div>
                         <input class="form-control" type="text" name="keyword" th:value="${pageRequestDto.keyword}">
@@ -40,7 +33,7 @@
         </div>
 
         <div th:each="board : ${boards.dtoList}" class="card border-0 mb-3" style="border-radius: 1rem !important;">
-            <div class="card-body bg-white btn btn-light w-100 text-start">
+            <div class="card-body bg-white w-100 text-start">
 
                 <div class="d-flex justify-content-between">
                     <a class="text-dark" th:href="@{/board/detail(b=${board.boardId})}">
