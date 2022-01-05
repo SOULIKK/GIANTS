@@ -30,15 +30,13 @@ public class BoardService {
 
         User user = userRepository.findByUsername(username);
         Stock stock = stockRepository.findByStockId(stockId);
-
         boardRequestDto.setUser(user);
         boardRequestDto.setStock(stock);
         Board board = new Board(boardRequestDto);
-
         boardRepository.save(board);
     }
 
-    @Transactional
+
     public PageResultDto<BoardListResponseDto, Object[]> getList(String boardType, String username, String stockId, PageRequestDto pageRequestDto) {
 
         User user = userRepository.findByUsername(username);
@@ -56,7 +54,6 @@ public class BoardService {
         return new PageResultDto<>(result, fn);
     }
 
-
     BoardListResponseDto entityToDto(Board board, User user, Long commentCount, Long likeCount) {
         BoardListResponseDto boardListResponseDto = BoardListResponseDto.builder()
                 .boardId(board.getBoardId())
@@ -71,8 +68,6 @@ public class BoardService {
         return boardListResponseDto;
     }
 
-
-    @Transactional
     public BoardDetailResponseDto getDetail(Long boardId) {
 
         Board board = boardRepository.findById(boardId).orElseThrow(
@@ -109,7 +104,6 @@ public class BoardService {
     }
 
 
-    @Transactional
     public boolean chkLike(User user, Board board) {
         Likes isLiked = likesRepository.findByUserAndBoard(user, board);
         if (isLiked == null) {
@@ -135,22 +129,13 @@ public class BoardService {
         return board;
     }
 
-    @Transactional
     public List<BoardListResponseDto> getMainBoardList(StockDto stockDto) {
         Stock stock = new Stock(stockDto);
         List<BoardListResponseDto> boardListResponseDto = boardRepository.findTop10ByStockOrderByCreatedAtDesc(stock);
         return boardListResponseDto;
     }
 
-    @Transactional
-    public void setEpBoard(String username, BoardRequestDto boardRequestDto) {
-        Board board = new Board(boardRequestDto);
-        if (username.equals("admin")) {
-            boardRepository.save(board);
-        }
-    }
 
-    @Transactional
     public Board getBoardByBoardId(Long b) {
         return boardRepository.findByBoardId(b);
     }
