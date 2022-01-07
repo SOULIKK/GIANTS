@@ -1,10 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="layout/layout :: head('LOGIN')">
+
 </head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <body>
-$END$
+
+<section class="w-100 vh-100">
+    <div class="col-lg-6 mx-auto bg-white vh-100 p-5 text-center" sec:authorize="isAuthenticated()">
+        <h3 class="py-4 text-primary mt-5">
+            이미 로그인된된 상태입니다.
+        </h3>
+        <div>
+            <a class="btn btn-outline-primary p-1 fs-6" th:href="@{/}">
+                <i class="fa fa-arrow-left"></i>
+                <span>메인페이지로</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-lg-6 mx-auto bg-white vh-100 p-4" sec:authorize="!isAuthenticated()">
+        <div>
+            <a class="btn btn-outline-primary p-1 fs-6" th:href="@{/}">
+                <i class="fa fa-arrow-left"></i>
+                <span>메인페이지로</span>
+            </a>
+        </div>
+        <br>
+        <h3 class="text-center pt-5">임시 비밀번호 발송</h3>
+        <br><br>
+<!--        <form th:action="@{/newPw}" method="POST">-->
+            <div class="w-100 py-2">
+                <label><span>가입한 이메일</span></label>
+                <input class="form-control" type="email" id="email" name="email" autocomplete="off">
+            </div>
+            <div class="w-100 py-3">
+                <button type="button" class="btn btn-primary w-100" th:onclick="sendNewPw()">
+<!--                <button type="submit" class="btn btn-primary w-100">-->
+                    <span>임시 비밀번호 발송</span>
+                </button>
+            </div>
+<!--        </form>-->
+        <br>
+        <a class="btn btn-outline-primary w-100" th:href="@{/auth/login}"><span>로그인하러 가기</span></a>
+    </div>
+</section>
+
+<script>
+    function sendNewPw() {
+        const email = $("#email").val();
+        $.ajax({
+            type: "POST",
+            url: "/newPw",
+            data: {
+                email: email
+            },
+            success: function(result) {
+                if (result == true) {
+                    alert("임시 비밀번호가 발송됐습니다. 메일을 확인해주세요.");
+                    location.href = "/";
+                } else {
+                    alert("존재하는 유저가 아닙니다. 메일주소를 확인해주세요.");
+                }
+            }
+        })
+    }
+</script>
+
 </body>
+
 </html>
