@@ -2,7 +2,6 @@ package com.spring.giants.service;
 
 
 import com.spring.giants.config.MailHandler;
-import com.spring.giants.exception.ApiRequestException;
 import com.spring.giants.model.dto.*;
 
 import com.spring.giants.model.entity.EditorsPick;
@@ -23,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
 
@@ -93,10 +93,9 @@ public class UserService {
     @Value("${spring.mail.username}")
     private String FROM_ADDRESS;
 
-    public void sendMail(String email) {
+    public void sendCertMail(String email) {
 
-        System.out.println("email = " + email);
-        int secreteKey = createSecretKey();
+        String secreteKey = createKey();
         setCertKey(email, secreteKey);
 
         try {
@@ -114,27 +113,84 @@ public class UserService {
 
     }
 
+    @Transactional
+    public Boolean sendTempPwMail(String email) {
+
+        User findUser = userRepository.findByUsername(email);
+
+        if (findUser == null) {
+            return false;
+        }
+
+        String newPw = createKey();
+        String encodedNewPw = passwordEncoder.encode(newPw);
+        setTempPw(email, encodedNewPw);
+
+        try {
+            MailHandler mailHandler = new MailHandler(mailSender);
+            mailHandler.setTo(email);
+            mailHandler.setFrom(FROM_ADDRESS);
+            mailHandler.setSubject("GIANTS 임시 비밀번호입니다.");
+            String content = "<h3 style='padding: 1rem; text-align: center;'>GIANTS 임시 인증번호입니다.</h3><br>" +
+                    "<h1 style='padding: 2.5rem; background: #f1f1f1; text-align: center; color: #dc3545;'>"+newPw+"</h1>" +
+                    "<h4 style='padding: 1rem; text-align: center;'>마이페이지에서 비밀번호를 변경해주세요.</h4>";
+            mailHandler.setText(content, true);
+            mailHandler.send();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
 
     @Transactional
-    public TempUser setCertKey(String email, int secreteKey) {
+    public void setTempPw(String email, String newPw) {
+        User findUser = userRepository.findByUsername(email);
+        System.out.println("findUser.getUsername() = " + findUser.getUsername());
+        ProfileRequestDto profileRequestDto = new ProfileRequestDto();
+        profileRequestDto.setPassword(newPw);
+
+        findUser.update(profileRequestDto);
+    }
+
+
+    @Transactional
+    public TempUser setCertKey(String email, String secreteKey) {
         TempUser tempUser = new TempUser();
         tempUser.setEmail(email);
         tempUser.setCertKey(secreteKey);
         return tempUserRepository.save(tempUser);
     }
 
+    public String createKey() {
 
-    public static int createSecretKey() {
-        return ThreadLocalRandom.current().nextInt(100000, 1000000);
+        int lLimit = 97;
+        int rLimit = 122;
+        int targetStringLength = 6;
+        Random random = new Random();
+        String key = random.ints(lLimit, rLimit + 1)
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+        return key;
     }
 
 
-    public Boolean chkCert(String email, int certKey) {
+    public Boolean chkCert(String email, String certKey) {
 
         TempUser tempUser = tempUserRepository.findByEmail(email);
-        if (tempUser.getCertKey() == certKey) {
+
+        if (tempUser.getCertKey().equals(certKey)) {
+            System.out.println("tempUser.getCertKey() = " + tempUser.getCertKey());
             return true;
         }
         return false;
+    }
+
+    public Boolean chkNickname(String nickname) {
+        Optional<User> user = userRepository.findByNickname(nickname);
+        if (user.isPresent()) {
+            return false;
+        }
+        return true;
     }
 }
