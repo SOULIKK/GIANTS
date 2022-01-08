@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head('SEARCH')">
+
+</head>
+
+<body>
+
+<!-- JQuery UI -->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script th:src="@{/js/stocks.js}"></script>
+
+
+<nav class="bg-dark" th:replace="layout/layout :: menu('SEARCH')">
+</nav>
+
+<section>
+    <div class="main col-lg-8 bg-white m-auto p-3">
+
+        <!--  -->
+        <div class="row p-5">
+            <table>
+                <tbody>
+                <tr th:if="${stockList} == 'none'">
+                    <td>
+                        <h2 class="text-center ">
+                            <span class="text-danger" th:text="'['+${key}+']'"></span>
+                            의 검색결과가 존재하지 않습니다.
+                        </h2>
+                    </td>
+                </tr>
+                <tr th:if="${stockList} != 'none'" th:each="stock : ${stockList}">
+                    <td>
+                        <a th:href="@{/main/stock(stockName=${stock.stockName})}">
+                            <span>[[${stock.stockName}]]</span>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <!--  -->
+
+    </div>
+</section>
+
+<!-- SIDEBAR -->
+<div id="sidebar" th:replace="layout/layout :: sidebar('SEARCH')">
+</div>
+<!-- // SIDEBAR -->
+
+
+</body>
+
+</html>
