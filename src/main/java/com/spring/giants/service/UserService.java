@@ -93,8 +93,11 @@ public class UserService {
     @Value("${spring.mail.username}")
     private String FROM_ADDRESS;
 
-    public void sendCertMail(String email) {
-
+    public Boolean sendCertMail(String email) {
+        User user = userRepository.findByUsername(email);
+        if (user != null) {
+            return false;
+        }
         String secreteKey = createKey();
         setCertKey(email, secreteKey);
 
@@ -110,7 +113,7 @@ public class UserService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        return true;
     }
 
     @Transactional

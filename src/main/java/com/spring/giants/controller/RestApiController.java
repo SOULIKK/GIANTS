@@ -32,9 +32,9 @@ public class RestApiController {
     }
 
     @PostMapping("/cert/send")
-    public ResponseEntity<String> sendMail(@RequestParam String email) {
-        userService.sendCertMail(email);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Boolean> sendMail(@RequestParam String email) {
+        Boolean isUser = userService.sendCertMail(email);
+        return new ResponseEntity<>(isUser, HttpStatus.OK);
     }
 
     @PostMapping("/cert/check")
@@ -49,14 +49,11 @@ public class RestApiController {
         return new ResponseEntity<>(chkNickname,  HttpStatus.OK);
     }
 
-    @PostMapping("/")
+    @PostMapping("/newPw")
     public ResponseEntity<Boolean> newPw(@RequestParam String email) {
         Boolean sendTempPw = userService.sendTempPwMail(email);
         return new ResponseEntity<>(sendTempPw, HttpStatus.OK);
     }
-
-
-
 
 
 }

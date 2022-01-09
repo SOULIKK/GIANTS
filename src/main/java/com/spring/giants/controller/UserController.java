@@ -2,12 +2,10 @@ package com.spring.giants.controller;
 
 
 import com.spring.giants.model.dto.PageRequestDto;
-import com.spring.giants.model.dto.UserDto;
 import com.spring.giants.model.entity.User;
 import com.spring.giants.service.BoardService;
 import com.spring.giants.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,7 +55,7 @@ public class UserController {
     }
 
 
-    @PostMapping("/update")
+    @PostMapping("/updatePw")
     public String updatePw(Authentication authentication, String password, String chkPassword) {
 
         if (!password.equals(chkPassword)) {
@@ -66,7 +64,9 @@ public class UserController {
 
         String username = authentication.getName();
         userService.updatePw(username, password);
-        return "redirect:/user/mypage";
+
+        return "redirect:/mypage";
     }
+
 
 }
