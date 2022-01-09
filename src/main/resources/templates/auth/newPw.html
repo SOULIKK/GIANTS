@@ -30,18 +30,17 @@
         <br>
         <h3 class="text-center pt-5">임시 비밀번호 발송</h3>
         <br><br>
-<!--        <form th:action="@{/newPw}" method="POST">-->
             <div class="w-100 py-2">
                 <label><span>가입한 이메일</span></label>
                 <input class="form-control" type="email" id="email" name="email" autocomplete="off">
             </div>
             <div class="w-100 py-3">
                 <button type="button" class="btn btn-primary w-100" th:onclick="sendNewPw()">
-<!--                <button type="submit" class="btn btn-primary w-100">-->
                     <span>임시 비밀번호 발송</span>
                 </button>
             </div>
-<!--        </form>-->
+            <div id="loading"></div>
+
         <br>
         <a class="btn btn-outline-primary w-100" th:href="@{/auth/login}"><span>로그인하러 가기</span></a>
     </div>
@@ -50,6 +49,20 @@
 <script>
     function sendNewPw() {
         const email = $("#email").val();
+        const regEmail = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+        if (regEmail.test(email)) {
+        } else {
+            alert("유효하지 않은 이메일 양식입니다.");
+            return false;
+        }
+        let loading = "";
+
+        loading += '<div id="load" class="d-flex justify-content-center">';
+        loading += '<div class="spinner-border text-danger" role="status">';
+        loading += '<span class="sr-only">Loading...</span>';
+        loading += '</div></div>'
+        $("#loading").append(loading);
+
         $.ajax({
             type: "POST",
             url: "/newPw",
@@ -58,9 +71,11 @@
             },
             success: function(result) {
                 if (result == true) {
+                    $("#load").remove();
                     alert("임시 비밀번호가 발송됐습니다. 메일을 확인해주세요.");
-                    location.href = "/";
+                    location.href = "/auth/login";
                 } else {
+                    $("#load").remove();
                     alert("존재하는 유저가 아닙니다. 메일주소를 확인해주세요.");
                 }
             }

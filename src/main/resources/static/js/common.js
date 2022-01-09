@@ -146,7 +146,6 @@ function getComments(epId, username) {
             }
         }
     })
-
 }
 
 function delEpComment(epId, commentId) {
@@ -165,13 +164,27 @@ function delEpComment(epId, commentId) {
         success: function(results) {
 
         }
-
     })
 }
 
 function sendCert() {
 
     const email = $("#username").val();
+    const regEmail = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+    if (regEmail.test(email)) {
+    } else {
+        alert("유효하지 않은 이메일 양식입니다.");
+        return false;
+    }
+
+    let loading = "";
+
+    loading += '<div id="load" class="d-flex justify-content-center">';
+    loading += '<div class="spinner-border text-danger" role="status">';
+    loading += '<span class="sr-only">Loading...</span>';
+    loading += '</div></div>'
+    $("#loading").append(loading);
+
 
     $.ajax({
         type: "POST",
@@ -179,10 +192,17 @@ function sendCert() {
         data: {
             email: email
         },
-        success(res) {
-            alert(email+" 로 인증메일이 발송됐습니다. 메일을 확인해주세요.");
-            $("#mail").html("재발송");
-            $("#chkForm").removeClass("d-none");
+        success: function(res) {
+
+            if (res) {
+                alert(email+" 로 인증메일이 발송됐습니다. 메일을 확인해주세요.");
+                $("#mail").html("재발송");
+                $("#chkForm").removeClass("d-none");
+                $("#load").remove();
+            } else {
+                $("#load").remove();
+                alert("이미 가입된 계정입니다.");
+            }
 
         }
     })
@@ -201,16 +221,35 @@ function chkCert() {
             certKey: certKey,
             email: email
         },
-        success(res) {
-            if (res == true) {
+        success: function(results) {
+            if (results == true) {
                 alert("인증이 완료됐습니다.");
-                $('#join').attr('disabled', false);
+                $("#mailOk").attr("value","mailSuccess");
+                $("#join").attr("disabled", false);
             } else {
                 alert("인증번호가 일치하지 않습니다.");
             }
-
         }
+    })
+}
 
+function chkDup() {
+    const nickname = $("#nickname").val();
+
+    $.ajax({
+        type: "POST",
+        url: '/nickname/check',
+        data: {
+            nickname: nickname
+        },
+        success: function(result) {
+            if (result == true) {
+                alert("사용가능한 닉네임입니다.");
+                $("#nickOk").attr("value","nickSuccess");
+            } else {
+                alert("이미 존재하는 닉네임입니다.");
+            }
+        }
     })
 
 }
