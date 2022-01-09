@@ -75,7 +75,7 @@ public class SearchPageBoardRepositoryImpl extends QuerydslRepositorySupport imp
             booleanBuilder.and(exStockBoard);
         }
 
-        if (boardType == "MY_CONTENTS") {
+        if (boardType == "MY_BOARD") {
             BooleanExpression exMyBoard = board.user.eq(user);
             booleanBuilder.and(exMyBoard);
         }

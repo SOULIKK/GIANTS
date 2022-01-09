@@ -1,9 +1,6 @@
 package com.spring.giants.controller;
 
-import com.spring.giants.model.dto.BoardRequestDto;
 import com.spring.giants.model.dto.EpDto;
-import com.spring.giants.model.entity.EditorsPick;
-import com.spring.giants.model.entity.User;
 import com.spring.giants.service.BoardService;
 import com.spring.giants.service.EditorsPickService;
 import com.spring.giants.service.UserService;
@@ -40,12 +37,6 @@ public class EditorsPickController {
         return "admin/write";
     }
 
-    @PostMapping("/admin/submit")
-    public String submitEp(BoardRequestDto boardRequestDto, Authentication authentication) {
-        String username = authentication.getName();
-        boardService.setEpBoard(username, boardRequestDto);
-        return "redirect:/main/pick";
-    }
 
     @GetMapping("/pick")
     public String pickList(@PageableDefault(size = 8) Pageable pageable, @RequestParam(required = false, defaultValue = "") String s, Model model) {
@@ -53,7 +44,7 @@ public class EditorsPickController {
         Page<EpDto> epDto = editorsPickService.getEpList(pageable, s);
 
         int startPage = Math.max(1, epDto.getPageable().getPageNumber() - 4);
-        int endPage = Math.min(epDto.getTotalPages(),epDto.getPageable().getPageNumber() + 4);
+        int endPage = Math.min(epDto.getTotalPages(),epDto.getPageable().getPageNumber() + 5);
 
         model.addAttribute("picks", epDto);
         model.addAttribute("startPage", startPage);
