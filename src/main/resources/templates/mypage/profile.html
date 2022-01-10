@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="layout/layout :: head('mypage')">
 </head>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script th:src="@{/js/common.js}"></script>
 <body>
 <nav class="bg-dark" th:replace="layout/layout :: menu('mypage')">
 </nav>
@@ -49,27 +50,26 @@
                             <h2>비밀번호 변경</h2>
                         </div>
 
-                        <form th:action="@{/mypage/updatePw}" th:method="POST">
-                            <input type="hidden" name="username" th:value="${username}">
-                            <label>
-                                <span>새 비밀번호</span>
-                            </label>
-                            <div class="py-2">
-                                <input class="form-control" type="password" name="password">
-                            </div>
-                            <label>
-                                <span>비밀번호 확인</span>
-                            </label>
-                            <div class="py-2">
-                                <input class="form-control" type="password" name="chkPassword">
-                            </div>
-                            <br>
-                            <div class="text-end">
-                                <button type="submit" class="btn btn-outline-success">
-                                    저장
-                                </button>
-                            </div>
-                        </form>
+                        <input type="hidden" name="username" th:value="${username}">
+                        <label>
+                            <span>새 비밀번호</span>
+                        </label>
+                        <div class="py-2">
+                            <input class="form-control" type="password" name="password" id="newPw">
+                        </div>
+                        <label>
+                            <span>비밀번호 확인</span>
+                        </label>
+                        <div class="py-2">
+                            <input class="form-control" type="password" name="chkPassword" id="newPwChk">
+                        </div>
+                        <br>
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-outline-success" th:onclick="updatePw()">
+                                저장
+                            </button>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -77,6 +77,7 @@
 
     </div>
 </section>
+
 
 <!-- SIDEBAR -->
 <div id="sidebar" th:replace="layout/layout :: sidebar('mypage')">

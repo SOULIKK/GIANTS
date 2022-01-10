@@ -253,3 +253,37 @@ function chkDup() {
     })
 
 }
+
+function updatePw() {
+
+    const newPw = $("#newPw").val();
+    const newPwChk = $("#newPwChk").val();
+
+    const regexPw = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]|.*[0-9]).{10,15}$/;
+
+    if (!regexPw.test(newPw)) {
+        alert("비밀번호 양식을 확인해주세요. (10~15자의 영문,숫자,특수문자 조합)");
+        return false;
+    }
+
+    if (newPw != newPwChk) {
+        alert("비밀번호를 확인해주세요.");
+    }
+    $.ajax({
+        type: "POST",
+        url: "/mypage/updatePw",
+        data: {
+            password: newPw,
+            chkPassword: newPwChk
+        },
+        success: function(res) {
+            if (res) {
+                alert("비밀번호가 변경되었습니다");
+                location.reload();
+            } else {
+                alert("비밀번호 변경에 실패했습니다. 다시 시도해주세요.");
+                location.reload();
+            }
+        }
+    })
+}
