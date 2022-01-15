@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head('REPORT')">
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<body>
+<nav class="bg-dark" th:replace="layout/layout :: menu('REPORT')">
+</nav>
+<section>
+    <div class="main col-lg-9 m-auto px-lx-3 px-md-2 px-sm-0">
+        <div class="pb-4 d-flex justify-content-between">
+            <div class="w-100" style="height: 500px !important;">
+                <iframe style="width: 100%; height: 100%;" frameborder="0" th:src="'http://dart.fss.or.kr/dsaf001/main.do?rcpNo='+${rcptNo}"></iframe>
+            </div>
+        </div>
+<!--        <div>-->
+<!--            <form action="" method="POST">-->
+<!--                <div class="input-group mb-3">-->
+<!--                    <input type="text" class="form-control" placeholder="의견을 남겨주세요" aria-describedby="button-addon2">-->
+<!--                    <button class="btn btn-outline-primary" type="button" id="button-addon2">저장</button>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--        <div class="card bg-white w-100">-->
+<!--            <div class="card-body">-->
+<!--                <div class="d-flex justify-content-between">-->
+<!--                    <span>ㅇㅇㅇ</span>-->
+<!--                    <span>2021-01-15</span>-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    호재네요-->
+<!--                </div>-->
+<!--                <div class="text-end">-->
+<!--                    <button type="button" class="btn btn-outline-secondary p-1 border-0">-->
+<!--                        <i class="fa fa-trash"></i>-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+    </div>
+</section>
+
+<!-- SIDEBAR -->
+<div id="sidebar" th:replace="layout/layout :: sidebar('REPORT')">
+</div>
+<!-- // SIDEBAR -->
+
+<script th:src="@{/js/common.js}"></script>
+<script th:src="@{/js/disclosure.js}"></script>
+
+</body>
+
+</html>

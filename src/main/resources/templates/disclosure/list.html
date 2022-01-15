@@ -118,9 +118,11 @@
             <!-- modal -->
             <!-- Button trigger modal -->
             <div th:each="report : ${reports}">
-                <button type="button" class="btn bg-white w-100 d-flex justify-content-between mb-1" data-bs-toggle="modal" th:data-bs-target="'#m_'+${report.rcpNo}" th:onclick="appendReport([[${report.rcpNo}]])">
+<!--                <button type="button" class="btn bg-white w-100 d-flex justify-content-between mb-1" data-bs-toggle="modal" th:data-bs-target="'#m_'+${report.rcpNo}" th:onclick="appendReport([[${report.rcpNo}]])">-->
+                <button type="button" class="btn bg-white w-100 d-flex justify-content-between mb-1" th:onclick="reportDetail([[${report.rcpNo}]])">
                     <span class="text-danger" th:text="${report.corpName}"></span>
-                    <span class="text-dark" th:text="${report.reportNm}"></span>
+                    <span th:if="${report.reportNm.length()} <= 25" th:text="${report.reportNm}"></span>
+                    <span th:if="${report.reportNm.length()} > 25" th:text="${#strings.substring(report.reportNm, 0, 25)} + '...'  "></span>
                 </button>
                 <div class="modal fade" th:id="'m_'+${report.rcpNo}" tabindex="-1" th:aria-labelledby="'m_'+${report.rcpNo}+'_l'" aria-hidden="true">
                     <div class="modal-dialog modal-xl my-1" style="height: calc(100% - 1rem);">
@@ -196,6 +198,11 @@
 <script th:src="@{/js/common.js}"></script>
 <script th:src="@{/js/disclosure.js}"></script>
 
+<script>
+    function reportDetail(rcepNo) {
+        location.href = `/report/detail/${rcepNo}`;
+    }
+</script>
 </body>
 
 </html>

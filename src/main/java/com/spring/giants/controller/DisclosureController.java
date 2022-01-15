@@ -33,7 +33,8 @@ public class DisclosureController {
         Page<DisclosureResponseDto> disclosureResponseDto = disclosureService.getTodayReports(reportType, pageable);
 
         int startPage = Math.max(1, disclosureResponseDto.getPageable().getPageNumber() - 4);
-        int endPage = Math.min(disclosureResponseDto.getTotalPages(), disclosureResponseDto.getPageable().getPageNumber() + 4);
+        int endPage = Math.min(disclosureResponseDto.getTotalPages(), disclosureResponseDto.getPageable().getPageNumber() + 5);
+
 
         model.addAttribute("reports", disclosureResponseDto);
         model.addAttribute("startPage", startPage);
@@ -85,6 +86,13 @@ public class DisclosureController {
         model.addAttribute("stock", stockDto);
 
         return "disclosure/list";
+    }
+
+    @GetMapping("/report/detail/{rcptNo}")
+//    public String detail(DisclosureResponseDto disclosureResponseDto, Model model) {
+    public String detail(@PathVariable String rcptNo, Model model) {
+        model.addAttribute("rcptNo", rcptNo);
+        return "disclosure/detail";
     }
 
 
