@@ -36,11 +36,16 @@ public class Comment extends Timestamped {
     @JoinColumn(name = "ep_id")
     private EditorsPick editorsPick;
 
-    public Comment(CommentRequestDto commentRequestDto, User user, Board board, EditorsPick editorsPick) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rcpNo")
+    private Disclosure disclosure;
+
+    public Comment(CommentRequestDto commentRequestDto, User user, Board board, EditorsPick editorsPick, Disclosure disclosure) {
         this.content = commentRequestDto.getContent();
         this.user = user;
         this.board = board;
         this.editorsPick = editorsPick;
+        this.disclosure = disclosure;
     }
 
 

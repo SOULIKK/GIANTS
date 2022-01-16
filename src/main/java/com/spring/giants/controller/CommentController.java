@@ -35,10 +35,16 @@ public class CommentController {
 
     @PostMapping("/create/ep/{epId}")
     public String setEpComment(@PathVariable Long epId, Authentication authentication, CommentRequestDto commentRequestDto) {
-        String username = authentication.getName();
         commentService.setCommentEp(commentRequestDto, authentication.getName(), epId);
         return "redirect:/pick";
     }
+
+    @PostMapping("/create/disclosure/{rcpNo}")
+    public String setDisclosureConmment(@PathVariable String rcpNo, CommentRequestDto commentRequestDto, Authentication authentication) {
+        commentService.setCommentDisclosure(commentRequestDto, authentication.getName(), rcpNo);
+        return "redirect:/report/detail/"+rcpNo;
+    }
+
 
     @PostMapping("/delete")
     public String deleteComment(String stockId, Long boardId, Long commentId) {

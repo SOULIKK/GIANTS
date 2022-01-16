@@ -88,10 +88,9 @@ public class DisclosureController {
         return "disclosure/list";
     }
 
-    @GetMapping("/report/detail/{rcptNo}")
-//    public String detail(DisclosureResponseDto disclosureResponseDto, Model model) {
-    public String detail(@PathVariable String rcptNo, Model model) {
-        model.addAttribute("rcptNo", rcptNo);
+    @GetMapping("/report/detail/{rcpNo}")
+    public String detail(@PathVariable String rcpNo, Model model) {
+        model.addAttribute("rcpNo", rcpNo);
         return "disclosure/detail";
     }
 

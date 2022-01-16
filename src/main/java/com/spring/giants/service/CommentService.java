@@ -4,21 +4,13 @@ package com.spring.giants.service;
 import com.spring.giants.exception.ApiRequestException;
 import com.spring.giants.model.dto.CommentRequestDto;
 import com.spring.giants.model.dto.CommentResponseDto;
-import com.spring.giants.model.entity.Board;
-import com.spring.giants.model.entity.Comment;
-import com.spring.giants.model.entity.EditorsPick;
-import com.spring.giants.model.entity.User;
-import com.spring.giants.model.repository.BoardRepository;
-import com.spring.giants.model.repository.CommentRepository;
-import com.spring.giants.model.repository.EditorsPickRepository;
-import com.spring.giants.model.repository.UserRepository;
+import com.spring.giants.model.entity.*;
+import com.spring.giants.model.repository.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -30,6 +22,7 @@ public class CommentService {
     final private BoardRepository boardRepository;
     final private EditorsPickRepository editorsPickRepository;
     final private UserRepository userRepository;
+    final private DisclosureRepository disclosureRepository;
 
     @Transactional
     public Board setCommentBoard(CommentRequestDto commentRequestDto, String username, Long boardId) {
@@ -41,7 +34,7 @@ public class CommentService {
         User user = userRepository.findByUsername(username);
         Board board = boardRepository.findByBoardId(boardId);
 
-        Comment comment = new Comment(commentRequestDto, user, board, null);
+        Comment comment = new Comment(commentRequestDto, user, board, null, null);
         return commentRepository.save(comment).getBoard();
     }
 
@@ -51,7 +44,7 @@ public class CommentService {
         EditorsPick editorsPick = editorsPickRepository.findById(epId).orElseThrow(
                 () -> new ApiRequestException("존재하지 않는 게시물입니다.")
         );
-        Comment comment = new Comment(commentRequestDto, user, null, editorsPick);
+        Comment comment = new Comment(commentRequestDto, user, null, editorsPick, null);
         return commentRepository.save(comment).getEditorsPick();
 
     }
@@ -75,4 +68,13 @@ public class CommentService {
         return commentResponseDto;
     }
 
+    @Transactional
+    public Disclosure setCommentDisclosure(CommentRequestDto commentRequestDto, String username, String rcpNo) {
+        User user = userRepository.findByUsername(username);
+        Disclosure disclosure = disclosureRepository.findById(rcpNo).orElseThrow(
+                () -> new ApiRequestException("존재하지 않는 공시입니다.")
+        );
+        Comment comment = new Comment(commentRequestDto, user, null, null, disclosure);
+        return commentRepository.save(comment).getDisclosure();
+    }
 }
