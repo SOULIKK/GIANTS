@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="layout/layout :: head('mypage')">
 </head>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script th:src="@{/js/common.js}"></script>
 <body>
 <nav class="bg-dark" th:replace="layout/layout :: menu('mypage')">
 </nav>
@@ -21,7 +22,7 @@
                     북마크
                 </a>
             </li>
-            <li class="nav-item" >
+            <li class="nav-item">
                 <a class="nav-link" type="button" th:href="@{/mypage/contents}">
                     작성글
                 </a>
@@ -38,31 +39,46 @@
             </li>
         </ul>
 
-        <div class="tab-content h-75">
-            <div class="tab-pane h-100 bg-white fade show active">
+        <div class="tab-content overflow-auto">
+            <div class="tab-pane bg-white fade show active pb-2">
                 <div class="row p-0 m-0">
-                    <div class="p-3" style="font-size: .75rem !important;">
+                    <div class="p-3">
 
-                        <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div class="d-flex justify-content-between align-items-center mb-2 pb-2">
                             <h2>북마크한 글</h2>
                         </div>
 
-                        <table class="table">
-                            <thead class="text-center fw-bold">
-                            <tr>
-                                <th>제목</th>
-                                <th>작성일시</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="myBookMark : ${myBookMarks.dtoList}">
-                                <td th:text="${myBookMark.title}"></td>
-                                <td>[[${#temporals.format(myBookMark.createdAt, 'yyyy/MM/dd')}]]</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <div class="border-bottom align-items-end p-2"
+                             th:each="myBookMark : ${myBookMarks.dtoList}">
+                            <div class="pt-1">
+                                <a type="button" th:onclick="originalPage([[${myBookMark.url}]])"><span
+                                        class="text-danger fs-5">[[${myBookMark.title}]]</span></a>
+                            </div>
+                            <div class="p-1 d-flex justify-content-between">
+                                <div><span>[[${#temporals.format(myBookMark.createdAt, 'yyyy-MM-dd')}]]</span></div>
+                                <button class="btn btn-outline-secondary py-0 px-1" type="button"
+                                        th:onclick="delBookmark([[${myBookMark.bookMarkId}]])"><span><i class="fa fa-trash"></i></span>
+                                </button>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
+                <ul class="pagination justify-content-center align-items-center">
+                    <li class="page-item" th:if="${myBookMarks.prev}">
+                        <a th:href="@{/mypage/bookmark(page=${myBookMarks.start -1})}" tabindex="-1"> < </span></a>
+                    </li>
+                    <li class="page-item" th:each="page: ${myBookMarks.pageList}">
+                        <a class="page-link" th:href="@{/mypage/bookmark(page=${page})}"
+                           th:classappend="${myBookMarks.page == page} ? 'bg-primary text-white'">
+                            <span>[[${page}]]</span>
+                        </a>
+                    </li>
+                    <li class="page-item" th:if="${myBookMarks.next}">
+                        <a class="page-link" th:href="@{/mypage/bookmark(page=${myBookMarks.end +1})}"><span> > </span></a>
+                    </li>
+                </ul>
+
             </div>
 
         </div>
@@ -75,6 +91,26 @@
 </div>
 <!-- // SIDEBAR -->
 
+<script>
+    function delBookmark(bookMarkId) {
+
+        $.ajax({
+            url: "/delBookMark",
+            type: "POST",
+            data: {
+                bookMarkId: bookMarkId
+            },
+            success: function (result) {
+                if (result == true) {
+                    location.reload();
+                } else {
+                    console.log("삭제에 실패했습니다.");
+                }
+
+            }
+        })
+    }
+</script>
 </body>
 
 </html>
