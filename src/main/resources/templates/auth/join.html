@@ -10,42 +10,51 @@
 <body>
 
 <section class="w-100 vh-100">
-    <div class="col-lg-6 mx-auto bg-white vh-100 p-4">
+    <div class="col-lg-5 mx-auto bg-white vh-100 p-4">
 
         <h3 class="text-center pt-5">회원가입</h3>
         <br>
-        <form th:action="@{/auth/join}" th:method="POST" th:onsubmit="return joinValidation()">
+        <!--        <form th:action="@{/auth/join}" th:method="POST" th:onsubmit="return joinValidation()">-->
 
-            <div class="w-100 py-2">
-                <label for="username">Email</label>
-                <div class="d-flex">
-                    <input class="form-control w-75" type="email" id="username" name="username">
-                    <button id="mail" type="button" class="btn btn-danger w-25" th:onclick="sendCert()">인증메일 발송</button>
-                </div>
+        <div class="w-100 py-2">
+            <label for="username"><span>이메일</span></label>
+            <div class="d-flex">
+                <input class="form-control w-75" type="email" id="username" name="username" autocomplete="off">
+                <button id="mail" type="button" class="btn btn-danger w-25 p-1" th:onclick="sendCert()">
+                    <span>인증메일 발송</span></button>
+            </div>
 
-                <div id="chkForm" class="d-flex d-none pt-3">
-                    <input class="form-control w-75" type="text" id="certKey" name="certKey">
-                    <button type="button" class="btn btn-outline-danger w-25" th:onclick="chkCert()">인증</button>
-                </div>
-            </div>
-            <div class="w-100 py-2">
-                <label for="nickname">Nickname</label>
-                <input class="form-control" type="text" id="nickname" name="nickname">
-            </div>
-            <div class="w-100 py-2">
-                <label for="password">Password</label>
-                <input class="form-control" type="password" id="password" name="password">
-            </div>
-            <div class="w-100 py-2">
-                <label for="password">Password check</label>
-                <input class="form-control" type="password" id="pwChk">
-            </div>
-            <div class="w-100 py-3">
-                <button type="submit" id="join" class="btn btn-primary w-100" onclick="join()" disabled>
-                    <span>회원가입 완료</span>
+            <div id="loading"></div>
+
+            <div id="chkForm" class="d-flex d-none pt-3">
+                <input class="form-control w-75" type="text" id="certKey" name="certKey" autocomplete="off">
+                <button type="button" class="btn btn-outline-danger w-25 p-1" th:onclick="chkCert()"><span>인증</span>
                 </button>
             </div>
-        </form>
+        </div>
+        <div class="w-100 py-2">
+            <label for="nickname"><span>닉네임</span></label>
+            <div class="d-flex">
+                <input class="form-control w-75" type="text" id="nickname" name="nickname">
+                <button class="btn btn-dark w-25 p-1" type="button" th:onclick="chkDup()"><span>중복체크</span></button>
+            </div>
+        </div>
+        <div class="w-100 py-2">
+            <label for="password"><span>비밀번호</span></label>
+            <input class="form-control" type="password" id="password" name="password" autocomplete="off">
+        </div>
+        <div class="w-100 py-2">
+            <label for="password"><span>비밀번호 확인</span></label>
+            <input class="form-control" type="password" id="pwChk" autocomplete="off">
+        </div>
+        <div class="w-100 py-3">
+            <button type="submit" id="join" class="btn btn-primary w-100" onclick="joinValidation()">
+                <input type="hidden" name="mailOk" id="mailOk">
+                <input type="hidden" name="nickOk" id="nickOk">
+                <span>회원가입 완료</span>
+            </button>
+        </div>
+        <!--        </form>-->
         <br>
         <span>이미 <b>GIANTS</b>의 회원이신가요?</span>
         <a class="btn btn-outline-primary w-100" th:href="@{/auth/login}"><span>로그인하러 가기</span></a>
@@ -57,22 +66,37 @@
 <script>
     function joinValidation() {
 
-        alert("준비중입니다.");
-        return false;
-
         const pw = document.getElementById("password").value;
         const pw2 = document.getElementById("pwChk").value;
+        const nickname = document.getElementById("nickname").value;
         const username = document.getElementById("username").value;
+        const mailOk = document.getElementById("mailOk").value;
+        const nickOk = document.getElementById("nickOk").value;
+
+        if (mailOk != "mailSuccess") {
+            alert("메일 인증을 완료해 주세요.");
+            return false;
+        }
+
+        if (nickOk != "nickSuccess") {
+            alert("닉네임 중복검사를 완료해주세요.");
+            return false;
+        }
 
         const regexId = /^[a-z0-9]{6,12}$/;
-        const regexPw = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]|.*[0-9]).{10,15}$/
+        const regexPw = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]|.*[0-9]).{10,15}$/;
 
-        if (username == ""){
+        if (username == "") {
             alert("아이디를 입력해주세요.");
             return false;
         }
-        if (!regexId.test(username)) {
-            alert("아이디를 확인해주세요. (6~12자의 영문 숫자 조합)");
+
+        if (nickname == "") {
+            alert("닉네임을 입력해주세요.");
+            return false;
+        }
+        if (nickname.length < 3) {
+            alert("닉네임은 3글자 이상으로 입력해주세요.");
             return false;
         }
         if (pw == '' || pw2 == '') {
@@ -87,6 +111,28 @@
             alert("비밀번호를 확인해주세요.");
             return false;
         }
+
+        $.ajax({
+            type: "POST",
+            url: "/auth/join",
+            data: {
+                username: username,
+                password: pw,
+                nickname: nickname
+            },
+            success: function (result) {
+                if (result) {
+                    alert("회원가입이 완료되었습니다.");
+                    location.href = "/auth/login";
+                } else {
+                    alert("유효하지 않은 요청입니다. 다시 시도해주세요.");
+                    location.reload();
+                }
+
+            }
+
+        })
+
     }
 </script>
 </body>

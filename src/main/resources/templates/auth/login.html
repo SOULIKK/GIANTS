@@ -1,44 +1,84 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head th:replace="layout/layout :: head('LOGIN')">
+<head th:replace="layout/layout :: head('LOGIN')"></head>
 
-</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script th:src="@{/js/common.js}"></script>
 
 <body>
 
 <section class="w-100 vh-100">
-  <div class="col-lg-6 mx-auto bg-white vh-100 p-4">
-    <div>
-      <a class="btn btn-outline-primary p-1" th:href="@{/}">
-        <i class="fa fa-arrow-left"></i> 메인페이지로
-      </a>
+    <div class="col-lg-6 mx-auto bg-white vh-100 p-5 text-center" sec:authorize="isAuthenticated()">
+        <h3 class="py-4 text-primary mt-5">
+            이미 로그인된된 상태입니다.
+        </h3>
+        <div>
+            <a class="btn btn-outline-primary p-1" th:href="@{/}">
+                <i class="fa fa-arrow-left"></i> <span>메인페이지로</span>
+            </a>
+        </div>
     </div>
-    <br>
-    <h3 class="text-center pt-5">로그인</h3>
-    <br><br>
-    <form th:action="@{/auth/login}" method="POST">
-      <div class="w-100 py-2">
-        <label for="username">ID</label>
-        <input class="form-control" type="text" id="username" name="username" autocomplete="off">
-      </div>
-      <div class="w-100 py-2">
-        <label for="password">Password</label>
-        <input class="form-control" type="password" id="password" name="password">
-      </div>
-      <div class="w-100 py-3">
-        <button type="submit" class="btn btn-primary w-100">
-          <span>로그인</span>
-        </button>
-      </div>
-    </form>
-    <br>
-    <span>아직 <b>GIANTS</b>의 회원이 아니신가요?</span>
-    <a class="btn btn-outline-primary w-100" th:href="@{/auth/join}"><span>회원가입</span></a>
 
-  </div>
+    <div class="col-lg-5 mx-auto bg-white vh-100 p-4" sec:authorize="!isAuthenticated()">
+        <div>
+            <a class="btn btn-outline-primary p-1" th:href="@{/}">
+                <i class="fa fa-arrow-left"></i> <span>메인페이지로</span>
+            </a>
+        </div>
+        <br>
+        <h3 class="text-center py-5 mb-3">로그인</h3>
+        <form th:action="@{/login}" th:method="POST" th:onsubmit="return loginCheck()">
+
+            <div th:if="${param.error}">
+                <p class="alert alert-danger text-center">
+                    <span class="text-secondary">[[${msg}]]</span>
+                </p>
+            </div>
+
+            <div class="w-100 py-2">
+                <label for="username"><span>이메일</span></label>
+                <input class="form-control" type="text" id="username" name="username" autocomplete="off">
+            </div>
+            <div class="w-100 py-2">
+                <label for="password"><span>비밀번호</span></label>
+                <input class="form-control" type="password" id="password" name="password">
+            </div>
+            <div class="w-100 py-3">
+                <button type="submit" class="btn btn-primary w-100">
+                    <span>로그인</span>
+                </button>
+            </div>
+        </form>
+        <br>
+        <span>아직 <b>GIANTS</b>의 회원이 아니신가요?</span>
+        <a class="btn btn-outline-primary w-100" th:href="@{/auth/join}"><span>회원가입</span></a>
+
+        <div class="pt-3 text-end">
+            <a th:href="@{/findpw}">
+                <span>비밀번호 찾기</span>
+            </a>
+        </div>
+
+    </div>
 </section>
 
+<script>
+    function loginCheck() {
+
+        const username = $("#username").val();
+        const password = $("#password").val();
+
+        if (username=="") {
+            alert("아이디를 입력해주세요.");
+            return false;
+        }
+        if (password=="") {
+            alert("비밀번호를 입력해주세요.");
+            return false;
+        }
+    }
+</script>
 
 </body>
 
