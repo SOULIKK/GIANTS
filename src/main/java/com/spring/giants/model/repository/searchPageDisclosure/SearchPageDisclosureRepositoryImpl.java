@@ -93,6 +93,7 @@ public class SearchPageDisclosureRepositoryImpl extends QuerydslRepositorySuppor
         sort.stream().forEach(order -> {
             tuple.orderBy(disclosure.createdAt.desc());
         });
+        tuple.groupBy(disclosure);
 
         tuple.offset(pageable.getOffset());
         tuple.limit(pageable.getPageSize());
@@ -154,6 +155,7 @@ public class SearchPageDisclosureRepositoryImpl extends QuerydslRepositorySuppor
             tuple.orderBy(disclosure.createdAt.desc());
         });
 
+        tuple.groupBy(disclosure);
         tuple.offset(pageable.getOffset());
         tuple.limit(pageable.getPageSize());
 
