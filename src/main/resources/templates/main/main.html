@@ -7,57 +7,66 @@
 <nav class="bg-dark" th:replace="layout/layout :: menu('MAIN')">
 </nav>
 
-<section>
-    <div class="main col-lg-8 bg-white m-auto h-100 p-3 overflow-auto">
+<style>
+    table {
+        font-size: .875rem !important;
+    }
 
-        <div class="row p-0 m-0">
-            <div class="col-md-12 py-4">
-                <div class="card">
+</style>
+<section>
+    <div class="main col-lg-8 m-auto col-md">
+
+        <div>
+            <div class="col-md-12 px-0">
+                <div class="card border-0">
                     <div class="card-body">
-                        <h4><span>오늘의 증시</span></h4>
-                        <div style="background: #f3f3f3; height: 215px; width: 100%;"></div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h4><span>스터디</span></h4>
+                            <a class="btn btn-outline-primary p-1 border-0" th:href="@{/pick}">
+                                <i class="fa fa-plus p-1 m-0"></i> <span>더보기</span>
+                            </a>
+                        </div>
+                        <table class="table">
+                            <tbody>
+                            <tr th:each="pick : ${picks}">
+                                <td><span class="fs-6 fw-lighter" th:text="${pick.title}"></span></td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row p-0 m-0">
+        <div class="row">
 
-            <div class="col-md-6 mb-2">
-                <div class="card">
+            <div class="col-md-6 py-3">
+                <div class="card border-0 p-2">
                     <div class="card-body">
 
                         <!-- SERCTION 1 -->
-                        <div style="font-size: .5rem !important;">
+                        <div>
 
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <h4><span>인기글</span></h4>
-                                <a class="btn btn-outline-primary p-1" th:href="@{/main/hot}">
+                                <a class="btn btn-outline-primary p-1 border-0" th:href="@{/main/hot}">
                                     <i class="fa fa-plus p-1 m-0"></i> <span>더보기</span>
                                 </a>
                             </div>
 
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>작성자</th>
-                                    <th>제목</th>
-                                    <th>작성일시</th>
-                                    <th>좋아요</th>
-                                </tr>
-                                </tbody>
-                                <tbody>
-                                <tr th:each="board: ${boards.dtoList}">
-                                    <td th:text="${board.user.username}"></td>
-                                    <td th:text="${board.title}"></td>
-                                    <td>
-                                        [[${#temporals.format(board.createdAt, "yyyy/MM/dd")}]]
-                                    </td>
-                                    <td th:text="${board.likeCount}"></td>
-                                </tr>
-                            </table>
-                            </thead>
-
+                            <div class="p-2 border-0 border-bottom" th:each="board: ${boards.dtoList}">
+                                <h5 th:text="${board.title}"></h5>
+                                <div>
+                                    <span class="fw-light" th:text="${board.nickname}"></span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div class="text-secondary">[[${#temporals.format(board.createdAt, "yyyy-MM-dd")}]]</div>
+                                    <div class="text-danger">
+                                        <i class="fa fa-chart-line"></i>
+                                        <span th:text="${board.likeCount}"></span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <!-- // SERCTION 1 -->
 
@@ -65,33 +74,24 @@
                 </div>
             </div>
 
-            <div class="col-md-6 mb-2">
-                <div class="card">
+            <div class="col-md-6 py-3">
+                <div class="card border-0 p-2">
                     <div class="card-body">
 
                         <!-- SERCTION 2 -->
-                        <div style="font-size: .5rem !important;">
+                        <div>
 
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <h4><span>최근공시</span></h4>
-                                <a type="button" class="btn btn-outline-primary p-1" th:href="@{/report/today}">
+                                <h4><span>공시</span></h4>
+                                <a type="button" class="btn btn-outline-primary p-1 border-0" th:href="@{/disclosure/today}">
                                     <i class="fa fa-plus p-1 m-0"></i> <span>더보기</span></a>
                             </div>
-
-                            <table class="table">
-                                <thead class="text-center">
-                                <tr>
-                                    <th>공시기업</th>
-                                    <th>보고서명</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="report : ${todayReports}">
-                                    <td th:text="${report.corpName}"></td>
-                                    <td th:text="${report.reportNm}"></td>
-                                </tr>
-                                </tbody>
-                            </table>
+                            <div class="border-0 border-bottom p-2" th:each="report : ${todayReports}">
+                                <h5 class="text-danger pt-2" th:text="${report.corpName}"></h5>
+                                <div>
+                                    <span th:text="${report.reportNm}"></span>
+                                </div>
+                            </div>
 
                         </div>
                         <!-- // SERCTION 2 -->

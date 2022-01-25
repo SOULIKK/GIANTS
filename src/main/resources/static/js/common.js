@@ -122,20 +122,20 @@ function getComments(epId, username) {
                     if (username != results[i].username) {
                         str += "<tr><td class='w-50'>";
                         str += "<div class='p-2' style='border-radius: .75rem; background: #f1f1f1;'>";
-                        str += "<div class='text-primary fw-bold p-1'>"+results[i].username+"</div>";
+                        str += "<div class='text-primary fw-bold p-1'>"+results[i].nickname+"</div>";
                         str += "<div class='py-2'>"+results[i].content+"</div>";
                         str += "<div class='d-flex justify-content-between text-secondary'>";
-                        str += "<div>"+results[i].createdAt+"</div>";
+                        str += "<div><span>"+results[i].createdAt.substring(0, 10)+"</span></div>";
                         str += "</div></div></td>";
                         str += "<td></td>";
                         str += "</tr>";
                     } else {
                         str += "<tr><td class='w-50'></td><td id='comment_"+results[i].commentId+"'>";
                         str += "<div class='p-2' style='border-radius: .75rem; background: #f1f1f1;'>";
-                        str += "<div class='text-primary fw-bold p-1'>"+results[i].username+"</div>";
+                        str += "<div class='text-primary fw-bold p-1'>"+results[i].nickname+"</div>";
                         str += "<div class='py-2'>"+results[i].content+"</div>";
                         str += "<div class='d-flex justify-content-between text-secondary'>";
-                        str += "<div>"+results[i].createdAt+"</div>";
+                        str += "<div><span>"+results[i].createdAt.substring(0, 10)+"</span></div>";
                         str += "<div><button type='button' class='btn p-0 text-secondary' onclick='delEpComment("+epId+", "+results[i].commentId+")'><i class='fa fa-trash'></i></button></div>";
                         str += "</div></div></td>";
                         str += "</tr>";
@@ -286,4 +286,12 @@ function updatePw() {
             }
         }
     })
+}
+
+function originalPage(_url) {
+    window.open(_url);
+}
+
+function originalBoard(boardId) {
+    location.href = "/board/detail?b="+boardId;
 }

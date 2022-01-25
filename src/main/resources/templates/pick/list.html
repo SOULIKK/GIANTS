@@ -2,7 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="layout/layout :: head('PICK')">
 </head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script th:src="@{/js/common.js}"></script>
 <body>
 
@@ -17,40 +16,45 @@
         color: #fff;
         text-align: center;
     }
+
     .col {
         box-shadow: rgb(0 0 0 / 4%) 0px 4px 16px 0px;
     }
-    #article {
-        transition: box-shadow 0.25s ease-in 0s, transform 0.25s ease-in 0s;
-        cursor: pointer;
-    }
-    #article:hover {
-        transform: translateY(-8px);
-    }
+
+
     img {
         object-fit: cover;
         height: 180px !important;
+        cursor: pointer;
     }
+
     .pick-title {
-        height: 3.875rem;
+        height: 4.5rem;
+        cursor: pointer;
     }
+
     .comment-input input {
         width: 90%;
     }
-    .comment-input input {
+
+    .comment-input button {
         width: 10%;
     }
+
     .pick-description {
         font-size: .75rem;
-        height: 6.5rem;
+        height: 5rem;
         text-overflow: ellipsis;
         word-break: break-word;
         overflow-wrap: break-word;
         overflow: hidden;
+        cursor: pointer;
     }
+
     .pick-description div button, .pick-description div span {
         font-size: 0.875rem !important;
     }
+
     .modal-body {
         height: 500px !important;
         overflow: auto;
@@ -63,14 +67,14 @@
 </nav>
 
 <div style="background: rgb(248, 249, 250); min-height: calc(100% - 3rem); ">
-    <div class="container px-2 py-5" id="custom-cards">
+    <div class="container px-3 py-5" id="custom-cards">
 
         <div class="d-flex justify-content-between">
             <h2>스터디</h2>
 
             <form th:action="@{pick}" th:method="GET">
-                <div class="d-flex w-100 mx-auto">
-                    <input class="form-control" type="text" name="s">&nbsp
+                <div class="input-group mb-3">
+                    <input class="form-control border-secondary" type="text" name="s">
                     <button type="submit" class="btn btn-outline-secondary">
                         <i class="fa fa-search"></i>
                     </button>
@@ -82,64 +86,78 @@
         <div class="row row-cols-1 row-cols-lg-4 row-cols-mb-3 row-cols-sm-2 align-items-stretch g-4 py-5">
 
             <div th:each="pick : ${picks}">
-                <div class="col" id="article" th:onclick="originalPage([[${pick.url}]])">
+                <div class="col">
                     <div class="card" style="border: none !important;">
                         <div class="card-body p-0">
+                            <div th:onclick="originalPage([[${pick.url}]])" id="article">
+                                <div th:if="${#strings.substring(pick.url, 0, 22)} == 'https://blog.naver.com'"
+                                     class="naver_blog">
+                                    NAVER BLOG
+                                </div>
+                                <img th:unless="${#strings.substring(pick.url, 0, 22)} == 'https://blog.naver.com'"
+                                     class="w-100" th:src="${pick.thumbnail}+'?type=w647'" alt=""onerror="this.style.display='none';">
+                                <h6 class="pt-3 pb-2 px-2 m-0 fw-bolder pick-title" th:text="${pick.title}"></h6>
 
-                            <div th:if="${#strings.substring(pick.url, 0, 22)} == 'https://blog.naver.com'"
-                                 class="naver_blog">
-                                NAVER BLOG
+                                <div class="px-3 pt-2 pick-description">
+                                    <p style="height: 3rem;" th:if="${pick.description.length()} <= 80"
+                                       th:text="${pick.description} + '...'"></p>
+                                    <p style="height: 3rem;" th:if="${pick.description.length()} > 80"
+                                       th:text="${#strings.substring(pick.description, 0, 80)} + '...'  "></p>
+                                </div>
                             </div>
-                            <img th:unless="${#strings.substring(pick.url, 0, 22)} == 'https://blog.naver.com'" class="w-100" th:src="${pick.thumbnail}+'?type=w647'" alt="">
 
-
-
-
-                            <div class="p-2">
-                                <h6 class="pb-1 py-1 m-0 fw-bolder pick-title" th:text="${pick.title}"></h6>
-                                <div class="px-2 pt-2 pick-description">
-                                    <p style="height: 3rem;" th:if="${pick.description.length()} <= 80" th:text="${pick.description} + '...'"></p>
-                                    <p style="height: 3rem;" th:if="${pick.description.length()} > 80" th:text="${#strings.substring(pick.description, 0, 80)} + '...'  "></p>
-                                </p>
-
+                            <div class="px-3 py-2">
                                 <div class="d-flex justify-content-between mt-auto">
                                     <div>
-                                        <span class="text-secondary">[[${#temporals.format(pick.createdAt, 'yyyy/MM/dd')}]]</span>
+                                        <span class="text-secondary">[[${#temporals.format(pick.createdAt, 'yyyy-MM-dd')}]]</span>
                                     </div>
                                     <div>
-                                        <button th:id="'bookMarkBtn_'+${pick.epId}" class="btn p-0 text-secondary" sec:authorize="isAuthenticated()" th:onclick="bookMark([[${pick.epId}]])">
-                                            <i th:classappend="${pick.bookMarkId} == null ? 'far fa-bookmark' : 'fa fa-bookmark'" sec:authentication=""></i>
+                                        <button th:id="'bookMarkBtn_'+${pick.epId}" class="btn p-0 text-secondary"
+                                                sec:authorize="isAuthenticated()"
+                                                th:onclick="bookMark([[${pick.epId}]])">
+                                            <i th:classappend="${pick.bookMarkId} == null ? 'far fa-bookmark' : 'fa fa-bookmark'"
+                                               sec:authentication=""></i>
                                             <span>북마크</span>
                                         </button>
-                                        <button class="btn p-0 text-secondary" sec:authorize="!isAuthenticated()" th:onclick="noAuth()">
+                                        <button class="btn p-0 text-secondary" sec:authorize="!isAuthenticated()"
+                                                th:onclick="noAuth()">
                                             <i class="far fa-bookmark"></i>
                                             <span>북마크</span>
 
                                         </button>
 
                                         <!-- modal -->
-                                        <button th:id="'commentCntBtn_'+${pick.epId}" type="button" class="btn p-0 text-secondary" data-bs-toggle="modal" th:data-bs-target="'#ep_'+${pick.epId}" th:onclick="getComments([[${pick.epId}]], [[${#authentication.getName()}]])">
-                                            <i class="far fa-comments"></i> <span th:text="${pick.countComments}"></span>
+                                        <button th:id="'commentCntBtn_'+${pick.epId}" type="button"
+                                                class="btn p-0 text-secondary" data-bs-toggle="modal"
+                                                th:data-bs-target="'#ep_'+${pick.epId}"
+                                                th:onclick="getComments([[${pick.epId}]], [[${#authentication.getName()}]])">
+                                            <i class="far fa-comments"></i> <span
+                                                th:text="${pick.countComments}"></span>
                                         </button>
 
-                                        <div class="modal fade" th:id="'ep_'+${pick.epId}" tabindex="-1" th:aria-labelledby="'ep_l_'+${pick.epId}" aria-hidden="true">
+                                        <div class="modal fade" th:id="'ep_'+${pick.epId}" tabindex="-1"
+                                             th:aria-labelledby="'ep_l_'+${pick.epId}" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" th:id="'ep_l_'+${pick.epId}">
+                                                        <h5 class="modal-title" th:id="'ep_l_'+${pick.epId}">
                                                             <span th:text="${pick.title}"></span>
-                                                        </h4>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <div th:id="'m_b_'+${pick.epId}"></div>
                                                     </div>
                                                     <div class="p-2">
 
-                                                        <form th:action="@{/comment/create/ep/{epId}(epId = ${pick.epId})}" th:method="POST">
-                                                            <div class="w-100 d-flex comment-input">
-                                                                <input class="form-control" type="text" name="content" autocomplete="off">&nbsp;
-                                                                <button class="btn btn-outline-dark p-1" type="submit"><span>저장</span></button>
+                                                        <form th:action="@{/comment/create/ep/{epId}(epId = ${pick.epId})}"
+                                                              th:method="POST">
+                                                            <div class="input-group">
+                                                                <input class="form-control border-secondary" placeholder="의견을 남겨주세요." type="text" name="content" autocomplete="off">
+                                                                <button type="submit" class="btn btn-outline-secondary">
+                                                                    <span>저장</span>
+                                                                </button>
                                                             </div>
                                                         </form>
 
@@ -159,38 +177,37 @@
                 </div>
             </div>
         </div>
+        <!--        -->
+        <nav aria-label="Page navigation example" th:if="${picks.totalElements > 8}">
+            <ul class="pagination justify-content-center">
+
+                <li class="page-item" th:classappend="${1 == picks.pageable.pageNumber + 1} ? 'disabled'">
+                    <a class="page-link px-2 py-1"
+                       th:href="@{/pick(page=${picks.pageable.pageNumber - 1}, s=${param.s})}" tabindex="-1"
+                       aria-disabled="true"><span> < </span></a>
+                </li>
+
+                <li class="page-item" th:classappend="${i == picks.pageable.pageNumber + 1} ? 'disabled'"
+                    th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                    <span>
+                        <a class="page-link px-2 py-1" th:href="@{/pick(page=${i - 1}, s=${param.s})}" th:text="${i}"></a>
+                    </span>
+                </li>
+
+                <li class="page-item"
+                    th:classappend="${picks.totalPages == picks.pageable.pageNumber + 1} ? 'disabled'">
+                    <a class="page-link px-2 py-1"
+                       th:href="@{/pick(page=${picks.pageable.pageNumber + 1}, s=${param.s})}"><span> > </span></a>
+                </li>
+
+            </ul>
+        </nav>
+        <!--        -->
     </div>
-    <!--        -->
-    <nav aria-label="Page navigation example" th:if="${picks.totalElements > 8}">
-        <ul class="pagination justify-content-center">
-
-            <li class="page-item" th:classappend="${1 == picks.pageable.pageNumber + 1} ? 'disabled'">
-                <a class="page-link px-2 py-1" th:href="@{/pick(page=${picks.pageable.pageNumber - 1}, s=${param.s})}" tabindex="-1" aria-disabled="true"> < </a>
-            </li>
-
-            <li class="page-item" th:classappend="${i == picks.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
-                <a class="page-link px-2 py-1" th:href="@{/pick(page=${i - 1}, s=${param.s})}" th:text="${i}"></a>
-            </li>
-
-            <li class="page-item" th:classappend="${picks.totalPages == picks.pageable.pageNumber + 1} ? 'disabled'">
-                <a class="page-link px-2 py-1" th:href="@{/pick(page=${picks.pageable.pageNumber + 1}, s=${param.s})}"> > </a>
-            </li>
-
-        </ul>
-    </nav>
-    <!--        -->
-
-
-
 
 
 </div>
 
-<script>
-    function originalPage(_url) {
-        window.open(_url);
-    }
-</script>
 
 <!-- SIDEBAR -->
 <div id="sidebar" th:replace="layout/layout :: sidebar('PICK')">

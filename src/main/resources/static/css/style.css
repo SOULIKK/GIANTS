@@ -71,8 +71,6 @@ section {
   background: #444;
 }
 
-
-
 .nav-tabs {
   border: none !important;
 }
@@ -89,7 +87,7 @@ section {
   margin-bottom: -2px !important;
 }
 
-.card {
+.card, .box {
   box-shadow: rgb(0 0 0 / 4%) 0px 4px 16px 0px !important;
 }
 
@@ -98,3 +96,23 @@ section {
   color: #fff !important;
 }
 
+.title:hover {
+  color: #0a58ca !important;
+}
+
+
+#article {
+  transition: box-shadow 0.25s ease-in 0s, transform 0.1s ease-in 0s;
+}
+
+#article:hover {
+  transform: translateY(-4px);
+}
+
+#article-x {
+  transition: box-shadow 0.25s ease-in 0s, transform 0.1s ease-in 0s;
+}
+
+#article-x:hover {
+  transform: translate(-4px);
+}

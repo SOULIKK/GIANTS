@@ -15,7 +15,7 @@
 
             <h3 classt="pt-3 pb-1">
                 <span class="text-primary" th:text="${stock.stockName}"></span>&nbsp;
-                <span th:text="${stock.stockId}"></span>
+                [<span th:text="${stock.stockId}"></span>]
             </h3>
 
 
@@ -32,13 +32,17 @@
 <!--                        </select>-->
                         <input type="hidden" name="type" th:value="tc">
                     </div>
+
                     <input type="hidden" name="stock" th:value="${stock.stockId}">
-                    <input class="form-control" type="text" name="keyword" th:value="${pageRequestDto.keyword}">
-                    <div class="input-group-append" id="button-addon4">
-                        <button class="btn btn-outline-secondary btn-search" type="submit">
+
+                    <div class="input-group">
+                        <input type="text" class="form-control border-secondary ui-autocomplete-input" id="search_input" name="keyword" th:value="${pageRequestDto.keyword}" autocomplete="off">
+                        <button type="submit" class="btn btn-outline-secondary">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
+
+
                 </div>
             </form>
 
@@ -51,10 +55,10 @@
             </button>
         </div>
 
-        <div th:each="board : ${boards.dtoList}" class="card border-0 mb-3" style="border-radius: 1rem !important;">
-            <a class="card-body bg-white btn btn-light w-100 text-start" th:href="@{/board/detail(b=${board.boardId})}">
+        <div th:each="board : ${boards.dtoList}" class="card border-0 mb-3" id="article-x" style="border-radius: 1rem !important;">
+            <a class="card-body bg-white btn btn-light w-100 text-start title" th:href="@{/board/detail(b=${board.boardId})}">
                 <h2 th:text="${board.title}"></h2>
-                <span class="text-dark" th:text="${board.user.username}"></span>
+                <span class="text-dark" th:text="${board.nickname}"></span>
                 <div class="d-flex justify-content-between">
                     <span class="text-secondary">[[${#temporals.format(board.createdAt, 'yyyy-MM-dd')}]]</span>
                     <div>

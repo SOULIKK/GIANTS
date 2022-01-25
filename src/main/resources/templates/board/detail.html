@@ -8,22 +8,22 @@
 </nav>
 
 <section>
-    <div class="main col-lg-8 bg-white m-auto p-3">
+    <div class="main col-lg-8 m-auto p-3">
 
         <div>
             <a class="btn btn-outline-secondary py-1 px-2" th:href="@{/board/list(stock=${board.stock.stockId})}">
-                <i class="fa fa-arrow-left"></i> 돌아가기
+                <i class="fa fa-arrow-left"></i>
             </a>
         </div>
 
-        <h2 class="text-center pt-5 pb-2" th:text="${board.title}"></h2>
+        <h1 class="pt-5 pb-2" th:text="${board.title}"></h1>
 
-        <div class="p-2 d-flex justify-content-between">
-            <h5 class="text-primary" th:text="${board.username}"></h5>
-            <h5>[[${#temporals.format(board.createdAt, 'yyyy/MM/dd')}]]</h5>
+        <div class="py-1 fs-5">
+            <span class="text-primary" th:text="${board.nickname}"></span>&nbsp;
+            <span>[[${#temporals.format(board.createdAt, 'yyyy-MM-dd')}]]</span>
         </div>
         <br>
-        <div class="card">
+        <div class="card border-0">
             <div class="board-content card-body overflow-auto">
                 <span th:text="${board.content}"></span>
             </div>
@@ -41,15 +41,13 @@
         </div>
 
         <div class="p-4 text-center">
-<!--            <a th:href="@{/board/like(s=${stockId}, b=${board.boardId})}">-->
-            <button id="likeBtn" class="btn btn-outline-danger" th:classappend="${isLiked.equals(true)} ? 'border border-danger' : 'border border-secondary'" th:onclick="like([[${stockId}]], [[${board.boardId}]])">
+            <button id="likeBtn" class="btn" th:classappend="${isLiked.equals(true)} ? 'btn-outline-danger' : 'btn-outline-secondary'" th:onclick="like([[${stockId}]], [[${board.boardId}]])">
                 <div>
-                    <i class="fa fa-chart-line fa-3x" th:classappend="${isLiked.equals(true)} ? 'text-danger' : 'text-secondary'"></i>
+                    <i class="fa fa-chart-line fa-3x"></i>
                 </div>
-                <span th:classappend="${isLiked.equals(true)} ? 'text-danger'">가즈아 !!</span>
-                <span id="likeCnt" th:text="${countLikes}" th:classappend="${isLiked.equals(true)} ? 'text-danger' : 'text-secondary'"></span>
+                <span>가즈아 !!</span>
+                <span id="likeCnt" th:text="${countLikes}"></span>
             </button>
-<!--            </a>-->
         </div>
 
         <div class="mt-5 p-2">
@@ -57,7 +55,7 @@
             <div class="p-2" th:if="${username}">
                 <h5 class="pb-1">댓글 작성</h5>
                 <form th:action="@{/comment/create/{boardId}(boardId = ${board.boardId})}" th:method="POST">
-                    <textarea class="form-control" name="content" row="4"></textarea>
+                    <textarea class="form-control border-0 box" name="content" row="4"></textarea>
 
                     <div class="text-end py-2">
                         <button type="submit" class="btn btn-outline-success py-1 px-2"><span>저장</span></button>
@@ -70,10 +68,10 @@
                 <span>개의 댓글</span>
             </div>
 
-            <div class="comment-form p-2" th:each="comment : ${board.comments}">
+            <div class="comment-form p-2 card border-0" th:each="comment : ${board.comments}">
                 <div class="d-flex justify-content-between">
-                    <h5 class="text-primary" th:text="${comment.username}"></h5>
-                    <span class="text-secondary" th:text="${#strings.replace(comment.createdAt, 'T', '-')}"></span>
+                    <h5 class="text-primary" th:text="${comment.nickname}"></h5>
+                    <span class="text-secondary">[[${#temporals.format(comment.createdAt, "yyyy-MM-dd")}]]</span>
                 </div>
 
                 <div class="p-2">
@@ -83,7 +81,7 @@
                 <div class="text-end" th:if="${comment.username} == ${username}">
                     <button type="button" class="btn btn-outline-dark p-1 border border-0"
                             th:onclick="delComment([[${stockId}]], [[${board.boardId}]], [[${comment.commentId}]])">
-                        <span><small>삭제</small></span>
+                        <span class="text-secondary"><i class="fa fa-trash"></i></span>
                     </button>
                 </div>
             </div>
@@ -100,7 +98,6 @@
 </div>
 <!-- // SIDEBAR -->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script th:src="@{/js/common.js}"></script>
 
 
