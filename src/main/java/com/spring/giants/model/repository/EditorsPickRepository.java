@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -23,4 +24,9 @@ public interface EditorsPickRepository extends JpaRepository<EditorsPick, Long>,
     Page<EpDto> getEpList(String searchText, Pageable pageable);
 
     List<EditorsPick> findTop10ByOrderByCreatedAtDesc();
+
+    @Query("DELETE FROM BookMark b WHERE b.editorsPick.epId =:epId AND b.user.userId =:userId")
+    void deleteBookMarkByUserIdAndEpId(@Param("userId") Long userId, @Param("epId") Long epId);
+
+
 }
