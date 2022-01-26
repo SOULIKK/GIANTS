@@ -21,11 +21,11 @@ function stockReport(stockId) {
         alert("유효한 요청이 아닙니다.");
         return false;
     }
-    location.href=`/report/s/${stockId}/all`;
+    location.href=`/disclosure/s/${stockId}/all`;
 }
 
 function reportTypeLink(stockId, type) {
-    location.href = `/report/s/${stockId}/${type}`;
+    location.href = `/disclosure/s/${stockId}/${type}`;
 }
 
 function appendReport(rcpNo) {

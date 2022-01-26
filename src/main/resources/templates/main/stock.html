@@ -15,9 +15,9 @@
 
 </style>
 <section>
-    <div class="main col-lg-8 m-auto px-md-3 py-4">
+    <div class="main col-lg-8 m-auto px-md-3 py-2">
         <div class="row p-0 m-0">
-            <div class="col-md-12 pt-2 pb-3">
+            <div class="col-md-12 py-2">
                 <div class="card border-0">
                     <div class="card-body">
                         <h4 class="pt-2 px-3">
@@ -49,9 +49,9 @@
                 </div>
             </div>
         </div>
-        <br>
+
         <div class="row p-0 m-0">
-            <div class="col-md-12 pt-2 pb-2">
+            <div class="col-md-12 py-2">
                 <div class="card border-0">
                     <div class="card-body">
                         <div class="p-md-2">
@@ -68,11 +68,9 @@
             </div>
         </div>
 
-        <br>
-
         <div class="row p-0 m-0">
 
-            <div class="col-md-6 mb-2">
+            <div class="col-md-6 mb-2 pt-2">
                 <div class="card border-0">
                     <div class="card-body">
 
@@ -98,9 +96,9 @@
                                 </thead>
                                 <tbody>
                                 <tr th:each="board : ${boards}">
-                                    <td th:text="${board.user.username}"></td>
+                                    <td th:text="${board.nickname}"></td>
                                     <td th:text="${board.title}"></td>
-                                    <td>[[${#temporals.format(board.createdAt, 'yyyy/MM/dd')}]]</td>
+                                    <td>[[${#temporals.format(board.createdAt, 'yyyy-MM-dd')}]]</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -112,7 +110,7 @@
                 </div>
             </div>
 
-            <div class="col-md-6 mb-2">
+            <div class="col-md-6 mb-2 pt-2">
                 <div class="card border-0">
                     <div class="card-body">
 
@@ -121,9 +119,12 @@
 
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <h4>공시</h4>
-                                <button type="button" class="btn btn-outline-primary p-1" th:onclick="stockReport([[${stock.stockId}]])">
-                                    <i class="fa fa-plus p-1 m-0"></i> <span>더보기</span>
-                                </button>
+                                <form th:action="@{'/stock/'+${stock.stockId}+'/disclosure/all'}" th:method="GET">
+                                    <input type="hidden" name="stockCode" th:value="${stock.stockId}">
+                                    <button class="btn btn-outline-primary" type="submit">
+                                        <i class="fa fa-plus p-1 m-0"></i> <span>더보기</span>
+                                    </button>
+                                </form>
                             </div>
 
                             <table class="table">

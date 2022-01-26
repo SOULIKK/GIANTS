@@ -36,15 +36,15 @@
             <div class="card-body bg-white w-100 text-start">
 
                 <div class="d-flex justify-content-between">
-                    <a class="text-dark" th:href="@{/board/detail(b=${board.boardId})}">
+                    <a class="text-dark title" th:href="@{/board/detail(b=${board.boardId})}">
                         <h3 th:text="${board.title}"></h3>
                     </a>
-                    <a type="button" class="btn btn-success p-1 py-0 m-0" th:href="@{/main/stock(stockName=${board.stock.stockName})}" style="height: 1.75rem !important;">
-                        #<span th:text="${board.stock.stockName}"></span>
+                    <a type="button" class="btn btn-success p-1 py-0 m-0" th:href="@{/stock(stockName=${board.stockName})}" style="height: 1.75rem !important;">
+                        #<span th:text="${board.stockName}"></span>
                     </a>
                 </div>
 
-                <span class="text-dark" th:text="${board.user.username}"></span>
+                <span class="text-dark" th:text="${board.nickname}"></span>
                 <div class="d-flex justify-content-between">
                     <span class="text-secondary">[[${#temporals.format(board.createdAt, 'yyyy-MM-dd')}]]</span>
                     <div>
