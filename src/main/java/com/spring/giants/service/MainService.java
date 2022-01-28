@@ -5,7 +5,8 @@ import com.spring.giants.model.entity.Stock;
 import com.spring.giants.model.repository.StockRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
+
 
 
 @Service
@@ -14,21 +15,27 @@ public class MainService {
 
     private final StockRepository stockRepository;
 
-    @Transactional
+
     public StockDto getStock(StockDto stockDto) {
         Stock stock = stockRepository.findByStockId(stockDto.getStockId());
         StockDto result = new StockDto(stock);
         return result;
     }
 
-    @Transactional
-    public StockDto stockSearch(String stockName) {
-        Stock stock = stockRepository.findByStockName(stockName);
-        StockDto stockDto = new StockDto(stock);
+    public List<StockDto> getStockListByStockName(String stockName) {
+        List<StockDto> stockDto = stockRepository.findStockListByStockName(stockName);
+
+        if (stockDto == null) {
+            throw new IllegalStateException("상장회사가 아닙니다.");
+        }
         return stockDto;
     }
 
-    public Stock getStockByStockName(String stockName) {
+    public StockDto getStock(String stockName) {
+        return stockRepository.findByStockName(stockName);
+    }
+
+    public StockDto getStockByStockName(String stockName) {
         return stockRepository.findByStockName(stockName);
     }
 
@@ -36,5 +43,8 @@ public class MainService {
         Stock stock = stockRepository.findByStockId(stockId);
         StockDto stockDto = new StockDto(stock);
         return stockDto;
+    }
+    public int getCountEqualStockName(String stockName) {
+        return stockRepository.findCountByStockName(stockName);
     }
 }
