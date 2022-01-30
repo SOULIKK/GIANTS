@@ -1,9 +1,8 @@
-package com.spring.giants.security;
+package com.spring.giants.config.security;
 
 import com.spring.giants.model.entity.User;
 import com.spring.giants.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

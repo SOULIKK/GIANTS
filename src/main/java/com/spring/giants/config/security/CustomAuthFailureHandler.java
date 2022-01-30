@@ -1,4 +1,4 @@
-package com.spring.giants.config;
+package com.spring.giants.config.security;
 
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;

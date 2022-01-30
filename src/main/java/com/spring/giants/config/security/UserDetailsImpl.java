@@ -1,9 +1,8 @@
-package com.spring.giants.security;
+package com.spring.giants.config.security;
 
 import com.spring.giants.model.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Collection;
 import java.util.Collections;
 
