@@ -21,11 +21,13 @@
                    th:classappend="${disclosureType == 'share'} ? 'btn btn-success text-white'"><span>지분공시</span></a>
                 <a class="btn btn-outline-success p-1" th:href="@{'/stock/'+${stock.stockId}+'/disclosure/contract'}"
                    th:classappend="${disclosureType == 'contract'} ? 'btn btn-success text-white'"><span>수주공시</span></a>
+                <a class="btn btn-outline-success p-1" th:href="@{'/stock/'+${stock.stockId}+'/disclosure/performance'}"
+                   th:classappend="${disclosureType == 'performance'} ? 'btn btn-success text-white'"><span>실적공시</span></a>
             </div>
         </div>
 
         <div th:if="!${stock}">
-            <div th:if="${disclosureType == 'today' || disclosureType == 'regular' || disclosureType == 'share' || disclosureType == 'contract'}">
+            <div th:if="${disclosureType == 'today' || disclosureType == 'regular' || disclosureType == 'share' || disclosureType == 'contract' || disclosureType == 'performance'}">
                 <h4 class="p-2 mb-0">오늘의 공시</h4>
                 <div class="px-2 pt-1 pb-4 d-flex justify-content-between">
                     <div>
@@ -37,8 +39,8 @@
                            th:classappend="${disclosureType == 'share'} ? 'btn btn-primary text-white'"><span>지분공시</span></a>
                         <a class="btn btn-outline-primary rounded-pill p-1" th:href="@{/disclosure/contract}"
                            th:classappend="${disclosureType == 'contract'} ? 'btn btn-primary text-white'"><span>수주공시</span></a>
-<!--                        <a class="btn btn-outline-primary rounded-pill p-1" th:href="@{/disclosure/contract}"-->
-<!--                           th:classappend="${disclosureType == 'contract'} ? 'btn btn-primary text-white'"><span>실적공시</span></a>-->
+                        <a class="btn btn-outline-primary rounded-pill p-1" th:href="@{/disclosure/performance}"
+                           th:classappend="${disclosureType == 'performance'} ? 'btn btn-primary text-white'"><span>실적공시</span></a>
                         <!--
                             보류
                             <a class="btn btn-outline-primary rounded-pill p-1" th:href="@{/report/facility}"><span>시설투자</span></a>
@@ -121,6 +123,10 @@
         </div>
 
         <div>
+            <div class="text-center fs-4" th:if="${reports.dtoList.size() == 0}">
+                <span class="pt-4">공시가 존재하지 않습니다.</span>
+            </div>
+
             <div th:each="report : ${reports.dtoList}">
                 <button type="button" class="btn bg-white w-100 mb-2 text-start box" id="article-x"
                         th:onclick="reportDetail([[${report.rcpNo}]])">
@@ -148,13 +154,11 @@
             <div th:unless="${stock}">
                 <ul class="pagination justify-content-center align-items-center mt-3">
                     <li class="page-item" th:if="${reports.prev}">
-                        <!--                        <a class="page-link" th:href="@{'/disclosure/'+${disclosureType}(type=${type}, ss=${searchStart}, se=${searchEnd}, keyword=${keyword}, page=${reports.start -1})}" tabindex="-1"><span> < </span></a>-->
                         <a class="page-link"
                            th:href="@{'/disclosure/'+${disclosureType}(type=${type}, ss=${searchStart}, se=${searchEnd}, keyword=${keyword}, page=${reports.start -1})}"
                            tabindex="-1"><span> < </span></a>
                     </li>
                     <li class="page-item" th:each="page: ${reports.pageList}">
-                        <!--                        <a class="page-link" th:href="@{'/disclosure/'+${disclosureType}(type=${type}, ss=${searchStart}, se=${searchEnd}, keyword=${keyword}, page=${page})}" th:classappend="${reports.page == page} ? 'bg-primary text-white'">-->
                         <a class="page-link"
                            th:href="@{'/disclosure/'+${disclosureType}(type=${type}, ss=${searchStart}, se=${searchEnd}, keyword=${keyword}, page=${page})}"
                            th:classappend="${reports.page == page} ? 'bg-primary text-white'">
@@ -162,7 +166,6 @@
                         </a>
                     </li>
                     <li class="page-item" th:if="${reports.next}">
-                        <!--                        <a class="page-link" th:href="@{'/disclosure/'+${disclosureType}(type=${type}, ss=${searchStart}, se=${searchEnd}, keyword=${keyword}, page=${reports.end +1})}"><span> > </span></a>-->
                         <a class="page-link"
                            th:href="@{'/disclosure/'+${disclosureType}(type=${type}, ss=${searchStart}, se=${searchEnd}, keyword=${keyword}, page=${reports.end +1})}"><span> > </span></a>
                     </li>

@@ -12,7 +12,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
-
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
@@ -58,6 +57,13 @@ public class SearchPageDisclosureRepositoryImpl extends QuerydslRepositorySuppor
         if (disclosureType.equals("contract")) {
             BooleanExpression exContract = disclosure.reportNm.eq("공급계약체결");
             booleanBuilder.and(exContract);
+        }
+
+        if (disclosureType.equals("performance")) {
+            BooleanExpression exPerformance1 = disclosure.reportNm.eq("영업(잠정)실적(공정공시)");
+            BooleanExpression exPerformance2 = disclosure.reportNm.eq("연결재무제표기준영업(잠정)실적(공정공시)");
+            BooleanExpression exPerformance3 = disclosure.reportNm.in("매출액또는손익구조30%");
+            booleanBuilder.and(exPerformance1.or(exPerformance2).or(exPerformance3));
         }
 
 
@@ -140,6 +146,13 @@ public class SearchPageDisclosureRepositoryImpl extends QuerydslRepositorySuppor
         if (disclosureType.equals("contract")) {
             BooleanExpression exContract = disclosure.reportNm.eq("공급계약체결");
             booleanBuilder.and(exContract);
+        }
+
+        if (disclosureType.equals("performance")) {
+            BooleanExpression exPerformance1 = disclosure.reportNm.eq("영업(잠정)실적(공정공시)");
+            BooleanExpression exPerformance2 = disclosure.reportNm.eq("연결재무제표기준영업(잠정)실적(공정공시)");
+            BooleanExpression exPerformance3 = disclosure.reportNm.in("매출액또는손익구조30%");
+            booleanBuilder.and(exPerformance1.or(exPerformance2).or(exPerformance3));
         }
 
         if (keyword != null) {
