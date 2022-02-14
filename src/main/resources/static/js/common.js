@@ -1,15 +1,19 @@
-function delBoard(boardId) {
+function uptBoard(boardId) {
+    location.href = `/board/update/${boardId}`
+}
+
+function delBoard(boardId, stockId) {
     if (!confirm("삭제된 글은 복구할 수 없습니다. 삭제하시겠습니까?")) {
         return false;
     } else {
         $.ajax({
-            type: "DELETE",
-            url: "/board/delete",
+            type: "POST",
+            url: "/board/delete/"+boardId,
             data: {
-                boardId: boardId
+                stockId: stockId
             },
             success: function (res) {
-                location.href = `list?stockId=${stockId}`;
+                location.href = `list?stock=${stockId}`;
             }
         })
     }

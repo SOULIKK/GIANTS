@@ -8,6 +8,7 @@ import com.spring.giants.service.MainService;
 import com.spring.giants.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,7 +26,6 @@ public class BoardController {
     final private MainService mainService;
     final private UserService userService;
 
-
     @GetMapping("/list")
     public String getStockBoard(
             @RequestParam String stock
@@ -33,6 +33,7 @@ public class BoardController {
             , Model model
             , PageRequestDto pageRequestDto
     ) {
+
         final String boardType = "STOCK_BOARD";
         StockDto stockDto = mainService.getStockByStockId(stock);
 
@@ -110,18 +111,17 @@ public class BoardController {
     }
 
 
-    @PostMapping("/delete")
-    public String delete(String stockId, Long boardId) {
+    @PostMapping("/delete/{boardId}")
+    public String delete(@PathVariable Long boardId, @RequestParam(value="stockId", required=false) String stockId) {
         boardService.delBoard(boardId);
-        return "redirect:list?stockId="+stockId;
-
+        System.out.println("stockId = " + stockId);
+        return "redirect:/board/list?stock="+stockId;
     }
 
-    @GetMapping("/update")
-    public String updateForm(String s, Long b, Model model) {
-        BoardDetailResponseDto board = boardService.getDetail(b);
+    @GetMapping("/update/{boardId}")
+    public String updateForm(@PathVariable Long boardId, Model model) {
+        BoardDetailResponseDto board = boardService.getDetail(boardId);
         model.addAttribute("board", board);
-        model.addAttribute("stockId", s);
         return "board/update";
     }
 
