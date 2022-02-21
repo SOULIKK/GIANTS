@@ -1,42 +1,70 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout/layout :: head('write')">
+<head th:replace="layout/layout :: head('WRITE')">
 </head>
 
 <body>
-<nav class="bg-dark" th:replace="layout/layout :: menu('write')">
+<nav class="bg-dark" th:replace="layout/layout :: menu('WRITE')">
 </nav>
 
 <section>
-    <div class="main col-lg-8 bg-white m-auto h-100 p-3">
-        <div th:text="${stock}"></div>
-        <form th:action="@{/board/write}" th:method="POST" th:object="${board}">
-            <input type="hidden" name="stockId" th:value="${stock}">
+    <div class="main col-lg-8 bg-white m-auto p-3">
+
+        <div>
+            <span th:text="${stock.stockName}"></span>&nbsp;
+            [<span th:text="${stock.stockId}"></span>]
+        </div>
+
+        <div th:object="${board}">
+            <input type="hidden" name="stockId" th:value="${stock.stockId}" id="stockId">
             <div class="py-4">
                 <label>제목</label>
-                <input type="text" class="form-control" name="title" autocomplete="off" th:field="*{title}" th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'">
-                <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">
-                </div>
+                <input type="text" class="form-control" autocomplete="off" th:field="*{title}"
+                       th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
             </div>
             <div class="py-4">
                 <label>내용</label>
-                <textarea class="form-control" name="content" id="content" rows="10" th:field="*{content}"></textarea>
-                <div class="invalid-feedback" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">
-                </div>
+                <textarea class="form-control" rows="10" th:field="*{content}"
+                          th:classappend="${#fields.hasErrors('content')} ? 'is-invalid'"></textarea>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
             </div>
             <div class="py-4">
-                <button type="submit" class="btn btn-outline-success">저장</button>
+                <button type="button" class="btn btn-outline-success" onclick="boardSubmit()">저장</button>
             </div>
-        </form>
-
+        </div>
     </div>
 </section>
 
 <!-- SIDEBAR -->
-<div id="sidebar" th:replace="layout/layout :: sidebar('write')">
+<div id="sidebar" th:replace="layout/layout :: sidebar('WRITE')">
 </div>
 <!-- // SIDEBAR -->
 
+<script>
+
+    function boardSubmit() {
+
+        const stockId = document.querySelector("#stockId").value;
+        const title = document.querySelector("#title").value;
+        const content = document.querySelector("textarea").value.replace(/(\n|\r\n)/g, '<br>');
+
+        $.ajax({
+            type: "POST",
+            url: "/board/write",
+            data: {
+                stockId: stockId,
+                title: title,
+                content: content
+            },
+            success: function (res) {
+                location.href = "/board/list?stock="+stockId;
+
+            }
+        });
+    }
+
+</script>
 </body>
 
 </html>
