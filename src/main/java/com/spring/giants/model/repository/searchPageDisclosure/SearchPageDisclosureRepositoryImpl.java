@@ -62,8 +62,9 @@ public class SearchPageDisclosureRepositoryImpl extends QuerydslRepositorySuppor
         if (disclosureType.equals("performance")) {
             BooleanExpression exPerformance1 = disclosure.reportNm.eq("영업(잠정)실적(공정공시)");
             BooleanExpression exPerformance2 = disclosure.reportNm.eq("연결재무제표기준영업(잠정)실적(공정공시)");
-            BooleanExpression exPerformance3 = disclosure.reportNm.in("매출액또는손익구조30%");
+            BooleanExpression exPerformance3 = disclosure.reportNm.startsWith("매출액또는손익구조30%");
             booleanBuilder.and(exPerformance1.or(exPerformance2).or(exPerformance3));
+            System.out.println("exPerformance3 = " + exPerformance3);
         }
 
 
@@ -151,9 +152,9 @@ public class SearchPageDisclosureRepositoryImpl extends QuerydslRepositorySuppor
         if (disclosureType.equals("performance")) {
             BooleanExpression exPerformance1 = disclosure.reportNm.eq("영업(잠정)실적(공정공시)");
             BooleanExpression exPerformance2 = disclosure.reportNm.eq("연결재무제표기준영업(잠정)실적(공정공시)");
-            BooleanExpression exPerformance3 = disclosure.reportNm.in("매출액또는손익구조30%");
+            BooleanExpression exPerformance3 = disclosure.reportNm.startsWith("매출액또는손익구조30%");
             booleanBuilder.and(exPerformance1.or(exPerformance2).or(exPerformance3));
-        }
+        } 
 
         if (keyword != null) {
             BooleanBuilder conditionBuilder = new BooleanBuilder();
