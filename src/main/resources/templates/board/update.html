@@ -15,23 +15,17 @@
                 <i class="fa fa-arrow-left"></i> 돌아가기
             </a>
         </div>
-
-        <form th:action="@{/board/update}" th:method="POST">
-            <div class="pt-5 pb-2">
-                <input type="hidden" name="boardId" id="boardId" th:value="${board.boardId}">
-                <span class="py-2 text-primary">제목</span>
-                <input class="form-control fs-4 fw-bold" name="title" th:value="${board.title}">
-            </div>
-
-            <br>
-
-            <span class="py-2 text-primary">내용</span>
-            <textarea class="form-control board-content card-body overflow-auto" name="content"><th:block th:text="${board.content}"></th:block></textarea>
-            <div class="py-3 text-end">
-                <button type="submit" class="btn btn-outline-primary text-end"><span>저장</span></button>
-            </div>
-        </form>
-
+        <div class="pt-5 pb-2">
+            <input type="hidden" name="boardId" id="boardId" th:value="${board.boardId}">
+            <span class="py-2 text-primary">제목</span>
+            <input class="form-control fs-6 fw-bold" id="title" name="title" th:value="${board.title}">
+        </div>
+        <br>
+        <span class="py-2 text-primary">내용</span>
+        <textarea class="form-control board-content card-body overflow-auto" id="content" name="content" th:utext="${board.content}"></textarea>
+        <div class="py-3 text-end">
+            <button type="button" class="btn btn-outline-primary text-end" th:onclick="updateBoard([[${stockId}]], [[${board.boardId}]])"><span>저장</span></button>
+        </div>
     </div>
 </section>
 
@@ -43,6 +37,24 @@
 
 <script th:src="@{/js/common.js}"></script>
 
+<script>
+    function updateBoard(stockId, boardId) {
+
+        const title = document.querySelector("#title").value;
+        const content = document.querySelector("#content").value.replace(/(\n|\r\n)/g, '<br>');
+        $.ajax({
+            url: `/board/update/${boardId}`,
+            type: "POST",
+            data: {
+                title: title,
+                content: content
+            },
+            success: function (res) {
+                location.href = `/board/detail?b=${boardId}`;
+            }
+        })
+    }
+</script>
 
 </body>
 

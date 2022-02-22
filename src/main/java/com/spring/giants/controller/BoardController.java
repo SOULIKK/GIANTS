@@ -121,12 +121,14 @@ public class BoardController {
     @GetMapping("/update/{boardId}")
     public String updateForm(@PathVariable Long boardId, Model model) {
         BoardDetailResponseDto board = boardService.getDetail(boardId);
+        String content = board.getContent().replace("<br>", "\r\n");
+        board.setContent(content);
         model.addAttribute("board", board);
         return "board/update";
     }
 
-    @PostMapping("/update")
-    public String update(Long boardId, BoardRequestDto boardRequestDto) {
+    @PostMapping("/update/{boardId}")
+    public String update(@PathVariable Long boardId, BoardRequestDto boardRequestDto) {
         Board board = boardService.uptBoard(boardId, boardRequestDto);
         return "redirect:/board/detail?b="+board.getBoardId();
     }
